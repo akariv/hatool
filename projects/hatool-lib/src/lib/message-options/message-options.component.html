@@ -1,0 +1,6 @@
+<ng-container *ngFor='let option of params'>
+  <button (click)='onSubmit(option.value)' 
+          [disabled]='!enabled' 
+          [class.selected]='option.value === selected'
+          [innerHtml]='option.display'></button>
+</ng-container>

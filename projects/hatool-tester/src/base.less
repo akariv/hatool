@@ -1,0 +1,126 @@
+htl-hatool {
+    htl-chatbox {
+        border: 1px solid black;
+        padding: 2px;
+
+        htl-messages {
+            border: 1px solid black;
+            padding: 5px 10px;
+        
+            .container {
+                color: rgb(33, 37, 41);
+                font-size: 16px;
+                font-weight: 400;
+                line-height: 24px;
+        
+                color: rgb(33, 37, 41);
+        
+                padding-bottom: 20px;
+                padding-left: 20px;
+                padding-right: 20px;
+                padding-top: 20px;
+                text-align: left;
+
+                htl-message-from {
+                
+                    p {
+                        padding: 10px 15px;
+                    }
+                
+                    .speech-bubble {
+                        position: relative;
+                        background: #78e08f;
+                        border-radius: .4em;
+                
+                        margin-top: 10px;
+                        margin-bottom: 10px;
+                        margin-left: 10px;
+                        border-radius: 25px;
+                        background-color: #78e08f;
+                    }
+                
+                    .speech-bubble:after {
+                        content: '';
+                        position: absolute;
+                        right: 0;
+                        top: 50%;
+                        width: 0;
+                        height: 0;
+                        border: 10px solid transparent;
+                        border-left-color: #78e08f;
+                        border-right: 0;
+                        border-bottom: 0;
+                        margin-top: -5px;
+                        margin-right: -10px;
+                    }
+                }
+               
+                htl-message-to {
+                    p {
+                        padding: 10px 15px;
+                    }
+
+                    .speech-bubble {
+                        position: relative;
+                        margin-top: 10px;
+                        margin-bottom: 10px;
+                        margin-left: 10px;
+                        border-radius: 25px;
+                        background-color: #82ccdd;
+                    }
+
+                    .speech-bubble:after {
+                        content: '';
+                        position: absolute;
+                        left: 0;
+                        top: 50%;
+                        width: 0;
+                        height: 0;
+                        border: 10px solid transparent;
+                        border-right-color: #82ccdd;
+                        border-left: 0;
+                        border-bottom: 0;
+                        margin-top: -5px;
+                        margin-left: -10px;
+                    }
+                }
+
+                htl-message-options {
+                    button {
+                        padding: 5px 20px;
+                        background-color: rgb(99, 147, 236);
+                        border: 1px solid darken(rgb(99, 147, 236), 20%);
+                        border-radius: 25px;
+                        margin: 5px;
+                        min-width: 30%;
+                
+                        &.selected {
+                            border-width: 2px;
+                        }
+                    }
+                }
+            }
+        }
+
+        htl-input {
+            border: 1px solid black;
+            padding: 2px;
+            
+            .textarea {
+                border-radius: 5px;
+            
+                button {
+                    border: 1px solid #1959d0;
+                    border-radius: 25px;
+                    font-size: 18px;
+                    padding: 5px;
+                }
+            
+                textarea {
+                    border-radius: 5px;
+                }
+            }            
+        }
+    }
+}
+

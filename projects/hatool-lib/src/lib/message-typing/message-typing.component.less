@@ -1,0 +1,81 @@
+@typing-bullet-size: 7px;
+@typing-bullet-color: #000;
+@typing-speed: 600ms;
+@typing-bullet-delay: 150ms;
+
+:host {
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-end;
+    flex: 0 0 auto;
+
+    .typing {
+        direction: ltr;
+        @this: typing;
+        
+        display: none;
+        padding: 35px;
+        font-size: 0;
+        animation: fadeInUp 200ms linear 1 both;
+
+        &__bullet {
+            display: inline-block;
+            width: @typing-bullet-size;
+            height: @typing-bullet-size;
+            border-radius: 50%;
+            background-color: fade(@typing-bullet-color, 30%);
+            transition: all (@typing-speed/2) linear;
+
+            &:not(:last-child) {
+                margin-right: 3px;
+            }
+        }
+        
+        /* States */
+        &.is-@{this}-init {
+            display: inline-block;   
+        }
+        
+        &.is-@{this}-active {
+            .@{this}__bullet {
+                background-color: @typing-bullet-color;
+                animation: bounce @typing-speed linear infinite both;
+                
+                &:nth-child(2) {
+                    animation-delay: @typing-bullet-delay;
+                }
+
+                &:nth-child(3) {
+                    animation-delay: @typing-bullet-delay * 2;
+                }
+            }
+        }
+    }
+
+    /**
+    * Animations
+    */
+    @keyframes bounce {
+        0%, 80%, 100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        50% {
+            opacity: 0.5;
+            transform: translateY(-100%);
+        }
+    }
+
+    @keyframes fadeInUp {
+        0% {
+            opacity: 0;
+            transform: translateY(50%);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+}
