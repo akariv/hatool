@@ -3,7 +3,7 @@
 </ng-container>
 <ng-container *ngIf='content.textArea && content.inputEnabled'>
     <div class='textarea'>
-      <button (click)='onSubmit()'>שלח/י</button>
+      <button (click)='onSubmit(null)'>שלח/י</button>
       <textarea rows='4' (change)='onChange($event)'></textarea>
     </div>
 </ng-container>
