@@ -8,13 +8,13 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build_lib": "ng build hatool-lib",
-    "copy-license": "cp ./LICENSE ./dist/hatool-lib",
-    "copy-readme": "cp ./README.md ./dist/hatool-lib",
+    "build_lib": "ng build hatool",
+    "copy-license": "cp ./LICENSE ./dist/hatool",
+    "copy-readme": "cp ./README.md ./dist/hatool",
     "copy-files": "npm run copy-license && npm run copy-readme",
-    "npm_pack": "cd dist/hatool-lib && npm pack",
+    "npm_pack": "cd dist/hatool && npm pack",
     "package": "npm run build_lib && npm run copy-files && npm run npm_pack",
-    "publish": "npm run package && npm publish ./dist/hatool-lib/hatool*.tgz"
+    "publish": "npm run package && npm publish ./dist/hatool/hatool*.tgz"
   },
   "private": true,
   "dependencies": {

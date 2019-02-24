@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { HatoolLibModule } from 'hatool-lib';
+import { HatoolLibModule } from 'hatool';
 
 @NgModule({
   declarations: [

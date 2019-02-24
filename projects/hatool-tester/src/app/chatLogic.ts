@@ -1,4 +1,4 @@
-import { ContentService } from 'hatool-lib';
+import { ContentService } from 'hatool';
 
 export async function doIt(content: ContentService) {
 

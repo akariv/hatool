@@ -6,7 +6,7 @@ import { ContentService } from './content.service';
   template: `
       <htl-chatbox></htl-chatbox>
   `,
-  styleUrls: ['./hatool-lib.component.less']
+  styleUrls: ['./hatool.component.less']
 })
 export class HatoolLibComponent implements OnInit {
 

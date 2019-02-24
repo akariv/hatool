@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HatoolLibComponent } from './hatool-lib.component';
+import { HatoolLibComponent } from './hatool.component';
 
 describe('HatoolLibComponent', () => {
   let component: HatoolLibComponent;

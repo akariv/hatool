@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ContentService } from 'hatool-lib';
+import { ContentService } from 'hatool';
 import hljs from 'highlight.js/lib/highlight';
 import typescript from 'highlight.js/lib/languages/typescript';
 import less from 'highlight.js/lib/languages/less';

@@ -1,6 +1,6 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../dist/hatool-lib",
+  "dest": "../../dist/hatool",
   "lib": {
     "entryFile": "src/public_api.ts"
   }

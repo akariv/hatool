@@ -19,11 +19,11 @@
       "dom"
     ],
     "paths": {
-      "hatool-lib": [
-        "dist/hatool-lib"
+      "hatool": [
+        "dist/hatool"
       ],
-      "hatool-lib/*": [
-        "dist/hatool-lib/*"
+      "hatool/*": [
+        "dist/hatool/*"
       ]
     }
   }

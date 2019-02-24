@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { HatoolLibComponent } from './hatool-lib.component';
+import { HatoolLibComponent } from './hatool.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
 import { MessagesComponent } from './messages/messages.component';
 import { InputComponent } from './input/input.component';
