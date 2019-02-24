@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   constructor(private content: ContentService, private http: HttpClient) {}
 
   ngOnInit() {
-    this.http.get('https://raw.githubusercontent.com/akariv/hatool/master/projects/hatool-tester/src/app/app.component.ts',
+    this.http.get('https://raw.githubusercontent.com/akariv/hatool/master/projects/hatool-tester/src/app/chatLogic.ts',
                   {responseType: 'text'})
         .subscribe((content) => {
           this.code.nativeElement.innerHTML = content;

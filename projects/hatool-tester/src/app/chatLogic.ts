@@ -40,5 +40,4 @@ export async function doIt(content: ContentService) {
     const bio = await content.waitForInput();
 
     content.addTo(`Super ${name}! Thanks and we'll be in touch`);
-    content.inputEnabled = false;
 }
