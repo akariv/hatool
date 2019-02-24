@@ -25,9 +25,7 @@ export async function doIt(content: ContentService) {
     let age = null;
     while (!age) {
         const ageStr = await content.waitForInput();
-        console.log(ageStr);
         age = parseInt(ageStr, 10);
-        console.log(age);
         if (age > 0) {
             break;
         }
