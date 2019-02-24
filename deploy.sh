@@ -1,5 +1,6 @@
 #!/bin/sh
 git checkout master && \
+ng lint && \
 rm .gitignore && \
 npm run package && \
 ng build hatool-tester --prod && \
