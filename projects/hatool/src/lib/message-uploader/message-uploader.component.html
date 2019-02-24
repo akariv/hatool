@@ -1,0 +1,11 @@
+<input type="file" #file (change)="onFilesAdded()" />
+<div class='button' (click)='addFiles()'>
+    <div *ngIf='!_active && !_selected' class='message'>{{ content.uploadFileText }}</div>
+    <div *ngIf='_active' class='message'>{{ selectedFile.name }}</div>
+    <div *ngIf='!_active && _selected && _success' class='message'>{{ content.uploadedFileText }}</div>
+    <div *ngIf='!_active && _selected && !_success' class='message'>{{ content.notUploadedFileText }}</div>
+    <div *ngIf='_active' class='progress'>
+        <div class='bar' [style.left]='(_progress-100) + "%"'>
+        </div>
+    </div>
+</div>

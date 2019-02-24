@@ -14,6 +14,9 @@ export class ContentService {
   public textArea = false;
 
   public sendButtonText = 'Send';
+  public uploadFileText = 'Upload File...';
+  public uploadedFileText = 'Uploaded Successfully';
+  public notUploadedFileText = 'Failed to upload file';
 
   toQueue = [];
 
@@ -74,6 +77,11 @@ export class ContentService {
   addOptions(message, options: any[]) {
     this.queue('to', {message});
     this.queue('options', options);
+  }
+
+  addUploader(message, options?: any) {
+    this.queue('to', {message});
+    this.queue('uploader', options);
   }
 
   setTextArea() {

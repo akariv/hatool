@@ -8,6 +8,7 @@ import { MessageToComponent } from './message-to/message-to.component';
 import { MessageTypingComponent } from './message-typing/message-typing.component';
 import { MessageOptionsComponent } from './message-options/message-options.component';
 import { BrowserModule } from '@angular/platform-browser';
+import { MessageUploaderComponent } from './message-uploader/message-uploader.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { BrowserModule } from '@angular/platform-browser';
     MessageToComponent,
     MessageTypingComponent,
     MessageOptionsComponent,
+    MessageUploaderComponent,
   ],
   imports: [
     BrowserModule

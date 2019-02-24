@@ -1,4 +1,4 @@
-import { ContentService } from 'hatool';
+import { ContentService, FileUploader } from 'hatool';
 
 export async function doIt(content: ContentService) {
 
@@ -37,5 +37,20 @@ export async function doIt(content: ContentService) {
     content.setTextArea();
     const bio = await content.waitForInput();
 
+    content.addUploader('Please upload a profile photo');
+    const fileUploader: FileUploader = await content.waitForInput();
+
+    fileUploader.active = true;
+    for (let i = 0 ; i < 100 ; i++ ) {
+        fileUploader.progress = i;
+        await timeout(100);
+    }
+    fileUploader.success = true;
+
     content.addTo(`Super ${name}! Thanks and we'll be in touch`);
 }
+
+function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
