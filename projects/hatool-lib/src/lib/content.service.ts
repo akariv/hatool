@@ -12,6 +12,9 @@ export class ContentService {
   public updated = new Subject<any>();
   public inputEnabled = false;
   public textArea = false;
+
+  public sendButtonText = 'Send';
+
   toQueue = [];
 
   constructor() { }

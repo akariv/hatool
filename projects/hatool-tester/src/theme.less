@@ -1,0 +1,147 @@
+htl-hatool {
+    htl-chatbox {
+        border: 1px solid black;
+        border-radius: 4px;
+        padding: 2px;
+
+        htl-messages {
+            border: none; 
+            padding: 5px 10px;
+        
+            .container {
+                font-size: 16px;
+                font-weight: 400;
+                line-height: 24px;
+        
+                color: rgb(33, 37, 41);
+        
+                padding-bottom: 20px;
+                padding-left: 20px;
+                padding-right: 20px;
+                padding-top: 20px;
+                text-align: left;
+
+                .speech-bubble {
+                    position: relative;
+                    border-radius: 20px;
+                    padding: 8px 15px;
+                    margin-top: 5px;
+                    margin-bottom: 5px;                  
+                }
+
+                htl-message-to {
+                
+                    justify-content: flex-start;
+                
+                    .speech-bubble {
+                        background-color: #EEE;
+                    }
+                    
+                    &:nth-last-of-type(1) {
+                        .speech-bubble::before {
+                            content: "";
+                            position: absolute;
+                            z-index: 0;
+                            bottom: 0;
+                            left: -7px;
+                            height: 20px;
+                            width: 20px;
+                            background: #EEE;
+                            border-bottom-right-radius: 15px;                      
+                        }
+
+                        .speech-bubble:after {
+                            content: "";
+                            position: absolute;
+                            z-index: 1;
+                            bottom: 0;
+                            left: -10px;
+                            width: 10px;
+                            height: 20px;
+                            background: white;
+                            border-bottom-right-radius: 10px;                      
+                        }
+                    }
+                }
+               
+                htl-message-from {
+
+                    justify-content: flex-end;
+
+                    p {
+                        padding: 10px 15px;
+                        color: white;
+                    }
+
+                    .speech-bubble {
+                        background: rgb(0, 120, 254);
+                    }
+
+                    &:nth-last-of-type(1) {
+                        .speech-bubble::before {
+                            content: "";
+                            position: absolute;
+                            z-index: 0;
+                            bottom: 0;
+                            right: -8px;
+                            height: 20px;
+                            width: 20px;
+                            background: rgb(0, 120, 254);
+                            border-bottom-left-radius: 15px;                      
+                        }
+    
+                        .speech-bubble:after {
+                            content: "";
+                            position: absolute;
+                            z-index: 1;
+                            bottom: 0;
+                            right: -10px;
+                            width: 10px;
+                            height: 20px;
+                            background: white;
+                            border-bottom-left-radius: 10px;
+                        }
+                    }
+                }
+
+                htl-message-options {
+                    button {
+                        background: rgb(0, 120, 254);
+                        border: 1px solid darken(rgb(0, 120, 254), 20%);
+                        min-width: 30%;
+                        border-radius: 20px;
+                        padding: 8px 15px;
+                        margin-top: 5px;
+                        margin-bottom: 5px;                  
+                        color: white;
+                    
+                        &.selected {
+                            border-width: 2px;
+                        }
+                    }
+                }
+            }
+        }
+
+        htl-input {
+            border: 1px solid black;
+            padding: 2px;
+            
+            .textarea {
+                border-radius: 5px;
+            
+                button {
+                    border: 1px solid #1959d0;
+                    border-radius: 25px;
+                    font-size: 18px;
+                    padding: 5px;
+                }
+            
+                textarea {
+                    border-radius: 5px;
+                }
+            }            
+        }
+    }
+}
+

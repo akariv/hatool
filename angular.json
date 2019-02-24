@@ -58,7 +58,7 @@
               "projects/hatool-tester/src/assets"
             ],
             "styles": [
-              "projects/hatool-tester/src/base.less",
+              "projects/hatool-tester/src/theme.less",
               "projects/hatool-tester/src/styles.less"
             ],
             "scripts": []
@@ -115,7 +115,7 @@
             "tsConfig": "projects/hatool-tester/tsconfig.spec.json",
             "karmaConfig": "projects/hatool-tester/karma.conf.js",
             "styles": [
-              "projects/hatool-tester/src/base.less",
+              "projects/hatool-tester/src/theme.less",
               "projects/hatool-tester/src/styles.less"
             ],
             "scripts": [],

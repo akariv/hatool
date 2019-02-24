@@ -1,9 +1,9 @@
-<ng-container *ngIf='!content.textArea || !content.inputEnabled'>
-    <input type='text' (change)='onSubmit($event)' [disabled]='!content.inputEnabled'/>
-</ng-container>
 <ng-container *ngIf='content.textArea && content.inputEnabled'>
     <div class='textarea'>
-      <button (click)='onSubmit(null)'>שלח/י</button>
       <textarea rows='4' (change)='onChange($event)'></textarea>
+      <button (click)='onSubmit(null)' [innerHTML]='content.sendButtonText'></button>
     </div>
+</ng-container>
+<ng-container *ngIf='!content.textArea || !content.inputEnabled'>
+    <input type='text' (change)='onSubmit($event)' [disabled]='!content.inputEnabled'/>
 </ng-container>
