@@ -11,4 +11,5 @@ git push -f origin gh-pages:gh-pages && \
 git checkout master && \
 git branch -D gh-pages && \
 git checkout . && \
+git checkout -- .gitignore && \
 git push
