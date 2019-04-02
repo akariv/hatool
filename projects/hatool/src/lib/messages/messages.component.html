@@ -1,7 +1,7 @@
 <div class='container' #container>
   <ng-container *ngFor='let item of content.messages'>
-    <htl-message-from *ngIf='item.kind=="from"' [params]='item.params'></htl-message-from>
-    <htl-message-to *ngIf='item.kind=="to"' [params]='item.params'></htl-message-to>
+    <htl-message-from *ngIf='item.kind=="from"' [params]='item.params' [first]='item.first'></htl-message-from>
+    <htl-message-to *ngIf='item.kind=="to"' [params]='item.params' [first]='item.first'></htl-message-to>
     <htl-message-typing *ngIf='item.kind=="typing"'></htl-message-typing>
     <htl-message-options *ngIf='item.kind=="options"' [params]='item.params'></htl-message-options>
     <htl-message-uploader *ngIf='item.kind=="uploader"' [params]='item.params'></htl-message-uploader>

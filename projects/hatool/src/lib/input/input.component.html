@@ -5,5 +5,9 @@
     </div>
 </ng-container>
 <ng-container *ngIf='!content.textArea || !content.inputEnabled'>
-    <input type='text' (change)='onSubmit($event)' [disabled]='!content.inputEnabled'/>
+    <div class='input' *ngIf='content.inputEnabled'>
+      <input type='text' (change)='onSubmit($event)' 
+            [disabled]='!content.inputEnabled' [placeholder]='content.inputPlaceholder'/>
+      <button (click)='!value && onSubmit("")' [innerHTML]='content.sendButtonText'></button>
+    </div>
 </ng-container>

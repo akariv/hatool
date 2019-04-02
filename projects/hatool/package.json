@@ -1,7 +1,7 @@
 {
   "name": "hatool",
   "description": "Simple Chat framework",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "keywords": [
     "chat",
     "bot",

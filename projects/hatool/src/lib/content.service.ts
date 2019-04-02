@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { first as first_ } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,7 @@ export class ContentService {
   public textArea = false;
 
   public sendButtonText = 'Send';
+  public inputPlaceholder = 'Type something...';
   public uploadFileText = 'Upload File...';
   public uploadedFileText = 'Uploaded Successfully';
   public notUploadedFileText = 'Failed to upload file';
@@ -33,7 +34,11 @@ export class ContentService {
   }
 
   add(kind, params) {
-    this.messages.push({kind, params});
+    const first = (
+      this.messages.length === 0 ||
+      kind !== this.messages[this.messages.length - 1].kind
+    );
+    this.messages.push({kind, params, first});
   }
 
   queue(kind, params, inputEnabled?) {
@@ -59,7 +64,8 @@ export class ContentService {
   }
 
   replace(kind, params) {
-    this.messages[this.messages.length - 1] = {kind, params};
+    const first = (this.messages.length < 2 || kind !== this.messages[this.messages.length - 2].kind);
+    this.messages[this.messages.length - 1] = {kind, params, first};
   }
 
   addFrom(message: string) {
@@ -91,7 +97,7 @@ export class ContentService {
   waitForInput(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.inputs.pipe(
-        first()
+        first_()
       ).subscribe((value) => {
         resolve(value);
       });

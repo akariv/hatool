@@ -1,5 +1,9 @@
 <input type="file" #file (change)="onFilesAdded()" />
-<div class='button' (click)='addFiles()'>
+<div class='button' (click)='addFiles()' 
+     [class.selected]='_selected'
+     [class.active]='_active'
+     [class.success]='_success'
+     >
     <div *ngIf='!_active && !_selected' class='message'>{{ content.uploadFileText }}</div>
     <div *ngIf='_active' class='message'>{{ selectedFile.name }}</div>
     <div *ngIf='!_active && _selected && _success' class='message'>{{ content.uploadedFileText }}</div>
