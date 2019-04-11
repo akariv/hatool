@@ -70,12 +70,20 @@ export class ScriptRunnerService {
     if (step.text) {
       const generic_text = step.text.slice();
       for (const message of generic_text) {
-        if (message.startsWith('cmd.') &&
-            message.endsWith('()')) {
-          const command = message.slice(4, -2);
-          console.log('CMD', command);
-          value = this.context[command](this.record);
-          console.log('CMD', command, '==', value);
+        const commandMatcher = RegExp('^cmd\\.([a-zA-Z_]+)\\(([a-z, ]*)\\)$');
+        const commandMatch = message.match(commandMatcher);
+        if (commandMatch) {
+          const command = commandMatch[1];
+          const parsedArgs = commandMatch[2].split(RegExp('[, ]+'));
+          const args = [];
+          for (const arg of parsedArgs) {
+            if (arg === 'record') {
+              args.push(this.record);
+            } else if (arg === 'uploader') {
+              args.push(await this.content.addUploader(null));
+            }
+          }
+          value = this.context[command](...args);
         } else {
           this.content.addTo(this.fillIn(message));
         }
