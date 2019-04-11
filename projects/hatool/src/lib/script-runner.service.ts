@@ -73,6 +73,7 @@ export class ScriptRunnerService {
   async executeStep(step: Step) {
     console.log('STEP', step);
     let value = null;
+    const key = step.collect && step.collect.key;
     if (step.text) {
       const generic_text = step.text.slice();
       for (const message of generic_text) {
@@ -87,6 +88,8 @@ export class ScriptRunnerService {
               args.push(this.record);
             } else if (arg === 'context') {
               args.push(this.context);
+            } else if (arg === 'key') {
+              args.push(key);
             } else if (arg === 'uploader') {
               args.push(await this.content.addUploader(null));
             }
@@ -118,7 +121,6 @@ export class ScriptRunnerService {
       }
     }
     if (value !== null && step.collect) {
-      const key = step.collect.key;
       if (key) {
         this.record[key] = value;
         if (this.callback) {
