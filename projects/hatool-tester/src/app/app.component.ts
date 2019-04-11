@@ -38,7 +38,8 @@ export class AppComponent implements OnInit {
     this.runner.run(
       'https://raw.githubusercontent.com/akariv/hatool/feature/script-runner/scripts/callerscript.json', 0,
       {
-        isWorkingTime: (rec) => 'true'
+        isWorkingTime: (rec) => 'true',
+        FilesUploadedCount: () => '5',
       },
       (key, value) => { console.log('SETTING', key, '<==', value); }
     ).subscribe(() => { console.log('done!'); });

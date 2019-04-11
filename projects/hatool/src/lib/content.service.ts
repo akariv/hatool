@@ -81,12 +81,16 @@ export class ContentService {
   }
 
   addOptions(message, options: any[]) {
-    this.queue('to', {message});
+    if (message) {
+      this.queue('to', {message});
+    }
     this.queue('options', options);
   }
 
   addUploader(message, options?: any) {
-    this.queue('to', {message});
+    if (message) {
+      this.queue('to', {message});
+    }
     this.queue('uploader', options);
   }
 

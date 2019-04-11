@@ -15,6 +15,7 @@ interface Step {
     key: string,
     options: {
       default: boolean,
+      type: string,
       pattern: string,
       action: string
     }[]
@@ -68,34 +69,33 @@ export class ScriptRunnerService {
     let value = null;
     if (step.text) {
       const generic_text = step.text.slice();
-      let quick_replies_msg = null;
-      if (step.quick_replies) {
-        quick_replies_msg = generic_text.shift();
-      }
       for (const message of generic_text) {
-        this.content.addTo(this.fillIn(message));
-      }
-      if (quick_replies_msg) {
-        if (quick_replies_msg.startsWith('cmd.') &&
-            quick_replies_msg.endsWith('()')) {
-          const command = quick_replies_msg.slice(4, -2);
+        if (message.startsWith('cmd.') &&
+            message.endsWith('()')) {
+          const command = message.slice(4, -2);
           console.log('CMD', command);
           value = this.context[command](this.record);
+          console.log('CMD', command, '==', value);
         } else {
+          this.content.addTo(this.fillIn(message));
+        }
+      }
+      if (!value) {
+        if (step.quick_replies) {
           this.content.addOptions(
-            quick_replies_msg,
+            null,
             step.quick_replies.map((q) => <any>{
               display: q.title,
               value: q.payload
             }, step.quick_replies)
           );
           value = await this.content.waitForInput();
+        } else if (step.collect) {
+          if (step.multiple) {
+            this.content.setTextArea();
+          }
+          value = await this.content.waitForInput();
         }
-      } else if (step.collect) {
-        if (step.multiple) {
-          this.content.setTextArea();
-        }
-        value = await this.content.waitForInput();
       }
     }
     if (value !== null && step.collect) {
@@ -108,10 +108,19 @@ export class ScriptRunnerService {
       }
       let acted = false;
       for (const option of step.collect.options) {
-        if (option.pattern === value) {
-          await this.executeAction(option.action);
-          acted = true;
-          break;
+        if (option.type === 'string') {
+          if (option.pattern === value) {
+            await this.executeAction(option.action);
+            acted = true;
+            break;
+          }
+        } else if (option.type === 'regex') {
+          console.log('MATCHING', value, option.pattern, value.match(RegExp(option.pattern)));
+          if (value.match(RegExp(option.pattern))) {
+            await this.executeAction(option.action);
+            acted = true;
+            break;
+          }
         }
       }
       if (!acted) {

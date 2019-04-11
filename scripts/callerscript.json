@@ -31,19 +31,7 @@
                                 }
                             ],
                             "multiple": false
-                        },
-                        "quick_replies": [
-                            {
-                                "title": "true",
-                                "payload": "true",
-                                "content_type": "text"
-                            },
-                            {
-                                "title": "false",
-                                "payload": "false",
-                                "content_type": "text"
-                            }
-                        ]
+                        }
                     },
                     {
                         "action": "complete"
@@ -66,11 +54,6 @@
             {
                 "topic": "בדיקת שעות עבודה: מענה בזמן פעילות",
                 "script": [
-                    {
-                        "text": [
-                            "This is during work time"
-                        ]
-                    },
                     {
                         "text": [
                             "לפני שנעביר את הפניה שלך לכונן, נבקש ממך לענות על כמה שאלות, שיסייעו לנו להשיב במהירות."
@@ -179,18 +162,6 @@
                     {
                         "text": [
                             "האם ישנם פרטי התקשרות נוספים שתוכלו למסור כדי שנוכל ליצור אתכם קשר?"
-                        ],
-                        "quick_replies": [
-                            {
-                                "title": "כן",
-                                "payload": "true",
-                                "content_type": "text"
-                            },
-                            {
-                                "title": "לא",
-                                "payload": "false",
-                                "content_type": "text"
-                            }
                         ],
                         "collect": {
                             "key": "more_contact_deatails",
@@ -553,6 +524,9 @@
                         }
                     },
                     {
+                        "action": "complete"
+                    },
+                    {
                         "text": [
                             "האם יש בידיך צילומים, מסמכים או תיעוד של המקרה שתוכל/י להעביר כעת?"
                         ],
@@ -565,15 +539,12 @@
                                     "action": "סיום שיחה"
                                 },
                                 {
-                                    "pattern": "<5",
+                                    "pattern": "true",
                                     "type": "string",
                                     "action": "העלאת קובץ: בחירת קובץ ותיאור"
                                 }
                             ]
                         }
-                    },
-                    {
-                        "action": "complete"
                     }
                 ]
             },
@@ -1024,7 +995,70 @@
                 "script": [
                     {
                         "text": [
-                            "This is the מוקדנ/ית script. Customize me!"
+                            "עברו על פרטי המקרה:"
+                        ]
+                    },
+                    {
+                        "text": [
+                            "cmd.getRecordSummary()"
+                        ]
+                    },
+                    {
+                        "text": [
+                            "חזר/י אל הפונה באמצעי שבחר/ה:\n\n\"שלום {{userInfo.fullname}}. אני ______ מהמוקד למאבק בגזענות ממסדית.\n<br><br>\n\nאני חוזר/ת אליך בהמשך לפניה שלך מ-{{userInfo.startDate}} בנוגע ל{{userInfo.service}} על ארוע של {{userInfo.complaintType}} על ידי {{userInfo.offender}}.<br><br>\n\nעל מנת שאוכל לסייע לך יש לי עוד מספר שאלות.\""
+                        ]
+                    },
+                    {
+                        "text": [
+                            "cmd.getOffender()"
+                        ],
+                        "meta": [
+                            {
+                                "key": "key",
+                                "value": "value"
+                            }
+                        ],
+                        "collect": {
+                            "key": "offender",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "משטרה",
+                                    "type": "string",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "sample",
+                                    "type": "string",
+                                    "action": "next"
+                                }
+                            ]
+                        },
+                        "quick_replies": [
+                            {
+                                "title": "משטרה",
+                                "payload": "משטרה",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "מאבטח/ת",
+                                "payload": "מאבטח/ת",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "דיור",
+                                "payload": "דיור",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "מסגרת חינוכית",
+                                "payload": "מסגרת חינוכית",
+                                "content_type": "text"
+                            }
                         ]
                     },
                     {
@@ -1053,6 +1087,11 @@
             }
         ],
         "variables": [
+            {
+                "name": "offender",
+                "type": "string",
+                "id": 45
+            },
             {
                 "name": "question_1",
                 "type": "string"
