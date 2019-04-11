@@ -285,7 +285,7 @@
                 ]
             },
             {
-                "topic": "offender pollice",
+                "topic": "משטרה: בחירת סוג התלונה",
                 "script": [
                     {
                         "text": [
@@ -308,8 +308,68 @@
                                 "content_type": "text"
                             },
                             {
-                                "title": "פרופיילינג – הפעלת סמכות משטרתית על בסיס מראה, צבע עור וכדומה",
-                                "payload": "פרופיילינג – הפעלת סמכות משטרתית על בסיס מראה, צבע עור וכדומה",
+                                "title": "אחר",
+                                "payload": "אחר",
+                                "content_type": "text"
+                            }
+                        ],
+                        "collect": {
+                            "key": "complaint_type",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "repeat"
+                                },
+                                {
+                                    "pattern": "התנהגות או התבטאות גזענית מצד שוטר/ת",
+                                    "type": "string",
+                                    "action": "משטרה: התנהגות או התבטאות גזענית מצד שוטר/ת"
+                                },
+                                {
+                                    "pattern": "פרופיילינג – הפעלת סמכות משטרתית על בסיס מראה, צבע עור וכדומה",
+                                    "type": "string",
+                                    "action": "משטרה: פרופיילינג – הפעלת סמכות משטרתית על בסיס מראה, צבע עור וכדומה"
+                                },
+                                {
+                                    "pattern": "other",
+                                    "type": "string",
+                                    "action": "משטרה: אחר"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "דיור: בחירת סוג התלונה",
+                "script": [
+                    {
+                        "text": [
+                            "מהו סוג האירוע עליו תרצו לדווח?"
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "הפליה בקבלה לישוב",
+                                "payload": "הפליה בקבלה לישוב",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "הפליה במכירת דירה",
+                                "payload": "הפליה במכירת דירה",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "הפליה בהשכרת דירה מחברה",
+                                "payload": "הפליה בהשכרת דירה מחברה",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "הפליה בהשכרת דירה מאדם פרטי",
+                                "payload": "הפליה בהשכרת דירה מאדם פרטי",
                                 "content_type": "text"
                             },
                             {
@@ -324,56 +384,36 @@
                                 {
                                     "default": true,
                                     "pattern": "default",
-                                    "action": "next"
+                                    "action": "repeat"
                                 },
                                 {
-                                    "pattern": "התנהגות או התבטאות גזענית מצד שוטר/ת",
+                                    "pattern": "הפליה בקבלה לישוב",
                                     "type": "string",
-                                    "action": "משטרה: התנהגות או התבטאות גזענית מצד שוטר/ת"
+                                    "action": "דיור: הפליה בקבלה לישוב"
                                 },
                                 {
-                                    "pattern": "sample",
+                                    "pattern": "הפליה במכירת דירה",
                                     "type": "string",
-                                    "action": "next"
+                                    "action": "דיור: הפליה במכירת דירה"
+                                },
+                                {
+                                    "pattern": "הפליה בהשכרת דירה מחברה",
+                                    "type": "string",
+                                    "action": "דיור: הפליה בהשכרת דירה מחברה"
+                                },
+                                {
+                                    "pattern": "הפליה בהשכרת דירה מאדם פרטי",
+                                    "type": "string",
+                                    "action": "דיור: הפליה בהשכרת דירה מאדם פרטי"
+                                },
+                                {
+                                    "pattern": "אחר",
+                                    "type": "string",
+                                    "action": "דיור: אחר"
                                 }
-                            ]
+                            ],
+                            "multiple": true
                         }
-                    },
-                    {
-                        "action": "complete"
-                    }
-                ]
-            },
-            {
-                "topic": "offender security",
-                "script": [
-                    {
-                        "text": [
-                            "This is offender security"
-                        ]
-                    },
-                    {
-                        "text": [
-                            "זה תסריט אבטחה"
-                        ]
-                    },
-                    {
-                        "action": "complete"
-                    }
-                ]
-            },
-            {
-                "topic": "offender housing",
-                "script": [
-                    {
-                        "text": [
-                            "This is offender housing"
-                        ]
-                    },
-                    {
-                        "text": [
-                            "זה תסריט בינוי"
-                        ]
                     },
                     {
                         "action": "complete"
@@ -485,7 +525,7 @@
                         ]
                     },
                     {
-                        "action": "complete"
+                        "action": "העלאת קבצים: האם להעלות קובץ נוסף?"
                     }
                 ]
             },
@@ -609,14 +649,14 @@
                                     "action": "repeat"
                                 },
                                 {
-                                    "pattern": "מטרה",
+                                    "pattern": "משטרה",
                                     "type": "string",
-                                    "action": "offender pollice"
+                                    "action": "משטרה: בחירת סוג התלונה"
                                 },
                                 {
                                     "pattern": "מאבטח/ת",
                                     "type": "string",
-                                    "action": "offender security"
+                                    "action": "מאבטח/ת: בחירת סוג התלונה"
                                 },
                                 {
                                     "pattern": "מסגרת חינוכית",
@@ -626,7 +666,7 @@
                                 {
                                     "pattern": "דיור",
                                     "type": "string",
-                                    "action": "offender housing"
+                                    "action": "דיור: בחירת סוג התלונה"
                                 },
                                 {
                                     "pattern": "אחר",
@@ -652,6 +692,220 @@
                     {
                         "text": [
                             "יש לכם משוב או הצעה לשיפור על השיחה הזו?       <a href=\"https://forms.gle/BBdqGcXbFCuHkh7V8\" target=\"_blank\">לחצו כאן</a>"
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "מאבטח/ת: בחירת סוג התלונה",
+                "script": [
+                    {
+                        "text": [
+                            "This is offender pollice"
+                        ]
+                    },
+                    {
+                        "text": [
+                            "מהו סוג האירוע עליו תרצו לדווח?"
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "בידוק מפלה",
+                                "payload": "בידוק מפלה",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "אמירות גזעניות",
+                                "payload": "אמירות גזעניות",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "מניעת כניסה",
+                                "payload": "מניעת כניסה",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "אחר",
+                                "payload": "אחר",
+                                "content_type": "text"
+                            }
+                        ],
+                        "collect": {
+                            "key": "complaint_type",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "repeat"
+                                },
+                                {
+                                    "pattern": "בידוק מפלה",
+                                    "type": "string",
+                                    "action": "מאבטח/ת: בידוק מפלה"
+                                },
+                                {
+                                    "pattern": "אמירות גזעניות",
+                                    "type": "string",
+                                    "action": "מאבטח/ת: אמירות גזעניות"
+                                },
+                                {
+                                    "pattern": "מניעת כניסה",
+                                    "type": "string",
+                                    "action": "מאבטח/ת: מניעת כניסה"
+                                },
+                                {
+                                    "pattern": "אחר",
+                                    "type": "string",
+                                    "action": "מאבטח/ת: אחר"
+                                }
+                            ],
+                            "multiple": false
+                        }
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "מאבטח/ת: בידוק מפלה",
+                "script": [
+                    {
+                        "text": [
+                            "This is מאבטח/ת: בידוק מפלה"
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "מאבטח/ת: אמירות גזעניות",
+                "script": [
+                    {
+                        "text": [
+                            "This is מאבטח/ת: אמירות גזעניות"
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "מאבטח/ת: מניעת כניסה",
+                "script": [
+                    {
+                        "text": [
+                            "This is מאבטח/ת: מניעת רניסה"
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "מאבטח/ת: אחר",
+                "script": [
+                    {
+                        "text": [
+                            "This is מאבטח/ת: אחר"
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "משטרה: פרופיילינג – הפעלת סמכות משטרתית על בסיס מראה, צבע עור וכדומה",
+                "script": [
+                    {
+                        "text": [
+                            "This is משטרה: פרופיילינג – הפעלת סמכות משטרתית על בסיס מראה, צבע עור וכדומה"
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "משטרה: אחר",
+                "script": [
+                    {
+                        "text": [
+                            "This is משטרה: אחר"
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "דיור: הפליה בקבלה לישוב",
+                "script": [
+                    {
+                        "text": [
+                            "This is דיור: הפליה בקבלה לישוב"
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "דיור: הפליה במכירת דירה",
+                "script": [
+                    {
+                        "text": [
+                            "This is דיור: הפליה במכירת דירה"
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "דיור: הפליה בהשכרת דירה מחברה",
+                "script": [
+                    {
+                        "text": [
+                            "This is דיור: הפליה בהשכרת דירה מחברה"
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "דיור: הפליה בהשכרת דירה מאדם פרטי",
+                "script": [
+                    {
+                        "text": [
+                            "This is דיור: הפליה בהשכרת דירה מאדם פרטי"
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "דיור: אחר",
+                "script": [
+                    {
+                        "text": [
+                            "This is דיור: אחר"
                         ]
                     },
                     {
@@ -747,6 +1001,58 @@
                 "type": "string",
                 "id": 88
             },
+            {
+                "name": "question_1",
+                "type": "string"
+            },
+            {
+                "name": "question_2",
+                "type": "string"
+            },
+            {
+                "name": "question_3",
+                "type": "string"
+            }
+        ]
+    },
+    {
+        "command": "מוקדנ/ית",
+        "description": "תסריט צד מוקדנ/ית",
+        "script": [
+            {
+                "topic": "default",
+                "script": [
+                    {
+                        "text": [
+                            "This is the מוקדנ/ית script. Customize me!"
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "on_timeout",
+                "script": [
+                    {
+                        "text": [
+                            "Looks like you got distracted. We can continue later."
+                        ]
+                    },
+                    {
+                        "action": "timeout"
+                    }
+                ]
+            }
+        ],
+        "triggers": [
+            {
+                "type": "string",
+                "pattern": "מוקדנ/ית"
+            }
+        ],
+        "variables": [
             {
                 "name": "question_1",
                 "type": "string"
