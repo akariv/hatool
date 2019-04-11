@@ -31,16 +31,22 @@ type CBType = (string, any) => void;
 export class ScriptRunnerService {
 
   threads = {};
-  record = {};
+  record: any;
   context = {};
   callback: CBType = null;
 
   constructor(private http: HttpClient,
               private content: ContentService) { }
 
-  run(url, index, context, setCallback?: CBType): Observable<void> {
+  run(url,
+      index,
+      context,
+      setCallback?: CBType,
+      record?: any
+    ): Observable<void> {
     this.context = context;
     this.callback = setCallback;
+    this.record = record || {};
     return this.http.get(url)
         .pipe(
           switchMap((script: any[]) => this.processScriptFile(script, index))
