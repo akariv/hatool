@@ -92,6 +92,9 @@ export class ScriptRunnerService {
             }
           }
           value = this.context[command](...args);
+          if (value instanceof Promise) {
+            value = await value;
+          }
         } else {
           this.content.addTo(this.fillIn(message));
         }
