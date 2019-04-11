@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ContentService } from 'hatool';
+import { ContentService, ScriptRunnerService } from 'hatool';
 import hljs from 'highlight.js/lib/highlight';
 import typescript from 'highlight.js/lib/languages/typescript';
 import less from 'highlight.js/lib/languages/less';
@@ -17,7 +17,8 @@ export class AppComponent implements OnInit {
   @ViewChild('code') code: ElementRef;
   @ViewChild('style') style: ElementRef;
 
-  constructor(private content: ContentService, private http: HttpClient) {}
+  constructor(private runner: ScriptRunnerService,
+              private http: HttpClient) {}
 
   ngOnInit() {
     this.http.get('https://raw.githubusercontent.com/akariv/hatool/master/projects/hatool-tester/src/app/chatLogic.ts',
@@ -34,7 +35,15 @@ export class AppComponent implements OnInit {
         });
     hljs.registerLanguage('typescript', typescript);
     hljs.registerLanguage('less', less);
-    doIt(this.content);
+    this.runner.run(
+      'https://raw.githubusercontent.com/akariv/hatool/feature/script-runner/scripts/callerscript.json', 0,
+      {
+        isWorkingTime: (rec) => 'true',
+        FilesUploadedCount: () => '5',
+      },
+      (key, value) => { console.log('SETTING', key, '<==', value); }
+    ).subscribe(() => { console.log('done!'); });
+    // doIt(this.content);
   }
 
 }

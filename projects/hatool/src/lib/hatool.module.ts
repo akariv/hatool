@@ -9,6 +9,7 @@ import { MessageTypingComponent } from './message-typing/message-typing.componen
 import { MessageOptionsComponent } from './message-options/message-options.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { MessageUploaderComponent } from './message-uploader/message-uploader.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { MessageUploaderComponent } from './message-uploader/message-uploader.co
     MessageUploaderComponent,
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule
   ],
   exports: [HatoolLibComponent]
 })
