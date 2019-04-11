@@ -14,132 +14,32 @@
                     },
                     {
                         "text": [
-                            "cmd.getDateTime()"
+                            "cmd.isWorkingTime()"
                         ],
                         "collect": {
-                            "key": "date_time",
+                            "key": "is_working_time",
                             "options": [
                                 {
                                     "default": true,
                                     "pattern": "default",
-                                    "action": "out of work time"
-                                },
-                                {
-                                    "pattern": "יום א-ה 09:00-17:00",
-                                    "type": "regex",
-                                    "action": "during work time"
-                                }
-                            ],
-                            "multiple": false
-                        }
-                    },
-                    {
-                        "text": [
-                            "כדי שנוכל לטפל בפניה אנו זקוקים לפרטי התקשרות. לא ייעשה בפרטים אלו כל שימוש חוץ מטיפול בתלונה בדרך שבה תאשר/י לנו.",
-                            "...מה השם שלך? אם את/ה רוצ/ה להישאר אנונימי/ת בשלב זה כתבו \"אנונימי\""
-                        ],
-                        "collect": {
-                            "key": "full_name",
-                            "options": [
-                                {
-                                    "default": true,
-                                    "pattern": "default",
-                                    "action": "next"
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "text": [
-                            "שלום {{full_name}}."
-                        ]
-                    },
-                    {
-                        "text": [
-                            "איך תרצה/תרצי שניצור איתך קשר בהמשך התהליך?`"
-                        ],
-                        "quick_replies": [
-                            {
-                                "title": "טלפון",
-                                "payload": "phone",
-                                "content_type": "text"
-                            },
-                            {
-                                "title": "אימייל",
-                                "payload": "email",
-                                "content_type": "text"
-                            },
-                            {
-                                "title": "וואטסאפ",
-                                "payload": "whatsapp",
-                                "content_type": "text"
-                            },
-                            {
-                                "title": "facebook messenger",
-                                "payload": "facebook",
-                                "content_type": "text"
-                            }
-                        ],
-                        "collect": {
-                            "key": "contact_method",
-                            "options": [
-                                {
-                                    "default": true,
-                                    "pattern": "default",
-                                    "action": "repeat"
-                                },
-                                {
-                                    "pattern": "phone",
-                                    "type": "string",
-                                    "action": "add phone"
-                                },
-                                {
-                                    "pattern": "email",
-                                    "type": "string",
-                                    "action": "add email"
-                                },
-                                {
-                                    "pattern": "whatsapp",
-                                    "type": "string",
-                                    "action": "add whatsapp"
-                                },
-                                {
-                                    "pattern": "facebook",
-                                    "type": "string",
-                                    "action": "add facebook"
-                                }
-                            ],
-                            "multiple": true
-                        }
-                    },
-                    {
-                        "text": [
-                            "האם ישנם פרטי התקשרות נוספים שתוכלו למסור כדי שנוכל ליצור אתכם קשר?"
-                        ],
-                        "collect": {
-                            "key": "more_contact_deatails",
-                            "options": [
-                                {
-                                    "default": true,
-                                    "pattern": "default",
-                                    "action": "next"
+                                    "action": "בדיקת שעות עבודה: מענה מחוץ לשעות עבודה"
                                 },
                                 {
                                     "pattern": "true",
-                                    "type": "string",
-                                    "action": "choose_contact_method"
+                                    "type": "regex",
+                                    "action": "בדיקת שעות עבודה: מענה בזמן פעילות"
                                 }
                             ],
                             "multiple": false
                         },
                         "quick_replies": [
                             {
-                                "title": "כן",
+                                "title": "true",
                                 "payload": "true",
                                 "content_type": "text"
                             },
                             {
-                                "title": "לא",
+                                "title": "false",
                                 "payload": "false",
                                 "content_type": "text"
                             }
@@ -151,7 +51,7 @@
                 ]
             },
             {
-                "topic": "out of work time",
+                "topic": "בדיקת שעות עבודה: מענה מחוץ לשעות עבודה",
                 "script": [
                     {
                         "text": [
@@ -159,12 +59,12 @@
                         ]
                     },
                     {
-                        "action": "complete"
+                        "action": "פרטי התקשרות: בקשת שם"
                     }
                 ]
             },
             {
-                "topic": "during work time",
+                "topic": "בדיקת שעות עבודה: מענה בזמן פעילות",
                 "script": [
                     {
                         "text": [
@@ -177,25 +77,12 @@
                         ]
                     },
                     {
-                        "action": "complete"
+                        "action": "פרטי התקשרות: בקשת שם"
                     }
                 ]
             },
             {
-                "topic": "add contact",
-                "script": [
-                    {
-                        "text": [
-                            "This is add contact"
-                        ]
-                    },
-                    {
-                        "action": "complete"
-                    }
-                ]
-            },
-            {
-                "topic": "add phone",
+                "topic": "פרטי קשר: הוספת מספר טלפון",
                 "script": [
                     {
                         "text": [
@@ -213,12 +100,12 @@
                         }
                     },
                     {
-                        "action": "complete"
+                        "action": "פרטי התקשרות: האם להוסיף פרטים?"
                     }
                 ]
             },
             {
-                "topic": "add email",
+                "topic": "פרטי התקשרות: הוספת דוא\"ל",
                 "script": [
                     {
                         "text": [
@@ -236,12 +123,12 @@
                         }
                     },
                     {
-                        "action": "complete"
+                        "action": "פרטי התקשרות: האם להוסיף פרטים?"
                     }
                 ]
             },
             {
-                "topic": "add whatsapp",
+                "topic": "פרטי התקשרות: הוספת וואטסאפ",
                 "script": [
                     {
                         "text": [
@@ -259,12 +146,12 @@
                         }
                     },
                     {
-                        "action": "complete"
+                        "action": "פרטי התקשרות: האם להוסיף פרטים?"
                     }
                 ]
             },
             {
-                "topic": "add facebook",
+                "topic": "פרטי התקשרות: הוספת פייסבוק",
                 "script": [
                     {
                         "text": [
@@ -282,12 +169,12 @@
                         }
                     },
                     {
-                        "action": "complete"
+                        "action": "פרטי התקשרות: האם להוסיף פרטים?"
                     }
                 ]
             },
             {
-                "topic": "add more contact?",
+                "topic": "פרטי התקשרות: האם להוסיף פרטים?",
                 "script": [
                     {
                         "text": [
@@ -316,12 +203,12 @@
                                 {
                                     "pattern": "true",
                                     "type": "string",
-                                    "action": "choose_contact_method"
+                                    "action": "פרטי התקשרות: בחירת אמצעי יצירת קשר"
                                 },
                                 {
                                     "pattern": "false",
                                     "type": "string",
-                                    "action": "complete"
+                                    "action": "תלונה: בחירת תחום/גורם"
                                 }
                             ],
                             "multiple": false
@@ -333,7 +220,7 @@
                 ]
             },
             {
-                "topic": "choose_contact_method",
+                "topic": "פרטי התקשרות: בחירת אמצעי יצירת קשר",
                 "script": [
                     {
                         "text": [
@@ -372,25 +259,400 @@
                                 {
                                     "pattern": "phone",
                                     "type": "string",
-                                    "action": "add phone"
+                                    "action": "פרטי קשר: הוספת מספר טלפון"
                                 },
                                 {
                                     "pattern": "email",
                                     "type": "string",
-                                    "action": "add email"
+                                    "action": "פרטי התקשרות: הוספת דוא\"ל"
                                 },
                                 {
                                     "pattern": "facebook",
                                     "type": "string",
-                                    "action": "add facebook"
+                                    "action": "פרטי התקשרות: הוספת פייסבוק"
                                 },
                                 {
                                     "pattern": "whatsapp",
                                     "type": "string",
-                                    "action": "add whatsapp"
+                                    "action": "פרטי התקשרות: הוספת וואטסאפ"
                                 }
                             ]
                         }
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "offender pollice",
+                "script": [
+                    {
+                        "text": [
+                            "This is offender pollice"
+                        ]
+                    },
+                    {
+                        "text": [
+                            "מהו סוג האירוע עליו תרצו לדווח?"
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "התנהגות או התבטאות גזענית מצד שוטר/ת",
+                                "payload": "התנהגות או התבטאות גזענית מצד שוטר/ת",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "פרופיילינג – הפעלת סמכות משטרתית על בסיס מראה, צבע עור וכדומה",
+                                "payload": "helloפרופיילינג – הפעלת סמכות משטרתית על בסיס מראה, צבע עור וכדומה",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "פרופיילינג – הפעלת סמכות משטרתית על בסיס מראה, צבע עור וכדומה",
+                                "payload": "פרופיילינג – הפעלת סמכות משטרתית על בסיס מראה, צבע עור וכדומה",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "אחר",
+                                "payload": "אחר",
+                                "content_type": "text"
+                            }
+                        ],
+                        "collect": {
+                            "key": "complaint_type",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "התנהגות או התבטאות גזענית מצד שוטר/ת",
+                                    "type": "string",
+                                    "action": "משטרה: התנהגות או התבטאות גזענית מצד שוטר/ת"
+                                },
+                                {
+                                    "pattern": "sample",
+                                    "type": "string",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "offender security",
+                "script": [
+                    {
+                        "text": [
+                            "This is offender security"
+                        ]
+                    },
+                    {
+                        "text": [
+                            "זה תסריט אבטחה"
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "offender housing",
+                "script": [
+                    {
+                        "text": [
+                            "This is offender housing"
+                        ]
+                    },
+                    {
+                        "text": [
+                            "זה תסריט בינוי"
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "script": [
+                    {
+                        "text": [
+                            "This is undefined"
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "offender education",
+                "script": [
+                    {
+                        "text": [
+                            "This is offender education"
+                        ]
+                    },
+                    {
+                        "text": [
+                            "זה תסריט חינוך"
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "offender other",
+                "script": [
+                    {
+                        "text": [
+                            "This is offender other"
+                        ]
+                    },
+                    {
+                        "text": [
+                            "זה תסריט אחר"
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "העלאת קובץ: בחירת קובץ ותיאור",
+                "script": [
+                    {
+                        "text": [
+                            "cmd.ChooseFileToUpload()"
+                        ],
+                        "collect": {
+                            "key": "file_name",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "מה יש בקובץ ששלחתם?"
+                        ],
+                        "collect": {
+                            "key": "file_description",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "cmd.FetchFileIndexToSave()"
+                        ]
+                    },
+                    {
+                        "text": [
+                            "cmd.SaveFile(file)name, file_description)"
+                        ]
+                    },
+                    {
+                        "action": "העלאת קבצים: האם להעלות קובץ נוסף?"
+                    }
+                ]
+            },
+            {
+                "topic": "משטרה: התנהגות או התבטאות גזענית מצד שוטר/ת",
+                "script": [
+                    {
+                        "text": [
+                            "This is משטרה: התנהגות או התבטאות גזענית מצד שוטר/ת"
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "העלאת קבצים: האם להעלות קובץ נוסף?",
+                "script": [
+                    {
+                        "text": [
+                            "cmd.FilesUploadedCount()"
+                        ],
+                        "collect": {
+                            "key": "files_count",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "סיום שיחה"
+                                },
+                                {
+                                    "pattern": "[0-5]",
+                                    "type": "regex",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "האם יש בידיך צילומים, מסמכים או תיעוד של המקרה שתוכל/י להעביר כעת?"
+                        ],
+                        "collect": {
+                            "key": "upload_file",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "סיום שיחה"
+                                },
+                                {
+                                    "pattern": "<5",
+                                    "type": "string",
+                                    "action": "העלאת קובץ: בחירת קובץ ותיאור"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "פרטי התקשרות: בקשת שם",
+                "script": [
+                    {
+                        "text": [
+                            "כדי שנוכל לטפל בפניה אנו זקוקים לפרטי התקשרות. לא ייעשה בפרטים אלו כל שימוש חוץ מטיפול בתלונה בדרך שבה תאשר/י לנו.\n<br><br>\nמה השם שלך? אם את/ה רוצ/ה להישאר אנונימי/ת בשלב זה כתבו \"אנונימי\""
+                        ],
+                        "meta": [],
+                        "collect": {
+                            "key": "full_name",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "שלום {{full_name}}."
+                        ]
+                    },
+                    {
+                        "action": "פרטי התקשרות: בחירת אמצעי יצירת קשר"
+                    }
+                ]
+            },
+            {
+                "topic": "תלונה: בחירת תחום/גורם",
+                "script": [
+                    {
+                        "text": [
+                            "או לאיזה תחום קשור האירוע? מי נהג כלפיך בגזענות או באופן מפלה?"
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "משטרה",
+                                "payload": "משטרה",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "מאבטח/ת",
+                                "payload": "מאבטח/ת",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "מסגרת חינוכית",
+                                "payload": "מסגרת חינוכית",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "תחום הדיור",
+                                "payload": "דיור",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "אחר",
+                                "payload": "אחר",
+                                "content_type": "text"
+                            }
+                        ],
+                        "collect": {
+                            "key": "offender",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "repeat"
+                                },
+                                {
+                                    "pattern": "מטרה",
+                                    "type": "string",
+                                    "action": "offender pollice"
+                                },
+                                {
+                                    "pattern": "מאבטח/ת",
+                                    "type": "string",
+                                    "action": "offender security"
+                                },
+                                {
+                                    "pattern": "מסגרת חינוכית",
+                                    "type": "string",
+                                    "action": "offender education"
+                                },
+                                {
+                                    "pattern": "דיור",
+                                    "type": "string",
+                                    "action": "offender housing"
+                                },
+                                {
+                                    "pattern": "אחר",
+                                    "type": "string",
+                                    "action": "offender other"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "סיום שיחה",
+                "script": [
+                    {
+                        "text": [
+                            "תודה לך שפנית אלינו.אנחנו נעבור על כל המידע והחומר ששלחת ונחזור אליך תוך 2 ימים."
+                        ]
+                    },
+                    {
+                        "text": [
+                            "יש לכם משוב או הצעה לשיפור על השיחה הזו?       <a href=\"https://forms.gle/BBdqGcXbFCuHkh7V8\" target=\"_blank\">לחצו כאן</a>"
+                        ]
                     },
                     {
                         "action": "complete"
@@ -405,6 +667,46 @@
             }
         ],
         "variables": [
+            {
+                "name": "files_count",
+                "type": "string",
+                "id": 325
+            },
+            {
+                "name": "complaint_type",
+                "type": "string",
+                "id": 152
+            },
+            {
+                "name": "filename",
+                "type": "string",
+                "id": 437
+            },
+            {
+                "name": "file_name",
+                "type": "string",
+                "id": 346
+            },
+            {
+                "name": "file_description",
+                "type": "string",
+                "id": 392
+            },
+            {
+                "name": "is_working_time",
+                "type": "string",
+                "id": 238
+            },
+            {
+                "name": "upload_file",
+                "type": "string",
+                "id": 206
+            },
+            {
+                "name": "offender",
+                "type": "string",
+                "id": 185
+            },
             {
                 "name": "more_contact_deatails",
                 "type": "string",

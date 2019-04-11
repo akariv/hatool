@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ContentService, ScriptRunner, ScriptRunnerService } from 'hatool';
+import { ContentService, ScriptRunnerService } from 'hatool';
 import hljs from 'highlight.js/lib/highlight';
 import typescript from 'highlight.js/lib/languages/typescript';
 import less from 'highlight.js/lib/languages/less';
@@ -35,7 +35,8 @@ export class AppComponent implements OnInit {
         });
     hljs.registerLanguage('typescript', typescript);
     hljs.registerLanguage('less', less);
-    this.runner.run();
+    this.runner.run('https://raw.githubusercontent.com/akariv/hatool/feature/script-runner/scripts/callerscript.json')
+      .subscribe(() => { console.log('done!'); });
     // doIt(this.content);
   }
 
