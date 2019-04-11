@@ -1,0 +1,462 @@
+[
+    {
+        "command": "פונה",
+        "description": "תסריט לניהול שיחות מצד הפונה",
+        "script": [
+            {
+                "topic": "default",
+                "script": [
+                    {
+                        "text": [
+                            "שלום, הגעת למוקד סיוע לקורבנות גזענות והפליה.",
+                            "...לפני שנעביר את הפניה שלך לכונן, נבקש ממך לענות על כמה שאלות, שיסייעו לנו להשיב במהירות."
+                        ]
+                    },
+                    {
+                        "text": [
+                            "cmd.getDateTime()"
+                        ],
+                        "collect": {
+                            "key": "date_time",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "out of work time"
+                                },
+                                {
+                                    "pattern": "יום א-ה 09:00-17:00",
+                                    "type": "regex",
+                                    "action": "during work time"
+                                }
+                            ],
+                            "multiple": false
+                        }
+                    },
+                    {
+                        "text": [
+                            "כדי שנוכל לטפל בפניה אנו זקוקים לפרטי התקשרות. לא ייעשה בפרטים אלו כל שימוש חוץ מטיפול בתלונה בדרך שבה תאשר/י לנו.",
+                            "...מה השם שלך? אם את/ה רוצ/ה להישאר אנונימי/ת בשלב זה כתבו \"אנונימי\""
+                        ],
+                        "collect": {
+                            "key": "full_name",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "שלום {{full_name}}."
+                        ]
+                    },
+                    {
+                        "text": [
+                            "איך תרצה/תרצי שניצור איתך קשר בהמשך התהליך?`"
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "טלפון",
+                                "payload": "phone",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "אימייל",
+                                "payload": "email",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "וואטסאפ",
+                                "payload": "whatsapp",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "facebook messenger",
+                                "payload": "facebook",
+                                "content_type": "text"
+                            }
+                        ],
+                        "collect": {
+                            "key": "contact_method",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "repeat"
+                                },
+                                {
+                                    "pattern": "phone",
+                                    "type": "string",
+                                    "action": "add phone"
+                                },
+                                {
+                                    "pattern": "email",
+                                    "type": "string",
+                                    "action": "add email"
+                                },
+                                {
+                                    "pattern": "whatsapp",
+                                    "type": "string",
+                                    "action": "add whatsapp"
+                                },
+                                {
+                                    "pattern": "facebook",
+                                    "type": "string",
+                                    "action": "add facebook"
+                                }
+                            ],
+                            "multiple": true
+                        }
+                    },
+                    {
+                        "text": [
+                            "האם ישנם פרטי התקשרות נוספים שתוכלו למסור כדי שנוכל ליצור אתכם קשר?"
+                        ],
+                        "collect": {
+                            "key": "more_contact_deatails",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "true",
+                                    "type": "string",
+                                    "action": "choose_contact_method"
+                                }
+                            ],
+                            "multiple": false
+                        },
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "true",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "false",
+                                "content_type": "text"
+                            }
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "out of work time",
+                "script": [
+                    {
+                        "text": [
+                            "המוקדנים שלנו עובדים בימים א-ה בשעות 9:00 עד 17:00. כדי שנוכל לחזור אליך במהירות נבקש ממך לענות לנו על כמה שאלות"
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "during work time",
+                "script": [
+                    {
+                        "text": [
+                            "This is during work time"
+                        ]
+                    },
+                    {
+                        "text": [
+                            "לפני שנעביר את הפניה שלך לכונן, נבקש ממך לענות על כמה שאלות, שיסייעו לנו להשיב במהירות."
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "add contact",
+                "script": [
+                    {
+                        "text": [
+                            "This is add contact"
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "add phone",
+                "script": [
+                    {
+                        "text": [
+                            "מה מספר הטלפון שלך?"
+                        ],
+                        "collect": {
+                            "key": "phone",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "add email",
+                "script": [
+                    {
+                        "text": [
+                            "מה כתובת הדוא\"ל שלך?"
+                        ],
+                        "collect": {
+                            "key": "email",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "add whatsapp",
+                "script": [
+                    {
+                        "text": [
+                            "מה מספר הטלפון שלך שרשום בוואטסאפ?"
+                        ],
+                        "collect": {
+                            "key": "whatsapp",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "add facebook",
+                "script": [
+                    {
+                        "text": [
+                            "מה שם המשתמש/ת שלך בפייסבוק?"
+                        ],
+                        "collect": {
+                            "key": "facebook",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "add more contact?",
+                "script": [
+                    {
+                        "text": [
+                            "האם ישנם פרטי התקשרות נוספים שתוכלו למסור כדי שנוכל ליצור אתכם קשר?"
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "true",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "false",
+                                "content_type": "text"
+                            }
+                        ],
+                        "collect": {
+                            "key": "more_contact_deatails",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "repeat"
+                                },
+                                {
+                                    "pattern": "true",
+                                    "type": "string",
+                                    "action": "choose_contact_method"
+                                },
+                                {
+                                    "pattern": "false",
+                                    "type": "string",
+                                    "action": "complete"
+                                }
+                            ],
+                            "multiple": false
+                        }
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "choose_contact_method",
+                "script": [
+                    {
+                        "text": [
+                            "איך תרצה/תרצי שניצור איתך קשר בהמשך התהליך?"
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "טלפון",
+                                "payload": "phone",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "דוא\"ל",
+                                "payload": "email",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "פייסבוק",
+                                "payload": "facebook",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "וואסטאפ",
+                                "payload": "whatsapp",
+                                "content_type": "text"
+                            }
+                        ],
+                        "collect": {
+                            "key": "contact_method",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "repeat"
+                                },
+                                {
+                                    "pattern": "phone",
+                                    "type": "string",
+                                    "action": "add phone"
+                                },
+                                {
+                                    "pattern": "email",
+                                    "type": "string",
+                                    "action": "add email"
+                                },
+                                {
+                                    "pattern": "facebook",
+                                    "type": "string",
+                                    "action": "add facebook"
+                                },
+                                {
+                                    "pattern": "whatsapp",
+                                    "type": "string",
+                                    "action": "add whatsapp"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            }
+        ],
+        "triggers": [
+            {
+                "type": "string",
+                "pattern": "פונה"
+            }
+        ],
+        "variables": [
+            {
+                "name": "more_contact_deatails",
+                "type": "string",
+                "id": 399
+            },
+            {
+                "name": "whatsapp",
+                "type": "string",
+                "id": 193
+            },
+            {
+                "name": "phone",
+                "type": "string",
+                "id": 304
+            },
+            {
+                "name": "facebook",
+                "type": "string",
+                "id": 481
+            },
+            {
+                "name": "email",
+                "type": "string",
+                "id": 34
+            },
+            {
+                "name": "contact_method",
+                "type": "string",
+                "id": 453
+            },
+            {
+                "name": "full_name",
+                "type": "string",
+                "id": 113
+            },
+            {
+                "name": "date_time",
+                "type": "string",
+                "id": 88
+            },
+            {
+                "name": "question_1",
+                "type": "string"
+            },
+            {
+                "name": "question_2",
+                "type": "string"
+            },
+            {
+                "name": "question_3",
+                "type": "string"
+            }
+        ]
+    }
+]
