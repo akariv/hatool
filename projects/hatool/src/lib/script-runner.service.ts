@@ -6,13 +6,13 @@ import { Observable } from 'rxjs';
 
 interface Step {
   text: string[];
-  multiple: boolean;
   quick_replies: {
     title: string,
     payload: string
   }[];
   collect: {
     key: string,
+    multiple: boolean;
     options: {
       default: boolean,
       type: string,
@@ -113,7 +113,7 @@ export class ScriptRunnerService {
           );
           value = await this.content.waitForInput();
         } else if (step.collect) {
-          if (step.multiple) {
+          if (step.collect.multiple) {
             this.content.setTextArea();
           }
           value = await this.content.waitForInput();
