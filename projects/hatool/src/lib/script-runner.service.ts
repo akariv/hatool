@@ -85,6 +85,8 @@ export class ScriptRunnerService {
           for (const arg of parsedArgs) {
             if (arg === 'record') {
               args.push(this.record);
+            } else if (arg === 'context') {
+              args.push(this.context);
             } else if (arg === 'uploader') {
               args.push(await this.content.addUploader(null));
             }
