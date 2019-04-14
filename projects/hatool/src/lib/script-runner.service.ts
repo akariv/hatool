@@ -64,8 +64,16 @@ export class ScriptRunnerService {
   async runThread(topic) {
     console.log('> THREAD', topic);
     const thread = this.threads[topic];
+    let savedAction = null;
     for (const step of thread.script) {
-      await this.executeStep(step);
+      if (step.action && !savedAction) {
+        savedAction = step.action;
+      } else {
+        await this.executeStep(step);
+      }
+    }
+    if (savedAction) {
+      await this.executeAction(savedAction);
     }
     console.log('< THREAD', topic);
   }
@@ -152,9 +160,6 @@ export class ScriptRunnerService {
           }
         }
       }
-    }
-    if (step.action) {
-      await this.executeAction(step.action);
     }
   }
 
