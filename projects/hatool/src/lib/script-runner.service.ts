@@ -99,7 +99,8 @@ export class ScriptRunnerService {
             } else if (arg === 'key') {
               args.push(key);
             } else if (arg === 'uploader') {
-              args.push(await this.content.addUploader(null));
+              this.content.addUploader(null);
+              args.push(await this.content.waitForInput());
             }
           }
           value = this.context[command](...args);
