@@ -4,6 +4,11 @@ import { ContentService } from './content.service';
 import { switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
+type Meta = {
+  key: string,
+  value: any
+}[];
+
 interface Step {
   text: string[];
   quick_replies: {
@@ -21,9 +26,11 @@ interface Step {
     }[]
   };
   action: string;
+  meta: Meta;
 }
 
 type CBType = (string, any) => void;
+type MetaCBType = (Meta) => void;
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +41,7 @@ export class ScriptRunnerService {
   record: any;
   context = {};
   callback: CBType = null;
+  metaCallback: MetaCBType = null;
 
   constructor(private http: HttpClient,
               private content: ContentService) { }
@@ -42,10 +50,12 @@ export class ScriptRunnerService {
       index,
       context,
       setCallback?: CBType,
-      record?: any
+      record?: any,
+      metaCallback?: MetaCBType,
     ): Observable<void> {
     this.context = context;
     this.callback = setCallback;
+    this.metaCallback = metaCallback;
     this.record = record || {};
     return this.http.get(url)
         .pipe(
@@ -82,6 +92,9 @@ export class ScriptRunnerService {
     console.log('STEP', step);
     let value = null;
     const key = step.collect && step.collect.key;
+    if (step.meta && this.metaCallback) {
+      this.metaCallback(step.meta);
+    }
     if (step.text) {
       const generic_text = step.text.slice();
       for (const message of generic_text) {
