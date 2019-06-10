@@ -23,6 +23,11 @@ export class ContentService {
 
   constructor() { }
 
+  clear() {
+    this.messages = [];
+    this.toQueue = [];
+  }
+
   reportValue(value) {
     this.inputs.next(value);
   }
@@ -52,13 +57,15 @@ export class ContentService {
     if (this.toQueue.length > 0) {
       this.add('typing', null);
       window.setTimeout(() => {
-        const item = this.toQueue.shift();
-        this.replace(item.kind, item.params);
-        if (this.toQueue.length === 0) {
-          this.inputEnabled = item.inputEnabled;
+        if (this.toQueue.length > 0) {
+          const item = this.toQueue.shift();
+          this.replace(item.kind, item.params);
+          if (this.toQueue.length === 0) {
+            this.inputEnabled = item.inputEnabled;
+          }
+          this.reportUpdated(item);
+          this.typing();
         }
-        this.reportUpdated(item);
-        this.typing();
       }, 1000);
       }
   }

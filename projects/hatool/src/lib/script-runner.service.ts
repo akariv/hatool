@@ -57,6 +57,7 @@ export class ScriptRunnerService {
     this.callback = setCallback;
     this.metaCallback = metaCallback;
     this.record = record || {};
+    this.content.clear();
     return this.http.get(url)
         .pipe(
           switchMap((script: any[]) => this.processScriptFile(script, index))
