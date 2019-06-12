@@ -60,6 +60,9 @@ export class ContentService {
         if (this.toQueue.length > 0) {
           const item = this.toQueue.shift();
           this.replace(item.kind, item.params);
+          if (item.meta) {
+            item.meta();
+          }
           if (this.toQueue.length === 0) {
             this.inputEnabled = item.inputEnabled;
           }
@@ -83,8 +86,8 @@ export class ContentService {
     this.textArea = false;
   }
 
-  addTo(message: string) {
-    this.queue('to', {message}, true);
+  addTo(message: string, meta?: () => void) {
+    this.queue('to', {message, meta}, true);
   }
 
   addOptions(message, options: any[]) {

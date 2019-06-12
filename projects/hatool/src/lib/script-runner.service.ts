@@ -93,9 +93,7 @@ export class ScriptRunnerService {
     console.log('STEP', step);
     let value = null;
     const key = step.collect && step.collect.key;
-    if (step.meta && this.metaCallback) {
-      this.metaCallback(step.meta);
-    }
+    let hasMeta: boolean = !!step.meta && !!this.metaCallback;
     if (step.text) {
       const generic_text = step.text.slice();
       for (const message of generic_text) {
@@ -121,9 +119,15 @@ export class ScriptRunnerService {
           if (value instanceof Promise) {
             value = await value;
           }
+          if (hasMeta) {
+            this.metaCallback(step.meta);
+          }
         } else {
-          this.content.addTo(this.fillIn(message));
+          this.content.addTo(this.fillIn(message), hasMeta ? () => {
+            this.metaCallback(step.meta);
+          } : null);
         }
+        hasMeta = false;
       }
       if (!value) {
         if (step.quick_replies) {
@@ -141,6 +145,11 @@ export class ScriptRunnerService {
           }
           value = await this.content.waitForInput();
         }
+      }
+    } else {
+      if (hasMeta) {
+        this.metaCallback(step.meta);
+        hasMeta = false;
       }
     }
     if (value !== null && step.collect) {
