@@ -36,12 +36,14 @@ export class AppComponent implements OnInit {
     hljs.registerLanguage('typescript', typescript);
     hljs.registerLanguage('less', less);
     this.runner.run(
-      'https://raw.githubusercontent.com/akariv/hatool/feature/script-runner/scripts/callerscript.json', 0,
+      'assets/callerscript.json', 0,
       {
         isWorkingTime: (rec) => 'true',
         FilesUploadedCount: () => '5',
       },
-      (key, value) => { console.log('SETTING', key, '<==', value); }
+      (key, value) => { console.log('SETTING', key, '<==', value); },
+      {},
+      (meta) => { console.log('GOT META', meta); }
     ).subscribe(() => { console.log('done!'); });
     // doIt(this.content);
   }

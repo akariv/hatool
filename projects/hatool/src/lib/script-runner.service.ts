@@ -94,6 +94,7 @@ export class ScriptRunnerService {
     let value = null;
     const key = step.collect && step.collect.key;
     let hasMeta: boolean = !!step.meta && !!this.metaCallback;
+    console.log('HAS META', hasMeta);
     if (step.text) {
       const generic_text = step.text.slice();
       for (const message of generic_text) {
@@ -120,10 +121,15 @@ export class ScriptRunnerService {
             value = await value;
           }
           if (hasMeta) {
+            console.log('SENDING META for CMD', step.meta);
             this.metaCallback(step.meta);
           }
         } else {
+          if (hasMeta) {
+            console.log('QUEUEING META for TEXT', step.meta);
+          }
           this.content.addTo(this.fillIn(message), hasMeta ? () => {
+            console.log('SENDING META for TEXT', step.meta);
             this.metaCallback(step.meta);
           } : null);
         }

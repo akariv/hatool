@@ -60,8 +60,8 @@ export class ContentService {
         if (this.toQueue.length > 0) {
           const item = this.toQueue.shift();
           this.replace(item.kind, item.params);
-          if (item.meta) {
-            item.meta();
+          if (item.params.meta) {
+            item.params.meta();
           }
           if (this.toQueue.length === 0) {
             this.inputEnabled = item.inputEnabled;
