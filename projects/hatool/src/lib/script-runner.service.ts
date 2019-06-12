@@ -31,6 +31,7 @@ interface Step {
 
 type CBType = (string, any) => void;
 type MetaCBType = (Meta) => void;
+type EventCBType = (string) => void;
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,7 @@ export class ScriptRunnerService {
   context = {};
   callback: CBType = null;
   metaCallback: MetaCBType = null;
+  eventCallback: EventCBType = null;
 
   constructor(private http: HttpClient,
               private content: ContentService) { }
@@ -52,10 +54,12 @@ export class ScriptRunnerService {
       setCallback?: CBType,
       record?: any,
       metaCallback?: MetaCBType,
+      eventCallback?: EventCBType,
     ): Observable<void> {
     this.context = context;
     this.callback = setCallback;
     this.metaCallback = metaCallback;
+    this.eventCallback = eventCallback;
     this.record = record || {};
     this.content.clear();
     return this.http.get(url)
@@ -145,6 +149,13 @@ export class ScriptRunnerService {
             }, step.quick_replies)
           );
           value = await this.content.waitForInput();
+          if (this.eventCallback && step.meta) {
+            for (const meta of step.meta) {
+              if (meta.key === 'on:' + value) {
+                this.eventCallback(meta.value);
+              }
+            }
+          }
         } else if (step.collect) {
           if (step.collect.multiple) {
             this.content.setTextArea();
