@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ContentManager } from '../content-manager';
 
 @Component({
   selector: 'htl-message-typing',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./message-typing.component.less']
 })
 export class MessageTypingComponent implements OnInit {
+
+  @Input() content: ContentManager;
 
   constructor() { }
 

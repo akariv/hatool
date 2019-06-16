@@ -1,5 +1,6 @@
-import { Component, OnInit, OnChanges, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input } from '@angular/core';
 import { ContentService } from '../content.service';
+import { ContentManager } from '../content-manager';
 
 @Component({
   selector: 'htl-messages',
@@ -9,15 +10,16 @@ import { ContentService } from '../content.service';
 export class MessagesComponent implements OnInit {
 
   @ViewChild('container') container: ElementRef;
+  @Input() content: ContentManager;
 
-  constructor(public content: ContentService) {
-    content.updated.subscribe(() => {
-      const el = this.container.nativeElement;
-      el.scrollTop = el.scrollHeight;
-    });
+  constructor() {
   }
 
   ngOnInit() {
+    this.content.updated.subscribe(() => {
+      const el = this.container.nativeElement;
+      el.scrollTop = el.scrollHeight;
+    });
   }
 
 }

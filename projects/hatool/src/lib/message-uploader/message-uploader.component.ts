@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { ContentService } from '../content.service';
 import { FileUploader } from '../interfaces';
+import { ContentManager } from '../content-manager';
 
 @Component({
   selector: 'htl-message-uploader',
@@ -10,6 +11,7 @@ import { FileUploader } from '../interfaces';
 export class MessageUploaderComponent implements OnInit, FileUploader {
 
   @Input() params: any;
+  @Input() content: ContentManager;
   @ViewChild('file') file: ElementRef;
 
   _progress = 0;
@@ -19,7 +21,7 @@ export class MessageUploaderComponent implements OnInit, FileUploader {
 
   selectedFile: File = null;
 
-  constructor(public content: ContentService) { }
+  constructor() { }
 
   ngOnInit() {
   }

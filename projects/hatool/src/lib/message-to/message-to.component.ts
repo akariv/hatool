@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ContentManager } from '../content-manager';
 
 @Component({
   selector: 'htl-message-to',
@@ -9,6 +10,7 @@ export class MessageToComponent implements OnInit {
 
   @Input() params: any;
   @Input() first: boolean;
+  @Input() content: ContentManager;
 
   constructor() { }
 

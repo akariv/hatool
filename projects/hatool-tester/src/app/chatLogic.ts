@@ -1,6 +1,6 @@
-import { ContentService, FileUploader } from 'hatool';
+import { ContentManager, FileUploader } from 'hatool';
 
-export async function doIt(content: ContentService) {
+export async function doIt(content: ContentManager) {
 
     content.addTo('Hi There!');
     content.addTo('What is your name?');

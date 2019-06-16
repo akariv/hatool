@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ContentService } from '../content.service';
+import { ContentManager } from '../content-manager';
 
 @Component({
   selector: 'htl-input',
@@ -8,9 +9,11 @@ import { ContentService } from '../content.service';
 })
 export class InputComponent implements OnInit {
 
+  @Input() content: ContentManager;
+
   value = null;
 
-  constructor(public content: ContentService) { }
+  constructor() { }
 
   ngOnInit() {
   }

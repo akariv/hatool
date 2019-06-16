@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
       {},
       (meta) => { console.log('GOT META', meta); }
     ).subscribe(() => { console.log('done!'); });
-    // doIt(this.content);
+    // doIt(this.content.M);
   }
 
 }

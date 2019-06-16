@@ -1,18 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ContentService } from './content.service';
+import { ContentManager } from './content-manager';
 
 @Component({
   selector: 'htl-hatool',
   template: `
-      <htl-chatbox></htl-chatbox>
+      <htl-chatbox [content]='content'></htl-chatbox>
   `,
   styleUrls: ['./hatool.component.less']
 })
 export class HatoolLibComponent implements OnInit {
 
-  constructor(private content: ContentService) { }
+  @Input() content: ContentManager;
+
+  constructor(private contentService: ContentService) { }
 
   ngOnInit() {
+    this.content = this.content ? this.content : this.contentService.M;
   }
 
 }

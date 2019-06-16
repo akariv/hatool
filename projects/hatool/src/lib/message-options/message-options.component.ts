@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ContentService } from '../content.service';
+import { ContentManager } from '../content-manager';
 
 @Component({
   selector: 'htl-message-options',
@@ -9,10 +10,12 @@ import { ContentService } from '../content.service';
 export class MessageOptionsComponent implements OnInit {
 
   @Input() params: any[];
+  @Input() content: ContentManager;
+
   enabled = true;
   selected = null;
 
-  constructor(private content: ContentService) { }
+  constructor() { }
 
   ngOnInit() {
   }

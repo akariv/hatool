@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ContentManager } from '../content-manager';
 
 @Component({
   selector: 'htl-chatbox',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./chatbox.component.less']
 })
 export class ChatboxComponent implements OnInit {
+
+  @Input() content: ContentManager;
 
   constructor() { }
 
