@@ -80,7 +80,9 @@ export class ScriptRunner {
       if (step.action && !savedAction) {
         savedAction = step.action;
       } else {
-        await this.executeStep(step);
+        if (await this.executeStep(step)) {
+          break;
+        }
       }
     }
     if (savedAction) {
@@ -192,24 +194,25 @@ export class ScriptRunner {
       if (!acted) {
         for (const option of step.collect.options) {
           if (option.default) {
-            await this.executeAction(option.action);
-            break;
+            return await this.executeAction(option.action);
           }
         }
       }
     }
+    return false;
   }
 
   async executeAction(action) {
     if (action === 'next') {
-      return;
+      return false;
     }
     if (action === 'complete') {
-      return;
+      return true;
     }
     if (this.threads[action]) {
       await this.runThread(action);
     }
+    return false;
   }
 
   fillIn(message: string) {
