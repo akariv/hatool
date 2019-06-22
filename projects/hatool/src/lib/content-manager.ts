@@ -56,7 +56,7 @@ export class ContentManager {
         if (this.toQueue.length > 0) {
           const item = this.toQueue.shift();
           this.replace(item.kind, item.params);
-          if (item.params.meta) {
+          if (item.params && item.params.meta) {
             item.params.meta();
           }
           if (this.toQueue.length === 0) {
