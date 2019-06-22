@@ -76,19 +76,22 @@ export class ScriptRunner {
     console.log('> THREAD', topic);
     const thread = this.threads[topic];
     let savedAction = null;
+    let ret = false;
     for (const step of thread.script) {
       if (step.action && !savedAction) {
         savedAction = step.action;
       } else {
         if (await this.executeStep(step)) {
+          ret = true;
           break;
         }
       }
     }
-    if (savedAction) {
-      await this.executeAction(savedAction);
+    if (!ret && savedAction) {
+      ret = await this.executeAction(savedAction);
     }
     console.log('< THREAD', topic);
+    return ret;
   }
 
   async executeStep(step: Step) {
@@ -96,6 +99,7 @@ export class ScriptRunner {
     let value = null;
     const key = step.collect && step.collect.key;
     let hasMeta: boolean = !!step.meta && !!this.metaCallback;
+    let ret = false;
     console.log('HAS META', hasMeta);
     if (step.text) {
       const generic_text = step.text.slice();
@@ -178,14 +182,14 @@ export class ScriptRunner {
       for (const option of step.collect.options) {
         if (option.type === 'string') {
           if (option.pattern === value) {
-            await this.executeAction(option.action);
+            ret = await this.executeAction(option.action);
             acted = true;
             break;
           }
         } else if (option.type === 'regex') {
           console.log('MATCHING', value, option.pattern, value.match(RegExp(option.pattern)));
           if (value.match(RegExp(option.pattern))) {
-            await this.executeAction(option.action);
+            ret = await this.executeAction(option.action);
             acted = true;
             break;
           }
@@ -199,7 +203,7 @@ export class ScriptRunner {
         }
       }
     }
-    return false;
+    return ret;
   }
 
   async executeAction(action) {
@@ -210,7 +214,7 @@ export class ScriptRunner {
       return true;
     }
     if (this.threads[action]) {
-      await this.runThread(action);
+      return await this.runThread(action);
     }
     return false;
   }
