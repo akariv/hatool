@@ -185,7 +185,7 @@
                                     "action": "תלונה: בחירת תחום/גורם"
                                 }
                             ],
-                            "multiple": false
+                            "multiple": true
                         }
                     },
                     {

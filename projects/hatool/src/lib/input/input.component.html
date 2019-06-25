@@ -1,13 +1,14 @@
-<ng-container *ngIf='content.textArea && content.inputEnabled'>
+<ng-container *ngIf='textArea && inputEnabled'>
     <div class='textarea'>
-      <textarea rows='4' (change)='onChange($event)'></textarea>
-      <button (click)='onSubmit(null)' [innerHTML]='content.sendButtonText'></button>
+      <textarea rows='4' #input autofocus
+      ></textarea>
+      <button (click)='onSubmit()' [innerHTML]='content.sendButtonText'></button>
     </div>
 </ng-container>
-<ng-container *ngIf='!content.textArea || !content.inputEnabled'>
-    <div class='input' *ngIf='content.inputEnabled'>
-      <input type='text' (change)='onSubmit($event)' 
-            [disabled]='!content.inputEnabled' [placeholder]='content.inputPlaceholder'/>
-      <button (click)='!value && onSubmit("")' [innerHTML]='content.sendButtonText'></button>
+<ng-container *ngIf='!textArea || !inputEnabled'>
+    <div class='input' *ngIf='inputEnabled'>
+      <input type='text' #input (keyup)='($event.keyCode == 13) && onSubmit()'
+            [disabled]='!inputEnabled' [placeholder]='content.inputPlaceholder' autofocus />
+      <button (click)='onSubmit()' [innerHTML]='content.sendButtonText'></button>
     </div>
 </ng-container>

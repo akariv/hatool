@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, OnChanges } from '@angular/core';
 import { ContentService } from '../content.service';
 import { ContentManager } from '../content-manager';
 
@@ -7,9 +7,12 @@ import { ContentManager } from '../content-manager';
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.less']
 })
-export class InputComponent implements OnInit {
+export class InputComponent implements OnInit, OnChanges {
 
   @Input() content: ContentManager;
+  @Input() inputEnabled: boolean;
+  @Input() textArea: boolean;
+  @ViewChild('input') input: ElementRef;
 
   value = null;
 
@@ -18,16 +21,29 @@ export class InputComponent implements OnInit {
   ngOnInit() {
   }
 
+  ngOnChanges() {
+    window.setTimeout(() => {
+      if (this.input) {
+        const el: HTMLElement = this.input.nativeElement;
+        if (el) {
+          console.log('INPUT IS', el.tagName);
+          el.focus();
+        }
+      } else {
+        console.log('NULL input');
+      }
+    }, 0);
+  }
+
   onChange(event) {
     this.value = event.target.value;
     event.target.value = '';
   }
 
-  onSubmit(event) {
-    if (event) {
-      this.value = event.target.value;
-      event.target.value = '';
-    }
+  onSubmit() {
+    const el = this.input.nativeElement;
+    this.value = el.value;
+    el.value = '';
     const parts = this.value.split('\n');
     for (const part of parts) {
       if (part.length > 0) {
