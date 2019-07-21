@@ -44,11 +44,8 @@ export class InputComponent implements OnInit, OnChanges {
     const el = this.input.nativeElement;
     this.value = el.value;
     el.value = '';
-    const parts = this.value.split('\n');
-    for (const part of parts) {
-      if (part.length > 0) {
-        this.content.addFrom(part);
-      }
+    if (this.value.length > 0) {
+      this.content.addFrom(this.value);
     }
   }
 }
