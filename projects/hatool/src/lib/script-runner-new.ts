@@ -6,10 +6,10 @@ import { Observable } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
 
 export class ScriptRunnerNew implements ScriptRunner {
-    record: any;
+    record = {};
     context = {};
-    setCallback: CBType = null;
     snippets = {};
+    setCallback: CBType;
 
     constructor(private http: HttpClient,
                 private content: ContentManager) { }
@@ -19,9 +19,9 @@ export class ScriptRunnerNew implements ScriptRunner {
         context: any,
         setCallback?: CBType,
         record?: any): Observable<void> {
-        this.record = record;
         this.context = context;
-        this.setCallback = setCallback;
+        this.setCallback = setCallback || ((k, v) => null);
+        this.record = record || this.record;
         return this.http.get(url)
             .pipe(
                 switchMap((s: any) => {
@@ -72,7 +72,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                     }
                     ret = await this.content.waitForInput();
                     this.record[step.wait.variable] = ret;
-                    this.setCallback(step.wait.variable, ret);
+                    await this.setCallback(step.wait.variable, ret, this.record);
                 }
             } else if (step.hasOwnProperty('do')) {
                 const callable = this.context[step.do.cmd];
