@@ -2,18 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ContentService } from './content.service';
 import { Observable } from 'rxjs';
-import { ScriptRunner, CBType, MetaCBType, EventCBType } from './script-runner';
+import { CBType, MetaCBType, EventCBType } from './script-runner-types';
+// import { ScriptRunnerBotkit as ScriptRunner } from './script-runner-botkit';
+import { ScriptRunnerNew as ScriptRunnerImpl } from './script-runner-new';
+import { ScriptRunner } from './script-runner';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ScriptRunnerService {
+export class ScriptRunnerService implements ScriptRunner {
 
   R: ScriptRunner;
 
   constructor(private http: HttpClient,
               private content: ContentService) {
-    this.R = new ScriptRunner(http, content.M);
+    this.R = new ScriptRunnerImpl(http, content.M);
   }
 
   public run(url, index, context, setCallback?: CBType, record?: any,

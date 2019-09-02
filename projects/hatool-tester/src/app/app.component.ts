@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
     hljs.registerLanguage('typescript', typescript);
     hljs.registerLanguage('less', less);
     this.runner.run(
-      'assets/callerscript.json', 0,
+      'https://raw.githubusercontent.com/hasadna/reportit-scripts/master/src/user/script.json', 0,
       {
         isWorkingTime: (rec) => 'true',
         FilesUploadedCount: () => '5',
