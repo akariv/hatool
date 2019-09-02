@@ -54,7 +54,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                     ret = await this.content.waitForInput();
                     if (step.wait.variable) {
                         this.record[step.wait.variable] = ret;
-                        this.setCallback(step.wait.variable, ret);
+                        await this.setCallback(step.wait.variable, ret, this.record);
                     }
                     for (const option of step.wait.options) {
                         if (ret === option.value) {
