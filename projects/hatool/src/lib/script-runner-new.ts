@@ -93,8 +93,9 @@ export class ScriptRunnerNew implements ScriptRunner {
                 }
                 if (callable) {
                     const ret = await callable(...args);
-                    if (step.variable) {
-                        this.record[step.variable] = ret;
+                    if (step.do.variable) {
+                        this.record[step.do.variable] = ret;
+                        await this.setCallback(step.do.variable, ret, this.record);
                     }
                 } else {
                     console.log(`ERROR: function ${step.do.cmd} is not defined`);
