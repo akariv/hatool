@@ -92,7 +92,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                     }
                 }
                 if (callable) {
-                    const ret = callable(...args);
+                    const ret = await callable(...args);
                     if (step.variable) {
                         this.record[step.variable] = ret;
                     }
