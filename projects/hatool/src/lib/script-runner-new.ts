@@ -116,10 +116,19 @@ export class ScriptRunnerNew implements ScriptRunner {
             } else if (step.hasOwnProperty('switch')) {
                 const arg = step.switch.arg;
                 const value = this.record[arg];
+                if (this.debug) {
+                    console.log('SWITCH on value', value, '(', arg, ',', this.record, ')');
+                }
                 let selected = null;
                 let default_ = null;
                 for (const case_ of step.switch.cases) {
+                    if (this.debug) {
+                        console.log('CASE', case_);
+                    }
                     if (case_.default) {
+                        if (this.debug) {
+                            console.log('CASE DEFAULT');
+                        }
                         default_ = case_;
                     }
                     if (case_.hasOwnProperty('match') && case_.match === value) {
@@ -128,10 +137,15 @@ export class ScriptRunnerNew implements ScriptRunner {
                         selected = case_;
                     }
                 }
+                if (this.debug) {
+                    console.log('CASE SELECTED', selected);
+                }
                 selected = selected || default_;
                 if (selected) {
-                    if (await this.runSnippet(selected)) {
-                        return true;
+                    if (selected.steps) {
+                        if (await this.runSnippet(selected)) {
+                            return true;
+                        }
                     }
                 } else {
                     console.log(`ERROR: no viable option for ${value} (${step.switch.arg}) in switch`);
