@@ -8,6 +8,8 @@ export class ContentManager {
   public updated = new Subject<any>();
   public inputEnabled = false;
   public textArea = false;
+  public placeholder = '';
+  public validator = null;
 
   public sendButtonText = 'Send';
   public inputPlaceholder = 'Type something...';
@@ -80,6 +82,8 @@ export class ContentManager {
     this.reportUpdated(message);
     this.inputEnabled = false;
     this.textArea = false;
+    this.placeholder = '';
+    this.validator = null;
   }
 
   addTo(message: string, meta?: () => void) {
@@ -102,6 +106,14 @@ export class ContentManager {
 
   setTextArea() {
     this.textArea = true;
+  }
+
+  setPlaceholder(placeholder) {
+    this.placeholder = placeholder;
+  }
+
+  setValidator(validator) {
+    this.validator = validator;
   }
 
   waitForInput(): Promise<any> {

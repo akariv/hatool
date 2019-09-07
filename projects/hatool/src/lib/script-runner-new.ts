@@ -70,6 +70,15 @@ export class ScriptRunnerNew implements ScriptRunner {
                     if (!!step.wait.long) {
                         this.content.setTextArea();
                     }
+                    if (!!step.wait.placeholder) {
+                        this.content.setPlaceholder(step.wait.placeholder);
+                    }
+                    if (!!step.wait.validation) {
+                        const vre = new RegExp('^' + step.wait.validation + '$');
+                        this.content.setValidator((x) => {
+                            return vre.test(x);
+                        });
+                    }
                     ret = await this.content.waitForInput();
                     this.record[step.wait.variable] = ret;
                     await this.setCallback(step.wait.variable, ret, this.record);
