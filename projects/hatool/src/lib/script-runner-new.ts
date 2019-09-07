@@ -10,6 +10,7 @@ export class ScriptRunnerNew implements ScriptRunner {
     context = {};
     snippets = {};
     setCallback: CBType;
+    public debug = false;
 
     constructor(private http: HttpClient,
                 private content: ContentManager) { }
@@ -37,6 +38,9 @@ export class ScriptRunnerNew implements ScriptRunner {
 
     async runSnippet(snippet) {
         for (const step of snippet.steps) {
+            if (this.debug) {
+                console.log('STEP:', step);
+            }
             if (step.hasOwnProperty('say')) {
                 this.content.addTo(step.say);
             } else if (step.hasOwnProperty('wait')) {
