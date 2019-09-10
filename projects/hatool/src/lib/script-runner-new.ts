@@ -63,10 +63,11 @@ export class ScriptRunnerNew implements ScriptRunner {
                             value: option.value
                         });
                     }
-                    this.content.addOptions(null, options);
                     if (uid && this.state[uid]) {
                         ret = this.state[uid];
+                        this.content.addOptions(null, options, ret);
                     } else {
+                        this.content.addOptions(null, options);
                         ret = await this.content.waitForInput();
                         if (uid) {
                             this.state[uid] = ret;
@@ -102,6 +103,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                     }
                     if (uid && this.state[uid]) {
                         ret = this.state[uid];
+                        this.content.addFrom(ret);
                     } else {
                         ret = await this.content.waitForInput();
                         if (uid) {
@@ -112,7 +114,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                     await this.setCallback(step.wait.variable, ret, this.record);
                 }
             } else if (step.hasOwnProperty('do')) {
-                const callable = this.context[step.do.cmd];
+                let callable = this.context[step.do.cmd];
                 const args = [];
                 if (step.do.params) {
                     for (const param of step.do.params) {
@@ -122,7 +124,14 @@ export class ScriptRunnerNew implements ScriptRunner {
                             args.push(this.context);
                         } else if (param === 'uploader') {
                             this.content.addUploader(null);
-                            args.push(await this.content.waitForInput());
+                            if (uid && this.state[uid]) {
+                                callable = null;
+                                this.content.addFrom('...');
+                                break;
+                            } else {
+                                args.push(await this.content.waitForInput());
+                                this.state[uid] = true;
+                            }
                         } else {
                             args.push(param);
                         }

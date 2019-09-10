@@ -90,11 +90,11 @@ export class ContentManager {
     this.queue('to', {message, meta}, true);
   }
 
-  addOptions(message, options: any[]) {
+  addOptions(message, options: any[], selected?: any) {
     if (message) {
       this.queue('to', {message});
     }
-    this.queue('options', options);
+    this.queue('options', {options, selected});
   }
 
   addUploader(message, options?: any) {

@@ -9,7 +9,7 @@ import { ContentManager } from '../content-manager';
 })
 export class MessageOptionsComponent implements OnInit {
 
-  @Input() params: any[];
+  @Input() params: any;
   @Input() content: ContentManager;
 
   enabled = true;
@@ -18,6 +18,7 @@ export class MessageOptionsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.selected = this.selected || this.params.selected;
   }
 
   onSubmit(value) {
