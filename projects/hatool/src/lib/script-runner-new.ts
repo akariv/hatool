@@ -103,7 +103,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                     }
                     if (uid && this.state[uid]) {
                         ret = this.state[uid];
-                        this.content.addFrom(ret);
+                        this.content.queueFrom(ret);
                     } else {
                         ret = await this.content.waitForInput();
                         if (uid) {
@@ -126,7 +126,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                             this.content.addUploader(null);
                             if (uid && this.state[uid]) {
                                 callable = null;
-                                this.content.addFrom('...');
+                                this.content.queueFrom('...');
                                 break;
                             } else {
                                 args.push(await this.content.waitForInput());

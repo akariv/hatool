@@ -86,6 +86,10 @@ export class ContentManager {
     this.validator = null;
   }
 
+  queueFrom(message: string) {
+    this.queue('from', {message}, false);
+  }
+
   addTo(message: string, meta?: () => void) {
     this.queue('to', {message, meta}, true);
   }
