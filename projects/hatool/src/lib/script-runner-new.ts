@@ -12,6 +12,15 @@ export class ScriptRunnerNew implements ScriptRunner {
     setCallback: CBType;
     public debug = false;
 
+    // return from call and continue
+    public RETURN = 0;
+    // script has completed
+    public COMPLETE = -1;
+    // script requested to break and save state
+    public BREAK = -2;
+
+    public state = {};
+
     constructor(private http: HttpClient,
                 private content: ContentManager) { }
 
@@ -19,7 +28,7 @@ export class ScriptRunnerNew implements ScriptRunner {
         index: any,
         context: any,
         setCallback?: CBType,
-        record?: any): Observable<void> {
+        record?: any): Observable<any> {
         this.context = context;
         this.setCallback = setCallback || ((k, v) => null);
         this.record = record || this.record;
@@ -32,12 +41,12 @@ export class ScriptRunnerNew implements ScriptRunner {
                     }
                     return this.runSnippet(this.snippets['default']);
                 }),
-                map(() => null)
             );
     }
 
     async runSnippet(snippet) {
         for (const step of snippet.steps) {
+            const uid = step.uid;
             if (this.debug) {
                 console.log('STEP:', step);
             }
@@ -55,7 +64,14 @@ export class ScriptRunnerNew implements ScriptRunner {
                         });
                     }
                     this.content.addOptions(null, options);
-                    ret = await this.content.waitForInput();
+                    if (uid && this.state[uid]) {
+                        ret = this.state[uid];
+                    } else {
+                        ret = await this.content.waitForInput();
+                        if (uid) {
+                            this.state[uid] = ret;
+                        }
+                    }
                     if (step.wait.variable) {
                         this.record[step.wait.variable] = ret;
                         await this.setCallback(step.wait.variable, ret, this.record);
@@ -63,8 +79,9 @@ export class ScriptRunnerNew implements ScriptRunner {
                     for (const option of step.wait.options) {
                         if (ret === option.value) {
                             if (option.steps) {
-                                if (await this.runSnippet(option)) {
-                                    return true;
+                                const res = await this.runSnippet(option);
+                                if (res < 0) {
+                                    return res;
                                 }
                             }
                             break;
@@ -83,7 +100,14 @@ export class ScriptRunnerNew implements ScriptRunner {
                             return vre.test(x);
                         });
                     }
-                    ret = await this.content.waitForInput();
+                    if (uid && this.state[uid]) {
+                        ret = this.state[uid];
+                    } else {
+                        ret = await this.content.waitForInput();
+                        if (uid) {
+                            this.state[uid] = ret;
+                        }
+                    }
                     this.record[step.wait.variable] = ret;
                     await this.setCallback(step.wait.variable, ret, this.record);
                 }
@@ -143,8 +167,9 @@ export class ScriptRunnerNew implements ScriptRunner {
                 selected = selected || default_;
                 if (selected) {
                     if (selected.steps) {
-                        if (await this.runSnippet(selected)) {
-                            return true;
+                        const res = await this.runSnippet(selected);
+                        if (res < 0) {
+                            return res;
                         }
                     }
                 } else {
@@ -152,15 +177,16 @@ export class ScriptRunnerNew implements ScriptRunner {
                 }
             } else if (step.hasOwnProperty('goto')) {
                 if (step.goto === 'complete') {
-                    return true;
+                    return this.COMPLETE;
                 }
-                if (step.goto === 'return') {
-                    return false;
+                if (step.goto === 'break') {
+                    return this.BREAK;
                 }
                 const goto_snippet = this.snippets[step.goto];
                 if (goto_snippet) {
-                    if (await this.runSnippet(goto_snippet)) {
-                        return true;
+                    const res = await this.runSnippet(goto_snippet);
+                    if (res < 0) {
+                        return res;
                     }
                 } else {
                     console.log(`ERROR: unknown snippet requested ${goto_snippet}`);
@@ -169,6 +195,6 @@ export class ScriptRunnerNew implements ScriptRunner {
                 throw new Error(`Bad step ${JSON.stringify(step)}`);
             }
         }
-        return false;
+        return this.RETURN;
     }
 }

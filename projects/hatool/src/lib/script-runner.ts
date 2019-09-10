@@ -9,5 +9,5 @@ export interface ScriptRunner {
         record?: any,
         metaCallback?: MetaCBType,
         eventCallback?: EventCBType,
-      ): Observable<void>;
+      ): Observable<any>;
 }
