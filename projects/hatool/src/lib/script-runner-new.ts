@@ -4,7 +4,6 @@ import { ContentManager } from './content-manager';
 import { ScriptRunner } from './script-runner';
 import { Observable } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
-import { Inject, LOCALE_ID } from '@angular/core';
 
 export class ScriptRunnerNew implements ScriptRunner {
     record = {};
