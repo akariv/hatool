@@ -16,7 +16,7 @@ export class ScriptRunnerService implements ScriptRunner {
 
   constructor(private http: HttpClient,
               private content: ContentService) {
-    this.R = new ScriptRunnerImpl(http, content.M);
+    this.R = new ScriptRunnerImpl(http, content.M, 'en');
   }
 
   public run(url, index, context, setCallback?: CBType, record?: any,

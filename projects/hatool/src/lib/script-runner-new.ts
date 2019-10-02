@@ -4,6 +4,7 @@ import { ContentManager } from './content-manager';
 import { ScriptRunner } from './script-runner';
 import { Observable } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
+import { Inject, LOCALE_ID } from '@angular/core';
 
 export class ScriptRunnerNew implements ScriptRunner {
     record = {};
@@ -22,7 +23,17 @@ export class ScriptRunnerNew implements ScriptRunner {
     public state = {};
 
     constructor(private http: HttpClient,
-                private content: ContentManager) { }
+                private content: ContentManager,
+                private locale: string) {
+        console.log('Running with locale', this.locale);
+    }
+
+    i18n(obj, prop) {
+        if (this.locale && obj['.tx'] && obj['.tx'][this.locale]) {
+            return obj['.tx'][this.locale];
+        }
+        return obj[prop];
+    }
 
     run(url: any,
         index: any,
@@ -51,7 +62,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                 console.log('STEP:', step);
             }
             if (step.hasOwnProperty('say')) {
-                this.content.addTo(step.say);
+                this.content.addTo(this.i18n(step, 'say'));
             } else if (step.hasOwnProperty('wait')) {
                 let ret = null;
                 if (step.wait.options) {
@@ -59,7 +70,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                     for (const option of step.wait.options) {
                         option.value = option.hasOwnProperty('value') ? option.value : option.show;
                         options.push({
-                            display: option.show,
+                            display: this.i18n(option, 'show'),
                             value: option.value
                         });
                     }
