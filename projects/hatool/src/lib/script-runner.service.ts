@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, LOCALE_ID, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ContentService } from './content.service';
 import { Observable } from 'rxjs';
@@ -15,8 +15,9 @@ export class ScriptRunnerService implements ScriptRunner {
   R: ScriptRunner;
 
   constructor(private http: HttpClient,
-              private content: ContentService) {
-    this.R = new ScriptRunnerImpl(http, content.M, 'en');
+              private content: ContentService,
+              @Inject(LOCALE_ID) private locale) {
+    this.R = new ScriptRunnerImpl(http, content.M, this.locale);
   }
 
   public run(url, index, context, setCallback?: CBType, record?: any,
