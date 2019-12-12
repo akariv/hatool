@@ -27,11 +27,15 @@ export class ScriptRunnerNew implements ScriptRunner {
         console.log('Running with locale', this.locale);
     }
 
-    i18n(obj, prop) {
-        if (this.locale && obj['.tx'] && obj['.tx'][this.locale]) {
-            return obj['.tx'][this.locale];
+    i18n(obj) {
+        if (obj['.tx']) {
+            if (this.locale && obj['.tx'][this.locale]) {
+                return obj['.tx'][this.locale];
+            } else {
+                return obj['.tx']['_'];
+            }
         }
-        return obj[prop];
+        return obj;
     }
 
     run(url: any,
@@ -61,7 +65,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                 console.log('STEP:', step);
             }
             if (step.hasOwnProperty('say')) {
-                this.content.addTo(this.i18n(step, 'say'));
+                this.content.addTo(this.i18n(step.say));
             } else if (step.hasOwnProperty('wait')) {
                 let ret = null;
                 if (step.wait.options) {
@@ -69,7 +73,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                     for (const option of step.wait.options) {
                         option.value = option.hasOwnProperty('value') ? option.value : option.show;
                         options.push({
-                            display: this.i18n(option, 'show'),
+                            display: this.i18n(option.show),
                             value: option.value
                         });
                     }
@@ -143,7 +147,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                                 this.state[uid] = true;
                             }
                         } else {
-                            args.push(param);
+                            args.push(this.i18n(param));
                         }
                     }
                 }
