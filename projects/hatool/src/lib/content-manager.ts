@@ -37,6 +37,9 @@ export class ContentManager {
   }
 
   add(kind, params) {
+    if (kind === 'wait') {
+      return;
+    }
     const first = (
       this.messages.length === 0 ||
       kind !== this.messages[this.messages.length - 1].kind
@@ -80,18 +83,17 @@ export class ContentManager {
     this.add('from', {message});
     this.reportValue(message);
     this.reportUpdated(message);
-    this.inputEnabled = false;
     this.textArea = false;
     this.placeholder = '';
     this.validator = null;
   }
 
   queueFrom(message: string) {
-    this.queue('from', {message}, false);
+    this.queue('from', {message});
   }
 
   addTo(message: string, meta?: () => void) {
-    this.queue('to', {message, meta}, true);
+    this.queue('to', {message, meta});
   }
 
   addOptions(message, options: any[], selected?: any) {
@@ -121,10 +123,12 @@ export class ContentManager {
   }
 
   waitForInput(): Promise<any> {
+    this.queue('wait', {}, true);
     return new Promise((resolve, reject) => {
       this.inputs.pipe(
         first_()
       ).subscribe((value) => {
+        this.inputEnabled = false;
         resolve(value);
       });
     });
