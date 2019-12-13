@@ -82,7 +82,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                         this.content.addOptions(null, options, ret);
                     } else {
                         this.content.addOptions(null, options);
-                        ret = await this.content.waitForInput();
+                        ret = await this.content.waitForInput(false);
                         if (uid) {
                             this.state[uid] = ret;
                         }
@@ -119,7 +119,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                         ret = this.state[uid];
                         this.content.queueFrom(ret);
                     } else {
-                        ret = await this.content.waitForInput();
+                        ret = await this.content.waitForInput(true);
                         if (uid) {
                             this.state[uid] = ret;
                         }
@@ -143,7 +143,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                                 this.content.queueFrom('...');
                                 break;
                             } else {
-                                args.push(await this.content.waitForInput());
+                                args.push(await this.content.waitForInput(false));
                                 this.state[uid] = true;
                             }
                         } else {

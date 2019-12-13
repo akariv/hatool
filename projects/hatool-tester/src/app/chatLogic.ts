@@ -5,7 +5,7 @@ export async function doIt(content: ContentManager) {
     content.addTo('Hi There!');
     content.addTo('What is your name?');
 
-    const name = await content.waitForInput();
+    const name = await content.waitForInput(true);
 
     content.addTo(`Welcome, ${name}, let's get started with a few quick questions`);
 
@@ -18,13 +18,13 @@ export async function doIt(content: ContentManager) {
                 {value: 'P', display: 'Prefer not to say'},
             ]);
 
-    const gender = await content.waitForInput();
+    const gender = await content.waitForInput(false);
 
     content.addTo(`Now, how old are you?`);
 
     let age = null;
     while (!age) {
-        const ageStr = await content.waitForInput();
+        const ageStr = await content.waitForInput(true);
         age = parseInt(ageStr, 10);
         if (age > 0) {
             break;
@@ -35,10 +35,10 @@ export async function doIt(content: ContentManager) {
     content.addTo(`Can you tell me a bit about yourself?`);
 
     content.setTextArea();
-    const bio = await content.waitForInput();
+    const bio = await content.waitForInput(true);
 
     content.addUploader('Please upload a profile photo');
-    const fileUploader: FileUploader = await content.waitForInput();
+    const fileUploader: FileUploader = await content.waitForInput(false);
 
     fileUploader.active = true;
     for (let i = 0 ; i < 100 ; i++ ) {

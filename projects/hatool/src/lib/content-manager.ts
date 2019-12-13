@@ -122,8 +122,11 @@ export class ContentManager {
     this.validator = validator;
   }
 
-  waitForInput(): Promise<any> {
-    this.queue('wait', {}, true);
+  waitForInput(enableTextInput?): Promise<any> {
+    enableTextInput = (enableTextInput !== false);
+    if (enableTextInput) {
+      this.queue('wait', {}, true);
+    }
     return new Promise((resolve, reject) => {
       this.inputs.pipe(
         first_()
