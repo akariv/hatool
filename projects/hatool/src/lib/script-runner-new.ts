@@ -10,6 +10,7 @@ export class ScriptRunnerNew implements ScriptRunner {
     context = {};
     snippets = {};
     setCallback: CBType;
+    runFast = false;
     public debug = false;
 
     // return from call and continue
@@ -20,6 +21,7 @@ export class ScriptRunnerNew implements ScriptRunner {
     public BREAK = -2;
 
     public state = {};
+
 
     constructor(private http: HttpClient,
                 private content: ContentManager,
@@ -46,6 +48,12 @@ export class ScriptRunnerNew implements ScriptRunner {
         this.context = context;
         this.setCallback = setCallback || ((k, v) => null);
         this.record = record || this.record;
+        this.runFast = !!this.state;
+        if (this.runFast) {
+            this.content.setQueueTimeout(0);
+        } else {
+            this.content.setQueueTimeout(1000);
+        }
         return this.http.get(url)
             .pipe(
                 switchMap((s: any) => {
@@ -78,10 +86,14 @@ export class ScriptRunnerNew implements ScriptRunner {
                             value: option.value
                         });
                     }
-                    if (uid && this.state[uid]) {
+                    if (uid && this.state[uid] && this.runFast) {
                         ret = this.state[uid];
                         this.content.addOptions(null, options, ret);
                     } else {
+                        if (this.runFast) {
+                            this.runFast = false;
+                            this.content.setQueueTimeout(1000);
+                        }
                         this.content.addOptions(null, options);
                         ret = await this.content.waitForInput(false);
                         if (uid) {

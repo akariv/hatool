@@ -16,6 +16,7 @@ export class ContentManager {
   public uploadFileText = 'Upload File...';
   public uploadedFileText = 'Uploaded Successfully';
   public notUploadedFileText = 'Failed to upload file';
+  public timeout = 1000;
 
   toQueue = [];
 
@@ -33,7 +34,7 @@ export class ContentManager {
   reportUpdated(value) {
     window.setTimeout(() => {
       this.updated.next(value);
-    }, 100);
+    }, this.timeout / 10);
   }
 
   add(kind, params) {
@@ -70,7 +71,7 @@ export class ContentManager {
           this.reportUpdated(item);
           this.typing();
         }
-      }, 1000);
+      }, this.timeout);
       }
   }
 
@@ -135,6 +136,10 @@ export class ContentManager {
         resolve(value);
       });
     });
+  }
+
+  setQueueTimeout(timeout) {
+    this.timeout = timeout;
   }
 
 }
