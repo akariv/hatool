@@ -30,7 +30,7 @@ export class ScriptRunnerNew implements ScriptRunner {
     }
 
     i18n(obj) {
-        if (obj['.tx']) {
+        if (obj && obj['.tx']) {
             if (this.locale && obj['.tx'][this.locale]) {
                 return obj['.tx'][this.locale];
             } else {
