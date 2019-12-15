@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ContentService, ScriptRunnerService } from 'hatool';
+import { ContentService, ScriptRunnerService, ScriptRunnerNew } from 'hatool';
 import hljs from 'highlight.js/lib/highlight';
 import typescript from 'highlight.js/lib/languages/typescript';
 import less from 'highlight.js/lib/languages/less';
@@ -35,6 +35,7 @@ export class AppComponent implements OnInit {
         });
     hljs.registerLanguage('typescript', typescript);
     hljs.registerLanguage('less', less);
+    (<ScriptRunnerNew>this.runner.R).debug = true;
     this.runner.run(
       'https://raw.githubusercontent.com/hasadna/reportit-scripts/master/src/user/script.json', 0,
       {

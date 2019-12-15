@@ -38,9 +38,6 @@ export class ContentManager {
   }
 
   add(kind, params) {
-    if (kind === 'wait') {
-      return;
-    }
     const first = (
       this.messages.length === 0 ||
       kind !== this.messages[this.messages.length - 1].kind
@@ -48,31 +45,42 @@ export class ContentManager {
     this.messages.push({kind, params, first});
   }
 
-  queue(kind, params, inputEnabled?) {
-    this.toQueue.push({kind, params, inputEnabled});
+  queue(kind, params) {
+    this.toQueue.push({kind, params});
     if (this.toQueue.length === 1) {
       this.typing();
     }
   }
 
+  queueFunction(callable) {
+    this.queue('function', callable);
+  }
+
   typing() {
+    // console.log('TYPING, queue len=' + this.toQueue.length);
     if (this.toQueue.length > 0) {
-      this.add('typing', null);
-      window.setTimeout(() => {
-        if (this.toQueue.length > 0) {
-          const item = this.toQueue.shift();
+      const item = this.toQueue[0];
+      // console.log('item=' + JSON.stringify(item));
+      if (item.kind === 'function') {
+        this.toQueue.shift();
+        const future = item.params();
+        future.then(() => {
+          this.typing();
+        });
+      } else {
+        this.add('typing', null);
+        window.setTimeout(async () => {
+          this.toQueue.shift();
+          // console.log('handling item=' + JSON.stringify(item));
           this.replace(item.kind, item.params);
           if (item.params && item.params.meta) {
             item.params.meta();
           }
-          if (this.toQueue.length === 0) {
-            this.inputEnabled = item.inputEnabled;
-          }
           this.reportUpdated(item);
           this.typing();
-        }
-      }, this.timeout);
+        }, this.timeout);
       }
+    }
   }
 
   replace(kind, params) {
@@ -126,7 +134,9 @@ export class ContentManager {
   waitForInput(enableTextInput?): Promise<any> {
     enableTextInput = (enableTextInput !== false);
     if (enableTextInput) {
-      this.queue('wait', {}, true);
+      this.queueFunction(async () => {
+        this.inputEnabled = true;
+      });
     }
     return new Promise((resolve, reject) => {
       this.inputs.pipe(
