@@ -10,6 +10,7 @@ export class ContentManager {
   public textArea = false;
   public placeholder = '';
   public validator = null;
+  public debug = false;
 
   public sendButtonText = 'Send';
   public inputPlaceholder = 'Type something...';
@@ -53,25 +54,34 @@ export class ContentManager {
   }
 
   queueFunction(callable) {
-    this.queue('function', callable);
+    return new Promise((resolve) => {
+      this.queue('function', {callable, resolve});
+    });
   }
 
   typing() {
-    // console.log('TYPING, queue len=' + this.toQueue.length);
+    if (this.debug) {
+      console.log('TYPING, queue len=' + this.toQueue.length);
+    }
     if (this.toQueue.length > 0) {
       const item = this.toQueue[0];
-      // console.log('item=' + JSON.stringify(item));
+      if (this.debug) {
+        console.log('item=' + JSON.stringify(item));
+      }
       if (item.kind === 'function') {
         this.toQueue.shift();
-        const future = item.params();
+        const future = item.params.callable();
         future.then(() => {
+          item.params.resolve();
           this.typing();
         });
       } else {
         this.add('typing', null);
         window.setTimeout(async () => {
           this.toQueue.shift();
-          // console.log('handling item=' + JSON.stringify(item));
+          if (this.debug) {
+            console.log('handling item=' + JSON.stringify(item));
+          }
           this.replace(item.kind, item.params);
           if (item.params && item.params.meta) {
             item.params.meta();
@@ -131,21 +141,28 @@ export class ContentManager {
     this.validator = validator;
   }
 
-  waitForInput(enableTextInput?): Promise<any> {
+  async waitForInput(enableTextInput?) {
     enableTextInput = (enableTextInput !== false);
     if (enableTextInput) {
-      this.queueFunction(async () => {
+      await this.queueFunction(async () => {
+        if (this.debug) {
+          console.log('ENABLING INPUT');
+        }
         this.inputEnabled = true;
       });
     }
-    return new Promise((resolve, reject) => {
+    const ret = await new Promise((resolve) => {
       this.inputs.pipe(
         first_()
       ).subscribe((value) => {
+        if (this.debug) {
+          console.log('DISABLING INPUT, value=', value);
+        }
         this.inputEnabled = false;
         resolve(value);
       });
     });
+    return ret;
   }
 
   setQueueTimeout(timeout) {

@@ -102,7 +102,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                                 console.log('RUN FAST TURNED OFF');
                             }
                             this.runFast = false;
-                            this.content.queueFunction(async () => {
+                            await this.content.queueFunction(async () => {
                                 this.content.setQueueTimeout(1000);
                             });
                         }
@@ -177,56 +177,52 @@ export class ScriptRunnerNew implements ScriptRunner {
                     }
                 }
                 if (callable) {
-                    this.content.queueFunction(async () => {
-                        const ret = await callable(...args);
-                        if (step.do.variable) {
-                            this.record[step.do.variable] = ret;
-                            await this.setCallback(step.do.variable, ret, this.record);
-                        }
-                    });
+                    const ret = await this.content.queueFunction(async () => await callable(...args));
+                    if (step.do.variable) {
+                        this.record[step.do.variable] = ret;
+                        await this.setCallback(step.do.variable, ret, this.record);
+                    }
                 } else {
                     console.log(`ERROR: function ${step.do.cmd} is not defined`);
                 }
             } else if (step.hasOwnProperty('switch')) {
-                this.content.queueFunction(async () => {
-                    const arg = step.switch.arg;
-                    const value = this.record[arg];
+                const arg = step.switch.arg;
+                const value = this.record[arg];
+                if (this.debug) {
+                    console.log('SWITCH on value', value, '(', arg, ',', this.record, ')');
+                }
+                let selected = null;
+                let default_ = null;
+                for (const case_ of step.switch.cases) {
                     if (this.debug) {
-                        console.log('SWITCH on value', value, '(', arg, ',', this.record, ')');
+                        console.log('CASE', case_);
                     }
-                    let selected = null;
-                    let default_ = null;
-                    for (const case_ of step.switch.cases) {
+                    if (case_.default) {
                         if (this.debug) {
-                            console.log('CASE', case_);
+                            console.log('CASE DEFAULT');
                         }
-                        if (case_.default) {
-                            if (this.debug) {
-                                console.log('CASE DEFAULT');
-                            }
-                            default_ = case_;
-                        }
-                        if (case_.hasOwnProperty('match') && case_.match === value) {
-                            selected = case_;
-                        } else if (case_.hasOwnProperty('pattern') && RegExp(case_.pattern).test(value)) {
-                            selected = case_;
+                        default_ = case_;
+                    }
+                    if (case_.hasOwnProperty('match') && case_.match === value) {
+                        selected = case_;
+                    } else if (case_.hasOwnProperty('pattern') && RegExp(case_.pattern).test(value)) {
+                        selected = case_;
+                    }
+                }
+                if (this.debug) {
+                    console.log('CASE SELECTED', selected);
+                }
+                selected = selected || default_;
+                if (selected) {
+                    if (selected.steps) {
+                        const res = await this.runSnippet(selected);
+                        if (res < 0) {
+                            return res;
                         }
                     }
-                    if (this.debug) {
-                        console.log('CASE SELECTED', selected);
-                    }
-                    selected = selected || default_;
-                    if (selected) {
-                        if (selected.steps) {
-                            const res = await this.runSnippet(selected);
-                            if (res < 0) {
-                                return res;
-                            }
-                        }
-                    } else {
-                        console.log(`ERROR: no viable option for ${value} (${step.switch.arg}) in switch`);
-                    }
-                });
+                } else {
+                    console.log(`ERROR: no viable option for ${value} (${step.switch.arg}) in switch`);
+                }
             } else if (step.hasOwnProperty('goto')) {
                 if (step.goto === 'complete') {
                     return this.COMPLETE;
