@@ -48,13 +48,14 @@ export class ScriptRunnerNew implements ScriptRunner {
         this.context = context;
         this.setCallback = setCallback || ((k, v) => null);
         this.record = record || this.record;
-        this.runFast = !!this.state;
+        this.runFast = this.state && Object.keys(this.state).length > 0;
         if (this.runFast) {
             this.content.setQueueTimeout(0);
         } else {
             this.content.setQueueTimeout(1000);
         }
         if (this.debug) {
+            console.log('STATE:', this.state, Object.keys(this.state));
             console.log('RUN FAST enabled:', this.runFast);
         }
         return this.http.get(url)
@@ -101,7 +102,9 @@ export class ScriptRunnerNew implements ScriptRunner {
                                 console.log('RUN FAST TURNED OFF');
                             }
                             this.runFast = false;
-                            this.content.setQueueTimeout(1000);
+                            this.content.queueFunction(async () => {
+                                this.content.setQueueTimeout(1000);
+                            });
                         }
                         this.content.addOptions(null, options);
                         ret = await this.content.waitForInput(false);
@@ -174,52 +177,56 @@ export class ScriptRunnerNew implements ScriptRunner {
                     }
                 }
                 if (callable) {
-                    const ret = await callable(...args);
-                    if (step.do.variable) {
-                        this.record[step.do.variable] = ret;
-                        await this.setCallback(step.do.variable, ret, this.record);
-                    }
+                    this.content.queueFunction(async () => {
+                        const ret = await callable(...args);
+                        if (step.do.variable) {
+                            this.record[step.do.variable] = ret;
+                            await this.setCallback(step.do.variable, ret, this.record);
+                        }
+                    });
                 } else {
                     console.log(`ERROR: function ${step.do.cmd} is not defined`);
                 }
             } else if (step.hasOwnProperty('switch')) {
-                const arg = step.switch.arg;
-                const value = this.record[arg];
-                if (this.debug) {
-                    console.log('SWITCH on value', value, '(', arg, ',', this.record, ')');
-                }
-                let selected = null;
-                let default_ = null;
-                for (const case_ of step.switch.cases) {
+                this.content.queueFunction(async () => {
+                    const arg = step.switch.arg;
+                    const value = this.record[arg];
                     if (this.debug) {
-                        console.log('CASE', case_);
+                        console.log('SWITCH on value', value, '(', arg, ',', this.record, ')');
                     }
-                    if (case_.default) {
+                    let selected = null;
+                    let default_ = null;
+                    for (const case_ of step.switch.cases) {
                         if (this.debug) {
-                            console.log('CASE DEFAULT');
+                            console.log('CASE', case_);
                         }
-                        default_ = case_;
-                    }
-                    if (case_.hasOwnProperty('match') && case_.match === value) {
-                        selected = case_;
-                    } else if (case_.hasOwnProperty('pattern') && RegExp(case_.pattern).test(value)) {
-                        selected = case_;
-                    }
-                }
-                if (this.debug) {
-                    console.log('CASE SELECTED', selected);
-                }
-                selected = selected || default_;
-                if (selected) {
-                    if (selected.steps) {
-                        const res = await this.runSnippet(selected);
-                        if (res < 0) {
-                            return res;
+                        if (case_.default) {
+                            if (this.debug) {
+                                console.log('CASE DEFAULT');
+                            }
+                            default_ = case_;
+                        }
+                        if (case_.hasOwnProperty('match') && case_.match === value) {
+                            selected = case_;
+                        } else if (case_.hasOwnProperty('pattern') && RegExp(case_.pattern).test(value)) {
+                            selected = case_;
                         }
                     }
-                } else {
-                    console.log(`ERROR: no viable option for ${value} (${step.switch.arg}) in switch`);
-                }
+                    if (this.debug) {
+                        console.log('CASE SELECTED', selected);
+                    }
+                    selected = selected || default_;
+                    if (selected) {
+                        if (selected.steps) {
+                            const res = await this.runSnippet(selected);
+                            if (res < 0) {
+                                return res;
+                            }
+                        }
+                    } else {
+                        console.log(`ERROR: no viable option for ${value} (${step.switch.arg}) in switch`);
+                    }
+                });
             } else if (step.hasOwnProperty('goto')) {
                 if (step.goto === 'complete') {
                     return this.COMPLETE;

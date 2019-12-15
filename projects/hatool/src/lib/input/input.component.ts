@@ -32,11 +32,8 @@ export class InputComponent implements OnInit, OnChanges {
       if (this.input) {
         const el: HTMLElement = this.input.nativeElement;
         if (el) {
-          console.log('INPUT IS', el.tagName);
           el.focus();
         }
-      } else {
-        console.log('NULL input');
       }
     }, 0);
   }

@@ -9,6 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build_lib": "ng build hatool",
+    "watch_lib": "ng build hatool --watch",
     "copy-license": "cp ./LICENSE ./dist/hatool",
     "copy-readme": "cp ./README.md ./dist/hatool",
     "copy-files": "npm run copy-license && npm run copy-readme",
