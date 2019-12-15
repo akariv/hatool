@@ -54,6 +54,9 @@ export class ScriptRunnerNew implements ScriptRunner {
         } else {
             this.content.setQueueTimeout(1000);
         }
+        if (this.debug) {
+            console.log('RUN FAST enabled:', this.runFast);
+        }
         return this.http.get(url)
             .pipe(
                 switchMap((s: any) => {
@@ -67,6 +70,9 @@ export class ScriptRunnerNew implements ScriptRunner {
     }
 
     async runSnippet(snippet) {
+        if (this.debug) {
+            console.log('RUN SNIPPET', snippet);
+        }
         for (const step of snippet.steps) {
             const uid = step.uid;
             if (this.debug) {
@@ -91,6 +97,9 @@ export class ScriptRunnerNew implements ScriptRunner {
                         this.content.addOptions(null, options, ret);
                     } else {
                         if (this.runFast) {
+                            if (this.debug) {
+                                console.log('RUN FAST TURNED OFF');
+                            }
                             this.runFast = false;
                             this.content.setQueueTimeout(1000);
                         }
