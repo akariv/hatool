@@ -71,8 +71,8 @@ export class ContentManager {
       if (item.kind === 'function') {
         this.toQueue.shift();
         const future = item.params.callable();
-        future.then(() => {
-          item.params.resolve();
+        future.then((result) => {
+          item.params.resolve(result);
           this.typing();
         });
       } else {
