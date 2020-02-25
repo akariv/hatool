@@ -40,6 +40,26 @@ export class ScriptRunnerNew implements ScriptRunner {
         return obj;
     }
 
+    get(obj: any, field) {
+        const parts = field.split('.');
+        for (const part of parts) {
+            obj = obj[part] || {};
+        }
+        if (Object.entries(obj).length > 0) {
+            return obj;
+        }
+        return null;
+    }
+
+    fillIn(message: string) {
+        return message.replace(
+            RegExp('({{([a-z_0-9]+)}})', 'g'),
+            (match, p1, p2) => {
+                return this.get(this.record, p2) || p2;
+            }
+        );
+    }
+
     run(url: any,
         index: any,
         context: any,
@@ -80,7 +100,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                 console.log('STEP:', step);
             }
             if (step.hasOwnProperty('say')) {
-                this.content.addTo(this.i18n(step.say));
+                this.content.addTo(this.fillIn(this.i18n(step.say)));
             } else if (step.hasOwnProperty('wait')) {
                 let ret = null;
                 if (step.wait.options) {
