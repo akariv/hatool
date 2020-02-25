@@ -53,7 +53,7 @@ export class ScriptRunnerNew implements ScriptRunner {
 
     fillIn(message: string) {
         return message.replace(
-            RegExp('({{([a-z_0-9]+)}})', 'g'),
+            RegExp('({{([a-zA-Z_.0-9]+)}})', 'g'),
             (match, p1, p2) => {
                 return this.get(this.record, p2) || p2;
             }
