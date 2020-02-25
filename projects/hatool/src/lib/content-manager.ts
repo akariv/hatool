@@ -33,9 +33,12 @@ export class ContentManager {
   }
 
   reportUpdated(value) {
-    window.setTimeout(() => {
-      this.updated.next(value);
-    }, this.timeout / 10);
+    if (this.timeout) {
+      // A bit of a hack to prevent the messages component to scroll during replay
+      window.setTimeout(() => {
+        this.updated.next(value);
+      }, this.timeout / 10);
+    }
   }
 
   add(kind, params) {
