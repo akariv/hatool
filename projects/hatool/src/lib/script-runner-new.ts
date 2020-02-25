@@ -11,6 +11,7 @@ export class ScriptRunnerNew implements ScriptRunner {
     snippets = {};
     setCallback: CBType;
     runFast = false;
+    lastMessage = '';
     public debug = false;
 
     // return from call and continue
@@ -95,12 +96,14 @@ export class ScriptRunnerNew implements ScriptRunner {
             console.log('RUN SNIPPET', snippet);
         }
         for (const step of snippet.steps) {
-            const uid = step.uid;
+            const uid = this.lastMessage + '-' + step.uid;
             if (this.debug) {
                 console.log('STEP:', step);
             }
             if (step.hasOwnProperty('say')) {
-                this.content.addTo(this.fillIn(this.i18n(step.say)));
+                const message = this.fillIn(this.i18n(step.say));
+                this.lastMessage = message;
+                this.content.addTo(message);
             } else if (step.hasOwnProperty('wait')) {
                 let ret = null;
                 if (step.wait.options) {

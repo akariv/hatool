@@ -25,7 +25,7 @@ export async function doIt(content: ContentManager) {
     let age = null;
     while (!age) {
         const ageStr = await content.waitForInput(true);
-        age = parseInt(ageStr, 10);
+        age = parseInt(<string>ageStr, 10);
         if (age > 0) {
             break;
         }
@@ -38,7 +38,7 @@ export async function doIt(content: ContentManager) {
     const bio = await content.waitForInput(true);
 
     content.addUploader('Please upload a profile photo');
-    const fileUploader: FileUploader = await content.waitForInput(false);
+    const fileUploader: FileUploader = <FileUploader>(await content.waitForInput(false));
 
     fileUploader.active = true;
     for (let i = 0 ; i < 100 ; i++ ) {
