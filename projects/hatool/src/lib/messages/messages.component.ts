@@ -17,8 +17,10 @@ export class MessagesComponent implements OnInit {
 
   ngOnInit() {
     this.content.updated.subscribe(() => {
-      const el = this.container.nativeElement;
-      el.scrollTop = el.scrollHeight;
+      setTimeout(() => {
+        const el = this.container.nativeElement;
+        el.scrollTop = el.scrollHeight;
+      }, 0);
     });
   }
 
