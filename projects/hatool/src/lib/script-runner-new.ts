@@ -23,11 +23,17 @@ export class ScriptRunnerNew implements ScriptRunner {
 
     public state = {};
 
+    public TIMEOUT = 1000;
+
 
     constructor(private http: HttpClient,
                 private content: ContentManager,
                 private locale: string) {
         console.log('Running with locale', this.locale);
+    }
+
+    set timeout(value) {
+        this.TIMEOUT = value;
     }
 
     i18n(obj) {
@@ -73,7 +79,7 @@ export class ScriptRunnerNew implements ScriptRunner {
         if (this.runFast) {
             this.content.setQueueTimeout(0);
         } else {
-            this.content.setQueueTimeout(1000);
+            this.content.setQueueTimeout(this.TIMEOUT);
         }
         if (this.debug) {
             console.log('STATE:', this.state, Object.keys(this.state));
@@ -126,7 +132,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                             }
                             this.runFast = false;
                             await this.content.queueFunction(async () => {
-                                this.content.setQueueTimeout(1000);
+                                this.content.setQueueTimeout(this.TIMEOUT);
                             });
                         }
                         this.content.addOptions(null, options);
