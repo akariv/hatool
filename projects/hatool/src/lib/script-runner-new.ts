@@ -97,6 +97,17 @@ export class ScriptRunnerNew implements ScriptRunner {
             );
     }
 
+    check_res(res, snippet) {
+        if (('' + res).indexOf('pop:') === 0) {
+            if (!snippet.hasOwnProperty('name') || res.slice(4) !== snippet.name) {
+                return res;
+            }
+        } else if (res < 0) {
+            return res;
+        }
+        return 0;
+    }
+
     async runSnippet(snippet) {
         if (this.debug) {
             console.log('RUN SNIPPET', snippet);
@@ -150,8 +161,9 @@ export class ScriptRunnerNew implements ScriptRunner {
                     for (const option of step.wait.options) {
                         if (ret === option.value) {
                             if (option.steps) {
-                                const res = await this.runSnippet(option);
-                                if (res < 0) {
+                                let res = await this.runSnippet(option);
+                                res = this.check_res(res, snippet);
+                                if (res !== 0) {
                                     return res;
                                 }
                             }
@@ -246,8 +258,9 @@ export class ScriptRunnerNew implements ScriptRunner {
                 selected = selected || default_;
                 if (selected) {
                     if (selected.steps) {
-                        const res = await this.runSnippet(selected);
-                        if (res < 0) {
+                        let res = await this.runSnippet(selected);
+                        res = this.check_res(res, snippet);
+                        if (res !== 0) {
                             return res;
                         }
                     }
@@ -263,16 +276,9 @@ export class ScriptRunnerNew implements ScriptRunner {
                 }
                 const goto_snippet = this.snippets[step.goto];
                 if (goto_snippet) {
-                    const res = await this.runSnippet(goto_snippet);
-                    if (this.debug) {
-                        console.log('returned:', res);
-                        console.log('pop?', ('' + res).indexOf('pop:'), snippet.hasOwnProperty('name'), snippet.name, ('' + res).slice(4));
-                    }
-                    if (('' + res).indexOf('pop:') === 0) {
-                        if (!snippet.hasOwnProperty('name') || res.slice(4) !== snippet.name) {
-                            return res;
-                        }
-                    } else if (res < 0) {
+                    let res = await this.runSnippet(goto_snippet);
+                    res = this.check_res(res, snippet);
+                    if (res !== 0) {
                         return res;
                     }
                 } else {
