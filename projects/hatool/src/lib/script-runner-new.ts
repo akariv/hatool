@@ -264,6 +264,10 @@ export class ScriptRunnerNew implements ScriptRunner {
                 const goto_snippet = this.snippets[step.goto];
                 if (goto_snippet) {
                     const res = await this.runSnippet(goto_snippet);
+                    if (this.debug) {
+                        console.log('returned:', res);
+                        console.log('pop?', ('' + res).indexOf('pop:'), snippet.hasOwnProperty('name'), snippet.name, ('' + res).slice(4));
+                    }
                     if (('' + res).indexOf('pop:') === 0) {
                         if (!snippet.hasOwnProperty('name') || res.slice(4) !== snippet.name) {
                             return res;
