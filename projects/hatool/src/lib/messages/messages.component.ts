@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input, HostListener } from '@angular/core';
 import { ContentService } from '../content.service';
 import { ContentManager } from '../content-manager';
 
@@ -15,12 +15,21 @@ export class MessagesComponent implements OnInit {
   constructor() {
   }
 
+  @HostListener('window:resize', ['$event'])
+  resize(e) {
+    this.updateScroll();
+  }
+
+  updateScroll() {
+    setTimeout(() => {
+      const el = this.container.nativeElement;
+      el.scrollTop = el.scrollHeight;
+    }, 0);
+  }
+
   ngOnInit() {
     this.content.updated.subscribe(() => {
-      setTimeout(() => {
-        const el = this.container.nativeElement;
-        el.scrollTop = el.scrollHeight;
-      }, 0);
+      this.updateScroll();
     });
   }
 
