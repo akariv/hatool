@@ -117,7 +117,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                     for (const option of step.wait.options) {
                         option.value = option.hasOwnProperty('value') ? option.value : option.show;
                         option.value = option.value.hasOwnProperty('.tx') ? option.value['.tx']['_'] : option.value;
-                        if (option.unless && !this.record[option.unless]) {
+                        if (!option.unless || !this.record[option.unless]) {
                             options.push({
                                 display: this.i18n(option.show),
                                 value: option.value
