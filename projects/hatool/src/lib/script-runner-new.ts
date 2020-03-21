@@ -264,12 +264,18 @@ export class ScriptRunnerNew implements ScriptRunner {
                 const goto_snippet = this.snippets[step.goto];
                 if (goto_snippet) {
                     const res = await this.runSnippet(goto_snippet);
-                    if (res < 0) {
+                    if (('' + res).indexOf('pop:') === 0) {
+                        if (!snippet.hasOwnProperty('name') || res.slice(4) !== snippet.name) {
+                            return res;
+                        }
+                    } else if (res < 0) {
                         return res;
                     }
                 } else {
                     console.log(`ERROR: unknown snippet requested ${goto_snippet}`);
                 }
+            } else if (step.hasOwnProperty('pop')) {
+                return 'pop:' + step.pop;
             } else {
                 throw new Error(`Bad step ${JSON.stringify(step)}`);
             }
