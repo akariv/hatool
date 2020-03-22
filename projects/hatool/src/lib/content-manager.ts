@@ -8,6 +8,7 @@ export class ContentManager {
   public updated = new Subject<any>();
   public inputEnabled = false;
   public textArea = false;
+  public inputKind = 'text';
   public placeholder = '';
   public validator = null;
   public debug = false;
@@ -134,6 +135,10 @@ export class ContentManager {
 
   setTextArea() {
     this.textArea = true;
+  }
+
+  setInputKind(kind) {
+    this.inputKind = kind || 'text';
   }
 
   setPlaceholder(placeholder) {

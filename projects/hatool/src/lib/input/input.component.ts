@@ -12,6 +12,7 @@ export class InputComponent implements OnInit, OnChanges {
   @Input() content: ContentManager;
   @Input() inputEnabled: boolean;
   @Input() textArea: boolean;
+  @Input() inputKind: string;
   @Input() placeholder: string;
   @Input() validator: (any) => boolean;
   @ViewChild('input') input: ElementRef;

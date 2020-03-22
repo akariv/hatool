@@ -174,6 +174,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                     if (!!step.wait.long) {
                         this.content.setTextArea();
                     }
+                    this.content.setInputKind(step.wait['input-kind'] || 'text');
                     if (!!step.wait.placeholder) {
                         this.content.setPlaceholder(step.wait.placeholder);
                     }
