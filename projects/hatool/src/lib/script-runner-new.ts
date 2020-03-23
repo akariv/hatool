@@ -176,7 +176,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                     }
                     this.content.setInputKind(step.wait['input-kind'] || 'text');
                     if (!!step.wait.placeholder) {
-                        this.content.setPlaceholder(step.wait.placeholder);
+                        this.content.setPlaceholder(this.i18n(step.wait.placeholder));
                     }
                     if (!!step.wait.validation) {
                         const vre = new RegExp('^' + step.wait.validation + '$');
