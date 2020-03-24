@@ -1,4 +1,4 @@
-<span class='options' [class.selected]='selected!==null'>
+<span class='options' [class.selected]='selected'>
   <ng-container *ngFor='let option of params.options'>
     <button (click)='onSubmit(option.value)' 
             [disabled]='!enabled' 
