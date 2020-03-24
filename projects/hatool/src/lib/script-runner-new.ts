@@ -2,7 +2,7 @@ import { CBType } from './script-runner-types';
 import { HttpClient } from '@angular/common/http';
 import { ContentManager } from './content-manager';
 import { ScriptRunner } from './script-runner';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
 
 export class ScriptRunnerNew implements ScriptRunner {
@@ -67,7 +67,7 @@ export class ScriptRunnerNew implements ScriptRunner {
         );
     }
 
-    run(url: any,
+    run(url_or_script: any,
         index: any,
         context: any,
         setCallback?: CBType,
@@ -85,8 +85,13 @@ export class ScriptRunnerNew implements ScriptRunner {
             console.log('STATE:', this.state, Object.keys(this.state));
             console.log('RUN FAST enabled:', this.runFast);
         }
-        return this.http.get(url)
-            .pipe(
+        let fetcher = null;
+        if (url_or_script.hasOwnProperty('s')) {
+            fetcher = of(url_or_script);
+        } else {
+            fetcher = this.http.get(url_or_script);
+        }
+        return fetcher.pipe(
                 switchMap((s: any) => {
                     s = s.s[index];
                     for (const snippet of s.snippets) {
