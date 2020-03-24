@@ -136,7 +136,8 @@ export class ScriptRunnerNew implements ScriptRunner {
                         if (!option.unless || !this.record[option.unless]) {
                             options.push({
                                 display: this.i18n(option.show),
-                                value: option.value
+                                value: option.value,
+                                class: option.class
                             });
                         }
                     }
