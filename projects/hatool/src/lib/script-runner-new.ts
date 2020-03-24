@@ -283,7 +283,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                         return res;
                     }
                 } else {
-                    console.log(`ERROR: unknown snippet requested ${goto_snippet}`);
+                    console.log(`ERROR: unknown snippet requested ${step.goto}`);
                 }
             } else if (step.hasOwnProperty('pop')) {
                 return 'pop:' + step.pop;
