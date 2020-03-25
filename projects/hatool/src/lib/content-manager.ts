@@ -137,8 +137,10 @@ export class ContentManager {
     this.textArea = true;
   }
 
-  setInputKind(kind) {
+  setInputKind(kind, min?, max?) {
     this.inputKind = kind || 'text';
+    this.inputMin = min;
+    this.inputMax = max;
   }
 
   setPlaceholder(placeholder) {

@@ -180,7 +180,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                     if (!!step.wait.long) {
                         this.content.setTextArea();
                     }
-                    this.content.setInputKind(step.wait['input-kind'] || 'text');
+                    this.content.setInputKind(step.wait['input-kind'] || 'text', step.wait['input-min'], step.wait['input-max']);
                     if (!!step.wait.placeholder) {
                         this.content.setPlaceholder(this.i18n(step.wait.placeholder));
                     }
