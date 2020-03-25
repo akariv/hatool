@@ -9,6 +9,9 @@ export class ContentManager {
   public inputEnabled = false;
   public textArea = false;
   public inputKind = 'text';
+  public inputMin;
+  public inputMax;
+  public inputStep;
   public placeholder = '';
   public validator = null;
   public debug = false;
@@ -137,10 +140,11 @@ export class ContentManager {
     this.textArea = true;
   }
 
-  setInputKind(kind, min?, max?) {
+  setInputKind(kind, min?, max?, step?) {
     this.inputKind = kind || 'text';
     this.inputMin = min;
     this.inputMax = max;
+    this.inputStep = step;
   }
 
   setPlaceholder(placeholder) {
