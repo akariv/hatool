@@ -128,6 +128,9 @@ export class ScriptRunnerNew implements ScriptRunner {
                 this.content.addTo(message);
             } else if (step.hasOwnProperty('wait')) {
                 let ret = null;
+                if (step.wait.optionsFrom) {
+                    step.wait.options = this.record[step.wait.optionsFrom];
+                }
                 if (step.wait.options) {
                     const options = [];
                     for (const option of step.wait.options) {
@@ -257,6 +260,8 @@ export class ScriptRunnerNew implements ScriptRunner {
                     if (case_.hasOwnProperty('match') && case_.match === value) {
                         selected = case_;
                     } else if (case_.hasOwnProperty('pattern') && RegExp(case_.pattern).test(value)) {
+                        selected = case_;
+                    } else if (case_.hasOwnProperty('undefined') && case_.undefined && (value === null || !(arg in this.record))) {
                         selected = case_;
                     }
                 }
