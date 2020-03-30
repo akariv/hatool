@@ -202,10 +202,19 @@ export class ScriptRunnerNew implements ScriptRunner {
                             return vre.test(x);
                         });
                     }
-                    if (uid && this.state[uid]) {
+                    if (uid && this.state[uid] && this.runFast) {
                         ret = this.state[uid];
                         this.content.queueFrom(ret);
                     } else {
+                        if (this.runFast) {
+                            if (this.debug) {
+                                console.log('RUN FAST TURNED OFF');
+                            }
+                            this.runFast = false;
+                            await this.content.queueFunction(async () => {
+                                this.content.setQueueTimeout(this.TIMEOUT);
+                            });
+                        }
                         ret = await this.content.waitForInput(true);
                         if (uid) {
                             this.state[uid] = ret;
