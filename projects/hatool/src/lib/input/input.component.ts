@@ -17,6 +17,7 @@ export class InputComponent implements OnInit, OnChanges {
   @Input() inputMax;
   @Input() inputStep;
   @Input() placeholder: string;
+  @Input() inputRequired = true;
   @Input() validator: (any) => boolean;
   @ViewChild('input') input: ElementRef;
 
@@ -59,7 +60,9 @@ export class InputComponent implements OnInit, OnChanges {
   validate() {
     if (this.input) {
       const value = this.input.nativeElement.value;
-      this.valid = !this.validator || this.validator(value);
+      this.valid = !this.inputRequired || !!this.value;
+      this.valid = this.valid && (!this.input.nativeElement.validity || this.input.nativeElement.validity.valid);
+      this.valid = this.valid && (!this.validator || this.validator(value));
     } else {
       this.valid = !this.validator || this.validator('');
     }

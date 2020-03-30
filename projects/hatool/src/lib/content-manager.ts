@@ -12,6 +12,7 @@ export class ContentManager {
   public inputMin;
   public inputMax;
   public inputStep;
+  public inputRequired;
   public placeholder = '';
   public validator = null;
   public fixme: () => void = null;
@@ -143,8 +144,9 @@ export class ContentManager {
     this.textArea = true;
   }
 
-  setInputKind(kind, min?, max?, step?) {
+  setInputKind(kind, required?, min?, max?, step?) {
     this.inputKind = kind || 'text';
+    this.inputRequired = required,
     this.inputMin = min;
     this.inputMax = max;
     this.inputStep = step;

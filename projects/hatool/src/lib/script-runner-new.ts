@@ -191,6 +191,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                         this.content.setTextArea();
                     }
                     this.content.setInputKind(step.wait['input-kind'] || 'text',
+                        step.wait['required'] !== false,
                         step.wait['input-min'], step.wait['input-max'], step.wait['input-step']);
                     if (!!step.wait.placeholder) {
                         this.content.setPlaceholder(this.i18n(step.wait.placeholder));
