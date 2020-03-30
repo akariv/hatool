@@ -43,11 +43,6 @@ export class InputComponent implements OnInit, OnChanges {
     }, 0);
   }
 
-  onChange(event) {
-    this.value = event.target.value;
-    event.target.value = '';
-  }
-
   onSubmit() {
     const el = this.input.nativeElement;
     this.value = el.value;
