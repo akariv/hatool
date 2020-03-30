@@ -16,11 +16,17 @@ export class MessageOptionsComponent implements OnInit, AfterViewInit {
   active = false;
   enabled = true;
   selected = null;
+  private selectedJson: string;
 
   constructor() { }
 
   ngOnInit() {
     this.selected = this.selected || this.params.selected;
+    this.selectedJson = JSON.stringify(this.selected);
+  }
+
+  equalsSelected(value) {
+    return JSON.stringify(value) === this.selectedJson;
   }
 
   ngAfterViewInit() {

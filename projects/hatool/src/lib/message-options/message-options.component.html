@@ -5,8 +5,8 @@
             [disabled]='!enabled' 
             [class]='option.class || ""'
             [class.active]='active'
-            [class.selected]='option.value === selected'
-            [class.not-selected]='selected && option.value !== selected'
+            [class.selected]='equalsSelected(option.value)'
+            [class.not-selected]='selected && !equalsSelected(option.value)'
             [innerHtml]='option.display'
             ></button>
   </ng-container>
