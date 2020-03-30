@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { ContentService } from '../content.service';
 import { ContentManager } from '../content-manager';
 
@@ -11,6 +11,7 @@ export class MessageOptionsComponent implements OnInit, AfterViewInit {
 
   @Input() params: any;
   @Input() content: ContentManager;
+  @Output() appeared = new EventEmitter<void>();
 
   active = false;
   enabled = true;
@@ -25,6 +26,7 @@ export class MessageOptionsComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     setTimeout(() => {
       this.active = true;
+      this.appeared.emit();
     }, 0);
   }
 

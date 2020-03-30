@@ -1,12 +1,14 @@
 <span class='options' [class.selected]='selected'>
   <ng-container *ngFor='let option of params.options'>
     <button (click)='onSubmit(option.value)' 
+            (animationend)='appeared.emit()'
             [disabled]='!enabled' 
             [class]='option.class || ""'
             [class.active]='active'
             [class.selected]='option.value === selected'
             [class.not-selected]='selected && option.value !== selected'
-            [innerHtml]='option.display'></button>
+            [innerHtml]='option.display'
+            ></button>
   </ng-container>
   <a class='fixme' *ngIf='params.fixme' (click)='params.fixme()' [innerHTML]='params.fixmeMessage'></a>
 </span>
