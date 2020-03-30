@@ -47,22 +47,17 @@ export class InputComponent implements OnInit, OnChanges {
     const el = this.input.nativeElement;
     this.value = el.value;
     el.value = '';
-    if (this.value.length > 0) {
+    if (!this.inputRequired || this.value.length > 0) {
       this.content.addFrom(this.value);
     }
   }
 
   validate() {
-    console.log('VALIDATE', this.input, this.validator);
     if (this.input) {
       const value = this.input.nativeElement.value;
-      console.log('VALUE', value);
       this.valid = !this.inputRequired || !!value;
-      console.log('REQUIRED', this.inputRequired, '->', this.valid);
       this.valid = this.valid && (!this.input.nativeElement.validity || this.input.nativeElement.validity.valid);
-      console.log('VALIDITY', this.input.nativeElement.validity, '->', this.valid);
       this.valid = this.valid && (!this.validator || this.validator(value));
-      console.log('VALIDATOR', this.validator && this.validator(value), '->', this.valid);
     } else {
       this.valid = !this.validator || this.validator('');
     }
