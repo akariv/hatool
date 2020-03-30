@@ -6,10 +6,11 @@
     </div>
 </ng-container>
 <ng-container *ngIf='!textArea || !inputEnabled'>
-    <div class='input' *ngIf='inputEnabled'>
+    <div class='input' *ngIf='inputEnabled' [class.invalid]='!valid'>
       <input [type]='inputKind' #input (keyup)='validate() && ($event.keyCode == 13) && onSubmit()' (change)='validate()'
             [min]='inputMin' [max]='inputMax' [step]='inputStep'
-            [disabled]='!inputEnabled' [placeholder]='placeholder || content.inputPlaceholder' autofocus />
+            [disabled]='!inputEnabled' [placeholder]='placeholder || content.inputPlaceholder'             
+            autofocus />
       <button [disabled]='!valid' (click)='onSubmit()' [innerHTML]='content.sendButtonText'></button>
     </div>
 </ng-container>
