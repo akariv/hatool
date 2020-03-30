@@ -14,6 +14,7 @@ export class ContentManager {
   public inputStep;
   public placeholder = '';
   public validator = null;
+  public fixme: () => void = null;
   public debug = false;
 
   public sendButtonText = 'Send';
@@ -21,6 +22,7 @@ export class ContentManager {
   public uploadFileText = 'Upload File...';
   public uploadedFileText = 'Uploaded Successfully';
   public notUploadedFileText = 'Failed to upload file';
+  public fixmeMessage = 'Fix';
   public timeout = 1000;
 
   toQueue = [];
@@ -106,12 +108,13 @@ export class ContentManager {
   }
 
   addFrom(message: string) {
-    this.add('from', {message});
+    this.add('from', {message, fixme: this.fixme, fixmeMessage: this.fixmeMessage});
     this.reportValue(message);
     this.reportUpdated(message);
     this.textArea = false;
     this.placeholder = '';
     this.validator = null;
+    this.fixme = null;
   }
 
   queueFrom(message: string) {
@@ -126,7 +129,7 @@ export class ContentManager {
     if (message) {
       this.queue('to', {message});
     }
-    this.queue('options', {options, selected});
+    this.queue('options', {options, selected, fixme: this.fixme, fixmeMessage: this.fixmeMessage});
   }
 
   addUploader(message, options?: any) {
@@ -153,6 +156,10 @@ export class ContentManager {
 
   setValidator(validator) {
     this.validator = validator;
+  }
+
+  setFixme(fixme) {
+    this.fixme = fixme;
   }
 
   async waitForInput(enableTextInput?) {

@@ -3,8 +3,10 @@
     <button (click)='onSubmit(option.value)' 
             [disabled]='!enabled' 
             [class]='option.class || ""'
+            [class.active]='active'
             [class.selected]='option.value === selected'
             [class.not-selected]='selected && option.value !== selected'
             [innerHtml]='option.display'></button>
   </ng-container>
+  <a class='fixme' *ngIf='params.fixme' (click)='params.fixme()' [innerHTML]='params.fixmeMessage'></a>
 </span>
