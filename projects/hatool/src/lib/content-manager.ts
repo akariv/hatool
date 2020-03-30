@@ -119,7 +119,7 @@ export class ContentManager {
   }
 
   queueFrom(message: string) {
-    this.queue('from', {message});
+    this.queue('from', {message, fixme: this.fixme, fixmeMessage: this.fixmeMessage});
   }
 
   addTo(message: string, meta?: () => void) {
