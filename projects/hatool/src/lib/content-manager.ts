@@ -158,7 +158,7 @@ export class ContentManager {
     this.validator = validator;
   }
 
-  setFixme(fixme) {
+  setFixme(fixme: () => void) {
     this.fixme = fixme;
   }
 

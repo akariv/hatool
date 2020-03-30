@@ -13,6 +13,7 @@ export class ScriptRunnerNew implements ScriptRunner {
     runFast = false;
     lastMessage = '';
     public debug = false;
+    public fixme: () => void = null;
 
     // return from call and continue
     public RETURN = 0;
@@ -143,6 +144,12 @@ export class ScriptRunnerNew implements ScriptRunner {
                                 class: option.class
                             });
                         }
+                    }
+                    if (uid && this.fixme) {
+                        this.content.setFixme(() => {
+                            this.state[uid] = null;
+                            this.fixme();
+                        });
                     }
                     if (uid && this.state[uid] && this.runFast) {
                         ret = this.state[uid];
