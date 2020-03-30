@@ -39,6 +39,7 @@ export class MessageOptionsComponent implements OnInit, AfterViewInit {
   onSubmit(value) {
     this.enabled = false;
     this.selected = value;
+    this.selectedJson = JSON.stringify(this.selected);
     this.content.reportValue(value);
   }
 }
