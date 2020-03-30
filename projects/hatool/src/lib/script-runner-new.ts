@@ -129,6 +129,12 @@ export class ScriptRunnerNew implements ScriptRunner {
                 this.content.addTo(message);
             } else if (step.hasOwnProperty('wait')) {
                 let ret = null;
+                if (uid && this.fixme) {
+                    this.content.setFixme(() => {
+                        this.state[uid] = null;
+                        this.fixme();
+                    });
+                }
                 if (step.wait.optionsFrom) {
                     step.wait.options = this.record[step.wait.optionsFrom];
                 }
@@ -144,12 +150,6 @@ export class ScriptRunnerNew implements ScriptRunner {
                                 class: option.class
                             });
                         }
-                    }
-                    if (uid && this.fixme) {
-                        this.content.setFixme(() => {
-                            this.state[uid] = null;
-                            this.fixme();
-                        });
                     }
                     if (uid && this.state[uid] && this.runFast) {
                         ret = this.state[uid];
