@@ -23,7 +23,7 @@ export class MessagesComponent implements OnInit {
   updateScroll() {
     setTimeout(() => {
       const el = this.container.nativeElement;
-      el.scrollTop = el.scrollHeight;
+      el.scrollTo({left: 0, top: el.scrollHeight, behavior: 'smooth'});
     }, 0);
   }
 
