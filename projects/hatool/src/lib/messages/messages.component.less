@@ -10,7 +10,6 @@
         overflow-y: scroll;
         display: flex;
         flex-flow: column;
-        scroll-behavior: initial;
         
         height: 100%;
         margin-left: 0px;
@@ -29,6 +28,11 @@
 
         :first-child {
             margin-top: auto;
+        }
+
+        scroll-behavior: smooth;
+        &.fastScroll {
+            scroll-behavior: auto;
         }
     }
 }

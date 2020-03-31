@@ -15,6 +15,7 @@ export class ContentManager {
   public inputRequired;
   public placeholder = '';
   public validator = null;
+  public fastScroll = false;
   public fixme: () => void = null;
   public debug = false;
 
@@ -162,6 +163,10 @@ export class ContentManager {
 
   setFixme(fixme: () => void) {
     this.fixme = fixme;
+  }
+
+  setFastScroll(value: boolean) {
+    this.fastScroll = value;
   }
 
   async waitForInput(enableTextInput?) {

@@ -10,7 +10,7 @@ export class ScriptRunnerNew implements ScriptRunner {
     context = {};
     snippets = {};
     setCallback: CBType;
-    runFast = false;
+    _runFast = false;
     lastMessage = '';
     public debug = false;
     public fixme: () => void = null;
@@ -35,6 +35,15 @@ export class ScriptRunnerNew implements ScriptRunner {
 
     set timeout(value) {
         this.TIMEOUT = value;
+    }
+
+    set runFast(value) {
+        this._runFast = value;
+        this.content.setFastScroll(value);
+    }
+
+    get runFast() {
+        return this._runFast;
     }
 
     i18n(obj) {
