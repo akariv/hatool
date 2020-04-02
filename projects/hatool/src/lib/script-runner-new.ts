@@ -157,7 +157,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                             value: option.value,
                             class: option.class
                         };
-                        if (option.unless && !this.record[option.unless]) {
+                        if (option.unless && this.record[option.unless]) {
                             c_option.class = 'unless ' + (c_option.class || '');
                         }
                         options.push(c_option);
