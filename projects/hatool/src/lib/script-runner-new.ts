@@ -207,9 +207,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                     if (step.wait.suggestionsFrom) {
                         step.wait.suggestions = this.record[step.wait.suggestionsFrom];
                     }
-                    if (step.wait.suggestions) {
-                        this.content.setInputSuggestions(step.wait.suggestions);
-                    }
+                    this.content.setInputSuggestions(step.wait.suggestions);
                     if (!!step.wait.placeholder) {
                         this.content.setPlaceholder(this.i18n(step.wait.placeholder));
                     }

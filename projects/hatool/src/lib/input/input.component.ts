@@ -28,7 +28,7 @@ export class InputComponent implements OnInit, OnChanges {
   value = null;
   valid = true;
 
-  constructor() { 
+  constructor() {
     try {
       const collator = new Intl.Collator(['he', 'en', 'ru', 'ar', 'fr', 'es'], {sensitivity: 'base'});
       this.comparer = collator.compare;
@@ -70,7 +70,7 @@ export class InputComponent implements OnInit, OnChanges {
       for (const suggestion of this.suggestions) {
         const prefix = suggestion.slice(0, prefixLength);
         if (this.comparer(value, prefix) === 0) {
-          this.visibleSuggestions.push([prefix, suggestion.slice(prefixLength)])
+          this.visibleSuggestions.push([prefix, suggestion.slice(prefixLength)]);
         }
       }
     } else {
