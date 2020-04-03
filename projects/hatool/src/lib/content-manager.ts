@@ -12,6 +12,7 @@ export class ContentManager {
   public inputMin;
   public inputMax;
   public inputStep;
+  public inputSuggestions;
   public inputRequired;
   public placeholder = '';
   public validator = null;
@@ -151,6 +152,10 @@ export class ContentManager {
     this.inputMin = min;
     this.inputMax = max;
     this.inputStep = step;
+  }
+
+  setInputSuggestions(suggestions: string[]) {
+    this.inputSuggestions = suggestions;
   }
 
   setPlaceholder(placeholder) {

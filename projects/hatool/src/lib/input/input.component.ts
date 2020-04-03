@@ -18,13 +18,24 @@ export class InputComponent implements OnInit, OnChanges {
   @Input() inputStep;
   @Input() placeholder: string;
   @Input() inputRequired = true;
+  @Input() suggestions: string[] = null;
   @Input() validator: (any) => boolean;
   @ViewChild('input') input: ElementRef;
+
+  visibleSuggestions: string[][] = null;
+  comparer: (x: string, y: string) => number;
 
   value = null;
   valid = true;
 
-  constructor() { }
+  constructor() { 
+    try {
+      const collator = new Intl.Collator(['he', 'en', 'ru', 'ar', 'fr', 'es'], {sensitivity: 'base'});
+      this.comparer = collator.compare;
+    } catch (e) {
+      this.comparer = (x: string, y: string) => x.toUpperCase() === y.toUpperCase() ? 0 : 1;
+    }
+  }
 
   ngOnInit() {
     setTimeout(() => {
@@ -52,9 +63,36 @@ export class InputComponent implements OnInit, OnChanges {
     }
   }
 
+  updateSuggestions(value) {
+    if (this.suggestions && this.suggestions.length && value.length > 1) {
+      this.visibleSuggestions = [];
+      const prefixLength = value.length;
+      for (const suggestion of this.suggestions) {
+        const prefix = suggestion.slice(0, prefixLength);
+        if (this.comparer(value, prefix) === 0) {
+          this.visibleSuggestions.push([prefix, suggestion.slice(prefixLength)])
+        }
+      }
+    } else {
+      this.visibleSuggestions = null;
+    }
+  }
+
+  selectSuggestion(value) {
+    if (this.input) {
+      this.input.nativeElement.value = value;
+      this.validate();
+      if (this.valid) {
+        this.onSubmit();
+        this.visibleSuggestions = null;
+      }
+    }
+  }
+
   validate() {
     if (this.input) {
       const value = this.input.nativeElement.value;
+      this.updateSuggestions(value);
       this.valid = !this.inputRequired || !!value;
       this.valid = this.valid && (!this.input.nativeElement.validity || this.input.nativeElement.validity.valid);
       this.valid = this.valid && (!this.validator || this.validator(value));

@@ -204,6 +204,12 @@ export class ScriptRunnerNew implements ScriptRunner {
                     this.content.setInputKind(step.wait['input-kind'] || 'text',
                         step.wait['required'] !== false,
                         step.wait['input-min'], step.wait['input-max'], step.wait['input-step']);
+                    if (step.wait.suggestionsFrom) {
+                        step.wait.suggestions = this.record[step.wait.suggestionsFrom];
+                    }
+                    if (step.wait.suggestions) {
+                        this.content.setInputSuggestions(step.wait.suggestions);
+                    }
                     if (!!step.wait.placeholder) {
                         this.content.setPlaceholder(this.i18n(step.wait.placeholder));
                     }

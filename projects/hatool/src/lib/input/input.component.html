@@ -6,6 +6,14 @@
     </div>
 </ng-container>
 <ng-container *ngIf='!textArea || !inputEnabled'>
+    <div class='suggestions-wrapper' *ngIf='visibleSuggestions'>
+      <div class='suggestions'>
+        <span class='suggestion' *ngFor='let suggestion of visibleSuggestions'
+             (click)='selectSuggestion(suggestion[0] + suggestion[1])'>
+          <strong>{{ suggestion[0] }}</strong>{{ suggestion[1] }}
+        </span>
+      </div>
+    </div>
     <div class='input' *ngIf='inputEnabled' [class.invalid]='!valid'>
       <input [type]='inputKind' #input (keyup)='validate() && ($event.keyCode == 13) && onSubmit()' (change)='validate()'
             [min]='inputMin' [max]='inputMax' [step]='inputStep'
