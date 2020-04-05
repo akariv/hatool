@@ -57,6 +57,7 @@ export class InputComponent implements OnInit, OnChanges {
   onSubmit() {
     const el = this.input.nativeElement;
     this.value = el.value;
+    this.visibleSuggestions = null;
     el.value = '';
     if (!this.inputRequired || this.value.length > 0) {
       this.content.addFrom(this.value);
@@ -79,6 +80,7 @@ export class InputComponent implements OnInit, OnChanges {
   }
 
   selectSuggestion(value) {
+    value = value[0] + value[1];
     if (this.input) {
       this.input.nativeElement.value = value;
       this.validate();

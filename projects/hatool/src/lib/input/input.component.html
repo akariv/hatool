@@ -9,7 +9,7 @@
     <div class='suggestions-wrapper' *ngIf='visibleSuggestions'>
       <div class='suggestions'>
         <span class='suggestion' *ngFor='let suggestion of visibleSuggestions'
-             (click)='selectSuggestion(suggestion[0] + suggestion[1])'>
+             (click)='selectSuggestion(suggestion)' (touchstart)='selectSuggestion(suggestion)'>
           <strong>{{ suggestion[0] }}</strong>{{ suggestion[1] }}
         </span>
       </div>
