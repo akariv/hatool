@@ -22,6 +22,7 @@ export class MessageMultiOptionsComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.value = this.params.selected || {};
+    this.selected = !!this.params.selected;
   }
 
   get multi() {
