@@ -10,6 +10,7 @@ import { MessageOptionsComponent } from './message-options/message-options.compo
 import { BrowserModule } from '@angular/platform-browser';
 import { MessageUploaderComponent } from './message-uploader/message-uploader.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MessageMultiOptionsComponent } from './message-multi-options/message-multi-options.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { HttpClientModule } from '@angular/common/http';
     MessageTypingComponent,
     MessageOptionsComponent,
     MessageUploaderComponent,
+    MessageMultiOptionsComponent,
   ],
   imports: [
     BrowserModule,

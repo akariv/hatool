@@ -1,0 +1,14 @@
+<span class='options' [class.selected]='selected'>
+  <ng-container *ngFor='let option of params.options'>
+    <button (click)='option.field ? toggle(option.field) : onSubmit()' 
+            (animationend)='appeared.emit()'
+            [disabled]='!enabled' 
+            [class]='option.class || ""'
+            [class.active]='active'
+            [class.selected]='!!value[option.field]'
+            [class.not-selected]='selected && !value(option.field)'
+            [innerHtml]='option.display'
+    ></button>
+  </ng-container>
+  <a class='fixme' *ngIf='params.fixme' (click)='params.fixme()' [innerHTML]='params.fixmeMessage'></a>
+</span>

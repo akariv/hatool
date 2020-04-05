@@ -1,0 +1,59 @@
+{
+    "s": [
+        {
+            "name": "script",
+            "snippets": [
+                {
+                    "name": "default",
+                    "steps": [
+                        {
+                            "say": "Hey, what's up?"
+                        },
+                        {
+                            "wait": {
+                                "options": [
+                                    {
+                                        "show": "OK",
+                                        "value": true
+                                    },
+                                    {
+                                        "show": "Bad",
+                                        "value": false
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "say": "Which movies do you like?"
+                        },
+                        {
+                            "wait": {
+                                "multi": true,
+                                "options": [
+                                    {
+                                        "show": "Drama",
+                                        "field": "drama"
+                                    },
+                                    {
+                                        "show": "Action",
+                                        "field": "action"
+                                    },
+                                    {
+                                        "show": "Comedy",
+                                        "field": "comedy"
+                                    },
+                                    {
+                                        "show": "Done"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "say": "Thank you!"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

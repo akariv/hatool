@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
     hljs.registerLanguage('less', less);
     (<ScriptRunnerNew>this.runner.R).debug = true;
     this.runner.run(
-      'https://raw.githubusercontent.com/hasadna/reportit-scripts/master/src/user/script.json', 0,
+      'assets/script.json', 0,
       {
         isWorkingTime: (rec) => 'true',
         FilesUploadedCount: () => '5',

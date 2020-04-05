@@ -155,6 +155,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                         const c_option = {
                             display: this.i18n(option.show),
                             value: option.value,
+                            field: option.field,
                             class: option.class
                         };
                         if (option.unless && this.record[option.unless]) {
@@ -162,9 +163,10 @@ export class ScriptRunnerNew implements ScriptRunner {
                         }
                         options.push(c_option);
                     }
+                    const multi = !!step.wait.multi;
                     if (uid && this.state[uid] && this.runFast) {
                         ret = this.state[uid];
-                        this.content.addOptions(null, options, ret);
+                        this.content.addOptions(null, options, ret, multi);
                     } else {
                         if (this.runFast) {
                             if (this.debug) {
@@ -175,7 +177,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                                 this.content.setQueueTimeout(this.TIMEOUT);
                             });
                         }
-                        this.content.addOptions(null, options);
+                        this.content.addOptions(null, options, null, multi);
                         ret = await this.content.waitForInput(false);
                         if (uid) {
                             this.state[uid] = ret;

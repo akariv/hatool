@@ -3,11 +3,11 @@ import { ContentService } from '../content.service';
 import { ContentManager } from '../content-manager';
 
 @Component({
-  selector: 'htl-message-options',
-  templateUrl: './message-options.component.html',
-  styleUrls: ['./message-options.component.less']
+  selector: 'htl-message-multi-options',
+  templateUrl: './message-multi-options.component.html',
+  styleUrls: ['./message-multi-options.component.less']
 })
-export class MessageOptionsComponent implements OnInit, AfterViewInit {
+export class MessageMultiOptionsComponent implements OnInit, AfterViewInit {
 
   @Input() params: any;
   @Input() content: ContentManager;
@@ -15,22 +15,17 @@ export class MessageOptionsComponent implements OnInit, AfterViewInit {
 
   active = false;
   enabled = true;
-  selected = null;
-  private selectedJson: string;
+  selected = false;
+  value = {};
 
   constructor() { }
 
   ngOnInit() {
-    this.selected = this.selected || this.params.selected;
-    this.selectedJson = JSON.stringify(this.selected);
+    this.value = this.value || this.params.selected;
   }
 
   get multi() {
     return !!this.params.multi;
-  }
-
-  equalsSelected(value) {
-    return JSON.stringify(value) === this.selectedJson;
   }
 
   ngAfterViewInit() {
@@ -40,10 +35,13 @@ export class MessageOptionsComponent implements OnInit, AfterViewInit {
     }, 0);
   }
 
-  onSubmit(value) {
+  toggle(field) {
+    this.value[field] = !this.value[field];
+  }
+
+  onSubmit() {
     this.enabled = false;
-    this.selected = value;
-    this.selectedJson = JSON.stringify(this.selected);
-    this.content.reportValue(value);
+    this.selected = true;
+    this.content.reportValue(this.value);
   }
 }
