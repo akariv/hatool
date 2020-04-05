@@ -79,7 +79,7 @@ export class InputComponent implements OnInit, OnChanges {
     }
   }
 
-  selectSuggestion(value) {
+  selectSuggestion(value, event?) {
     value = value[0] + value[1];
     if (this.input) {
       this.input.nativeElement.value = value;
@@ -88,6 +88,9 @@ export class InputComponent implements OnInit, OnChanges {
         this.onSubmit();
         this.visibleSuggestions = null;
       }
+    }
+    if (event) {
+      event.preventDefault();
     }
   }
 

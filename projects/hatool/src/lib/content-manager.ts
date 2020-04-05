@@ -128,11 +128,11 @@ export class ContentManager {
     this.queue('to', {message, meta});
   }
 
-  addOptions(message, options: any[], selected?: any) {
+  addOptions(message, options: any[], selected?: any, multi?: boolean) {
     if (message) {
       this.queue('to', {message});
     }
-    this.queue('options', {options, selected, fixme: this.fixme, fixmeMessage: this.fixmeMessage});
+    this.queue('options', {options, selected, multi, fixme: this.fixme, fixmeMessage: this.fixmeMessage});
   }
 
   addUploader(message, options?: any) {
