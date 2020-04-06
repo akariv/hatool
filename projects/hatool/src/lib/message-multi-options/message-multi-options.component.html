@@ -1,4 +1,4 @@
-<span class='options' [class.selected]='selected'>
+<span class='options' [class.selected]='selected' [class.checked]='checked'>
   <ng-container *ngFor='let option of params.options'>
     <button (click)='option.field ? toggle(option.field) : onSubmit()' 
             (animationend)='appeared.emit()'

@@ -16,6 +16,7 @@ export class MessageMultiOptionsComponent implements OnInit, AfterViewInit {
   active = false;
   enabled = true;
   selected = false;
+  checked = false;
   value = null;
 
   constructor() { }
@@ -23,6 +24,7 @@ export class MessageMultiOptionsComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.value = this.params.selected || {};
     this.selected = !!this.params.selected;
+    this.checkChecked();
   }
 
   get multi() {
@@ -38,11 +40,16 @@ export class MessageMultiOptionsComponent implements OnInit, AfterViewInit {
 
   toggle(field) {
     this.value[field] = !this.value[field];
+    this.checkChecked();
   }
 
   onSubmit() {
     this.enabled = false;
     this.selected = true;
     this.content.reportValue(this.value);
+  }
+
+  checkChecked() {
+    this.checked = Object.keys(this.value).length > 0;
   }
 }
