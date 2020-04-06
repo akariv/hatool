@@ -50,6 +50,6 @@ export class MessageMultiOptionsComponent implements OnInit, AfterViewInit {
   }
 
   checkChecked() {
-    this.checked = Object.keys(this.value).length > 0;
+    this.checked = Object.values(this.value).indexOf(true) >= 0;
   }
 }
