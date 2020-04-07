@@ -123,6 +123,26 @@ export class ScriptRunnerNew implements ScriptRunner {
         return 0;
     }
 
+    isInState(key) {
+        return key && this.state.hasOwnProperty(key);
+    }
+
+    clearState(key) {
+        if (this.isInState(key)) {
+            delete this.state[key];
+        }
+    }
+
+    getState(key) {
+        return this.state[key];
+    }
+
+    setState(key, value) {
+        if (key) {
+            this.state[key] = value;
+        }
+    }
+
     async runSnippet(snippet) {
         if (this.debug) {
             console.log('RUN SNIPPET', snippet);
@@ -140,7 +160,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                 let ret = null;
                 if (uid && this.fixme) {
                     this.content.setFixme(() => {
-                        this.state[uid] = null;
+                        this.clearState(uid);
                         this.fixme();
                     });
                 }
@@ -164,8 +184,8 @@ export class ScriptRunnerNew implements ScriptRunner {
                         options.push(c_option);
                     }
                     const multi = !!step.wait.multi;
-                    if (uid && this.state[uid] && this.runFast) {
-                        ret = this.state[uid];
+                    if (this.isInState(uid) && this.runFast) {
+                        ret = this.getState(uid);
                         this.content.addOptions(null, options, ret, multi);
                     } else {
                         if (this.runFast) {
@@ -179,9 +199,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                         }
                         this.content.addOptions(null, options, null, multi);
                         ret = await this.content.waitForInput(false);
-                        if (uid) {
-                            this.state[uid] = ret;
-                        }
+                        this.setState(uid, ret);
                     }
                     if (step.wait.variable) {
                         this.record[step.wait.variable] = ret;
@@ -219,8 +237,8 @@ export class ScriptRunnerNew implements ScriptRunner {
                             return vre.test(x);
                         });
                     }
-                    if (uid && this.state[uid] && this.runFast) {
-                        ret = this.state[uid];
+                    if (this.isInState(uid) && this.runFast) {
+                        ret = this.getState(uid);
                         this.content.queueFrom(ret);
                     } else {
                         if (this.runFast) {
@@ -233,9 +251,7 @@ export class ScriptRunnerNew implements ScriptRunner {
                             });
                         }
                         ret = await this.content.waitForInput(true);
-                        if (uid) {
-                            this.state[uid] = ret;
-                        }
+                        this.setState(uid, ret);
                     }
                     this.record[step.wait.variable] = ret;
                     await this.setCallback(step.wait.variable, ret, this.record);
@@ -251,13 +267,13 @@ export class ScriptRunnerNew implements ScriptRunner {
                             args.push(this.context);
                         } else if (param === 'uploader') {
                             this.content.addUploader(null);
-                            if (uid && this.state[uid]) {
+                            if (this.isInState(uid)) {
                                 callable = null;
                                 this.content.queueFrom('...');
                                 break;
                             } else {
                                 args.push(await this.content.waitForInput(false));
-                                this.state[uid] = true;
+                                this.setState(uid, true);
                             }
                         } else {
                             args.push(this.i18n(param));
