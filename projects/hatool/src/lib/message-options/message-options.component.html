@@ -1,12 +1,12 @@
-<span class='options' [class.selected]='selected'>
+<span class='options' [class.selected]='isSelected'>
   <ng-container *ngFor='let option of params.options'>
     <button (click)='onSubmit(option.value)' 
             (animationend)='appeared.emit()'
             [disabled]='!enabled' 
             [class]='option.class || ""'
             [class.active]='active'
-            [class.selected]='equalsSelected(option.value)'
-            [class.not-selected]='selected !== null && !equalsSelected(option.value)'
+            [class.selected]='isSelected && equalsSelected(option.value)'
+            [class.not-selected]='isSelected && !equalsSelected(option.value)'
             [innerHtml]='option.display'
             ></button>
   </ng-container>

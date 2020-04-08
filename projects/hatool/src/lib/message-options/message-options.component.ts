@@ -16,12 +16,16 @@ export class MessageOptionsComponent implements OnInit, AfterViewInit {
   active = false;
   enabled = true;
   selected = null;
+  isSelected = false;
   private selectedJson: string;
 
   constructor() { }
 
   ngOnInit() {
-    this.selected = this.selected || this.params.selected || null;
+    if (this.params.selected !== null && this.params.selected !== undefined) {
+      this.selected = this.params.selected;
+      this.isSelected = true;
+    }
     this.selectedJson = JSON.stringify(this.selected);
   }
 
@@ -43,6 +47,7 @@ export class MessageOptionsComponent implements OnInit, AfterViewInit {
   onSubmit(value) {
     this.enabled = false;
     this.selected = value;
+    this.isSelected = true;
     this.selectedJson = JSON.stringify(this.selected);
     this.content.reportValue(value);
   }
