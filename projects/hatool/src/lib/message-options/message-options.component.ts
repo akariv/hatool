@@ -21,7 +21,7 @@ export class MessageOptionsComponent implements OnInit, AfterViewInit {
   constructor() { }
 
   ngOnInit() {
-    this.selected = this.selected || this.params.selected;
+    this.selected = this.selected || this.params.selected || null;
     this.selectedJson = JSON.stringify(this.selected);
   }
 

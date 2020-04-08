@@ -6,7 +6,7 @@
             [class]='option.class || ""'
             [class.active]='active'
             [class.selected]='equalsSelected(option.value)'
-            [class.not-selected]='selected && !equalsSelected(option.value)'
+            [class.not-selected]='selected !== null && !equalsSelected(option.value)'
             [innerHtml]='option.display'
             ></button>
   </ng-container>
