@@ -64,14 +64,46 @@ export class InputComponent implements OnInit, OnChanges {
     }
   }
 
+  getRelevantSuggestion(value, suggestion) {
+    const prefixLength = value.length;
+    const suggestionParts = suggestion.split("-");
+
+    let isSuggestionRelevant = false;
+
+    const processedParts = [];
+
+    for (let suggestionPart of suggestionParts) {
+      const trimmedSuggestionPart = suggestionPart.trim();
+      const prefix = trimmedSuggestionPart.slice(0, prefixLength);
+      const suffix = trimmedSuggestionPart.slice(prefixLength);
+      let isPartRelevant = false; 
+      if (this.comparer(value, prefix) === 0) {
+        isSuggestionRelevant = true;
+        isPartRelevant = true;
+      }
+      const partObj = {
+        content: [prefix, suffix],
+        isRelevant: isPartRelevant
+      };
+      processedParts.push(partObj);
+    }
+
+    if (!isSuggestionRelevant) {
+      return null;
+    } 
+
+    return processedParts;
+
+    
+  }
+
   updateSuggestions(value) {
     if (this.suggestions && this.suggestions.length && value.length > 1) {
       this.visibleSuggestions = [];
-      const prefixLength = value.length;
       for (const suggestion of this.suggestions) {
-        const prefix = suggestion.slice(0, prefixLength);
-        if (this.comparer(value, prefix) === 0) {
-          this.visibleSuggestions.push([prefix, suggestion.slice(prefixLength)]);
+        const relevantSuggestion = this.getRelevantSuggestion(value, suggestion);
+        if (relevantSuggestion !== null) {
+          this.visibleSuggestions.push(relevantSuggestion);
         }
       }
     } else {
@@ -79,10 +111,17 @@ export class InputComponent implements OnInit, OnChanges {
     }
   }
 
+  getSuggestionContent(suggestionObj) {
+    const partsContent = suggestionObj.map(suggestionPart => (
+      suggestionPart.content.join("")
+    ));
+    return partsContent.join("-");
+  }
+
   selectSuggestion(value, event?) {
-    value = value[0] + value[1];
+    const suggestionContent = this.getSuggestionContent(value);
     if (this.input) {
-      this.input.nativeElement.value = value;
+      this.input.nativeElement.value = suggestionContent;
       this.validate();
       if (this.valid) {
         this.onSubmit();
