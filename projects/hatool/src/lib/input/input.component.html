@@ -10,7 +10,11 @@
       <div class='suggestions'>
         <span class='suggestion' *ngFor='let suggestion of visibleSuggestions'
              (click)='selectSuggestion(suggestion)' (touchstart)='selectSuggestion(suggestion, $event)'>
-          <strong>{{ suggestion[0] }}</strong>{{ suggestion[1] }}
+          <span *ngFor='let suggestionPart of suggestion; let suggestionPartIndex = index'>
+            <span *ngIf='suggestionPart.isRelevant'><strong >{{ suggestionPart.content[0] }}</strong>{{ suggestionPart.content[1] }}</span>
+            <span *ngIf='!suggestionPart.isRelevant'>{{ suggestionPart.content[0] + suggestionPart.content[1] }}</span>
+            <span *ngIf='suggestionPartIndex + 1 < suggestion.length'>-</span>
+          </span>
         </span>
       </div>
     </div>
