@@ -75,14 +75,14 @@ export class InputComponent implements OnInit, OnChanges {
     for (let suggestionPart of suggestionParts) {
       const trimmedSuggestionPart = suggestionPart.trim();
       const prefix = trimmedSuggestionPart.slice(0, prefixLength);
-      const suffix = trimmedSuggestionPart.slice(prefixLength);
+      const restOfWord = trimmedSuggestionPart.slice(prefixLength);
       let isPartRelevant = false; 
       if (this.comparer(value, prefix) === 0) {
         isSuggestionRelevant = true;
         isPartRelevant = true;
       }
       const partObj = {
-        content: [prefix, suffix],
+        content: [prefix, restOfWord],
         isRelevant: isPartRelevant
       };
       processedParts.push(partObj);
