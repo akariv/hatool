@@ -99,10 +99,27 @@ export class InputComponent implements OnInit, OnChanges {
       const value = this.input.nativeElement.value;
       this.updateSuggestions(value);
       this.valid = !this.inputRequired || !!value;
-      this.valid = this.valid && (!this.input.nativeElement.validity || this.input.nativeElement.validity.valid);
-      this.valid = this.valid && (!this.validator || this.validator(value));
+      if (!this.valid) {
+        console.log('invalid as inputRequired=' + this.inputRequired + ', value=' + value);
+        return false;
+      }
+      this.valid = (!this.input.nativeElement.validity || this.input.nativeElement.validity.valid);
+      if (!this.valid) {
+        console.log('invalid as nativeElement.validity=' + this.input.nativeElement.validity +
+                    ', validity.valid=' + this.input.nativeElement.validity.valid);
+        return false;
+      }
+      this.valid = (!this.validator || this.validator(value));
+      if (!this.valid) {
+        console.log('invalid as validator=' + this.validator + ', validator(value)=' + this.validator(value));
+        return false;
+      }
     } else {
       this.valid = !this.validator || this.validator('');
+      if (!this.valid) {
+        console.log('invalid as validator=' + this.validator + ', validator("")=' + this.validator(''));
+        return false;
+      }
     }
     return this.valid;
   }

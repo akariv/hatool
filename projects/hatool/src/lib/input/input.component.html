@@ -6,7 +6,7 @@
     </div>
 </ng-container>
 <ng-container *ngIf='!textArea || !inputEnabled'>
-    <div class='suggestions-wrapper' *ngIf='visibleSuggestions'>
+    <div class='suggestions-wrapper' *ngIf='visibleSuggestions && visibleSuggestions.length > 0'>
       <div class='suggestions'>
         <span class='suggestion' *ngFor='let suggestion of visibleSuggestions'
              (click)='selectSuggestion(suggestion)' (touchstart)='selectSuggestion(suggestion, $event)'>
@@ -16,7 +16,7 @@
     </div>
     <div class='input' *ngIf='inputEnabled' [class.invalid]='!valid'>
       <input [type]='inputKind' #input (keyup)='validate() && ($event.keyCode == 13) && onSubmit()' (change)='validate()'
-            [min]='inputMin' [max]='inputMax' [step]='inputStep'
+            [attr.min]='inputMin' [attr.max]='inputMax' [attr.step]='inputStep'
             [disabled]='!inputEnabled' [placeholder]='placeholder || content.inputPlaceholder'             
             autofocus />
       <button [disabled]='!valid' (click)='onSubmit()' [innerHTML]='content.sendButtonText'></button>

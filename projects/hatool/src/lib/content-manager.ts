@@ -148,10 +148,10 @@ export class ContentManager {
 
   setInputKind(kind, required?, min?, max?, step?) {
     this.inputKind = kind || 'text';
-    this.inputRequired = required,
-    this.inputMin = min;
-    this.inputMax = max;
-    this.inputStep = step;
+    this.inputRequired = !!required,
+    this.inputMin = min === undefined ? null : min;
+    this.inputMax = max === undefined ? null : max;
+    this.inputStep = step === undefined ? null : step;
   }
 
   setInputSuggestions(suggestions: string[]) {
