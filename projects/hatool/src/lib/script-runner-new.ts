@@ -236,6 +236,8 @@ export class ScriptRunnerNew implements ScriptRunner {
                         this.content.setValidator((x) => {
                             return vre.test(x);
                         });
+                    } else {
+                        this.content.setValidator((x) => true);
                     }
                     if (this.isInState(uid) && this.runFast) {
                         ret = this.getState(uid);
