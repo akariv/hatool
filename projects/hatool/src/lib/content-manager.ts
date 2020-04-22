@@ -43,10 +43,9 @@ export class ContentManager {
 
   reportUpdated(value) {
     if (this.timeout) {
-      // A bit of a hack to prevent the messages component to scroll during replay
       window.setTimeout(() => {
         this.updated.next(value);
-      }, this.timeout / 10);
+      }, this.timeout);
     }
   }
 
@@ -199,7 +198,14 @@ export class ContentManager {
   }
 
   setQueueTimeout(timeout) {
+    let report = false;
+    if (this.timeout === 0 && timeout !== 0) {
+      report = true;
+    }
     this.timeout = timeout;
+    if (report) {
+      this.reportUpdated(null);
+    }
   }
 
 }
