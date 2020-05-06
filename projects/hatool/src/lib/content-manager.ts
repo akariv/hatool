@@ -101,6 +101,10 @@ export class ContentManager {
           this.typing();
         }, this.timeout);
       }
+    } else {
+      window.setTimeout(async () => {
+        this.reportUpdated(null);
+      }, this.timeout);
     }
   }
 
