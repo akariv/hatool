@@ -252,6 +252,9 @@ export class ScriptRunnerNew implements ScriptRunner {
                                 this.content.setQueueTimeout(this.TIMEOUT);
                             });
                         }
+                        this.content.queueFunction(async () => {
+                            this.content.reportUpdated(null);
+                        });
                         ret = await this.content.waitForInput(true);
                         this.setState(uid, ret);
                     }
