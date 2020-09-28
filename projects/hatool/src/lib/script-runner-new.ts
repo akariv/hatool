@@ -68,11 +68,20 @@ export class ScriptRunnerNew implements ScriptRunner {
         return null;
     }
 
+    getDefault(f) {
+        const ret = this.get(this.record, f);
+        if (ret) {
+            return ret + '';
+        } else {
+            return f;
+        }
+    }
+
     fillIn(message: string) {
         return message.replace(
             RegExp('({{([a-zA-Z_.0-9]+)}})', 'g'),
             (match, p1, p2) => {
-                return this.get(this.record, p2) || p2;
+                return this.getDefault(p2);
             }
         );
     }
