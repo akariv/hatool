@@ -62,7 +62,7 @@ export class ScriptRunnerNew implements ScriptRunner {
         for (const part of parts) {
             obj = obj[part] || {};
         }
-        if (Object.entries(obj).length > 0) {
+        if (obj.constructor !== Object || Object.entries(obj).length > 0) {
             return obj;
         }
         return null;

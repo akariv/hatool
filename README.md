@@ -1,6 +1,6 @@
 # Hatool
 
-A themeable chat-like UI element for Angular 7+.
+A themeable chat-like UI element for Angular 10+.
 
 ### See [demo](https://akariv.github.io/hatool/)
 
@@ -8,7 +8,7 @@ A themeable chat-like UI element for Angular 7+.
 
 ---
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.3.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.8.
 
 ## Building the library
 

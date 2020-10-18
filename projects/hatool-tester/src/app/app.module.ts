@@ -5,6 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { HatoolLibModule } from 'hatool';
 
+import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
+ 
 @NgModule({
   declarations: [
     AppComponent
@@ -12,9 +14,21 @@ import { HatoolLibModule } from 'hatool';
   imports: [
     BrowserModule,
     HttpClientModule,
-    HatoolLibModule
+    HatoolLibModule,
+    HighlightModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HIGHLIGHT_OPTIONS,
+      useValue: {
+        coreLibraryLoader: () => import('highlight.js/lib/core'),
+        languages: {
+          typescript: () => import('highlight.js/lib/languages/typescript'),
+          less: () => import('highlight.js/lib/languages/less'),
+        }
+      }
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

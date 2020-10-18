@@ -9,7 +9,7 @@ import { ContentManager } from '../content-manager';
 })
 export class MessagesComponent implements OnInit {
 
-  @ViewChild('container') container: ElementRef;
+  @ViewChild('container', { static: true }) container: ElementRef;
   @Input() content: ContentManager;
 
   constructor() {

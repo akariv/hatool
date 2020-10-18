@@ -12,7 +12,7 @@ export class MessageUploaderComponent implements OnInit, FileUploader {
 
   @Input() params: any;
   @Input() content: ContentManager;
-  @ViewChild('file') file: ElementRef;
+  @ViewChild('file', { static: true }) file: ElementRef;
 
   _progress = 0;
   _active = false;

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HatoolLibComponent } from './hatool.component';
+import { HatoolComponent } from './hatool.component';
 
-describe('HatoolLibComponent', () => {
-  let component: HatoolLibComponent;
-  let fixture: ComponentFixture<HatoolLibComponent>;
+describe('HatoolComponent', () => {
+  let component: HatoolComponent;
+  let fixture: ComponentFixture<HatoolComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HatoolLibComponent ]
+      declarations: [ HatoolComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HatoolLibComponent);
+    fixture = TestBed.createComponent(HatoolComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
