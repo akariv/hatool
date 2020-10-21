@@ -49,7 +49,10 @@
                             }
                         },
                         {
-                            "say": "Thank you!"
+                            "img": "https://images.greetingsisland.com/images/cards/thank-you/previews/a-round-of-thanks.png?auto=format,compress&w=440"
+                        },
+                        {
+                            "say": "Done!!"
                         }
                     ]
                 }

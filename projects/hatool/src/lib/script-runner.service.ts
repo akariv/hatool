@@ -3,8 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ContentService } from './content.service';
 import { Observable } from 'rxjs';
 import { CBType, MetaCBType, EventCBType } from './script-runner-types';
-// import { ScriptRunnerBotkit as ScriptRunner } from './script-runner-botkit';
-import { ScriptRunnerNew as ScriptRunnerImpl } from './script-runner-new';
+import { ScriptRunnerImpl } from './script-runner-impl';
 import { ScriptRunner } from './script-runner';
 
 @Injectable({

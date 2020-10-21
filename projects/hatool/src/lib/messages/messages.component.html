@@ -8,5 +8,6 @@
     <htl-message-multi-options [content]='content' *ngIf='item.kind=="options" && !!item.params.multi'
                                [params]='item.params' (appeared)='updateScroll()'></htl-message-multi-options>
     <htl-message-uploader [content]='content' *ngIf='item.kind=="uploader"' [params]='item.params'></htl-message-uploader>
+    <htl-message-custom-component [content]='content' *ngIf='item.kind=="component"' [params]='item.params'></htl-message-custom-component>
   </ng-container>
 </div>

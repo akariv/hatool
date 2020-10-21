@@ -11,6 +11,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MessageUploaderComponent } from './message-uploader/message-uploader.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MessageMultiOptionsComponent } from './message-multi-options/message-multi-options.component';
+import { MessageCustomComponentComponent } from './message-custom-component/message-custom-component.component';
+import { MessageCustomComponentAuxDirective } from './message-custom-component-aux.directive';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { MessageMultiOptionsComponent } from './message-multi-options/message-mu
     MessageOptionsComponent,
     MessageUploaderComponent,
     MessageMultiOptionsComponent,
+    MessageCustomComponentComponent,
+    MessageCustomComponentAuxDirective,
   ],
   imports: [
     BrowserModule,

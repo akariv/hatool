@@ -5,7 +5,7 @@ import { ScriptRunner } from './script-runner';
 import { Observable, of } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
 
-export class ScriptRunnerNew implements ScriptRunner {
+export class ScriptRunnerImpl implements ScriptRunner {
     record = {};
     context = {};
     snippets = {};
@@ -29,7 +29,8 @@ export class ScriptRunnerNew implements ScriptRunner {
 
     constructor(private http: HttpClient,
                 private content: ContentManager,
-                private locale: string) {
+                private locale: string,
+                private customComponents: any[]= null) {
         console.log('Running with locale', this.locale);
     }
 
@@ -44,6 +45,10 @@ export class ScriptRunnerNew implements ScriptRunner {
 
     get runFast() {
         return this._runFast;
+    }
+
+    registerCustomComponents(customComponents: any[]) {
+        this.customComponents = customComponents;
     }
 
     i18n(obj) {
@@ -152,6 +157,20 @@ export class ScriptRunnerNew implements ScriptRunner {
         }
     }
 
+    isCustomStep(step) {
+        if (step.__component) {
+            return true;
+        }
+        if (this.customComponents) {
+            for (const comp of this.customComponents) {
+                if (step.hasOwnProperty(comp.keyword)) {
+                    step.__component = comp;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     async runSnippet(snippet) {
         if (this.debug) {
             console.log('RUN SNIPPET', snippet);
@@ -363,6 +382,8 @@ export class ScriptRunnerNew implements ScriptRunner {
                 }
             } else if (step.hasOwnProperty('pop')) {
                 return 'pop:' + step.pop;
+            } else if (this.isCustomStep(step)) {
+                await this.content.addCustomComponent(step);
             } else {
                 throw new Error(`Bad step ${JSON.stringify(step)}`);
             }

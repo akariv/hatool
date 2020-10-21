@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ContentService, ScriptRunnerService, ScriptRunnerNew } from 'hatool';
-import hljs from 'highlight.js/lib/highlight';
+import {  ScriptRunnerService, ScriptRunnerImpl } from 'hatool';
 import { HttpClient } from '@angular/common/http';
-import { doIt } from './chatLogic';
+import { MessageImageComponent} from './message-image/message-image.component';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +17,7 @@ export class AppComponent implements OnInit {
   constructor(private runner: ScriptRunnerService,
               private http: HttpClient) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.http.get('https://raw.githubusercontent.com/akariv/hatool/master/projects/hatool-tester/src/app/chatLogic.ts',
                   {responseType: 'text'})
         .subscribe((content) => {
@@ -29,8 +28,15 @@ export class AppComponent implements OnInit {
         .subscribe((content) => {
           this.style = content;
         });
-    (<ScriptRunnerNew>this.runner.R).debug = true;
-    this.runner.run(
+    const runner: ScriptRunnerImpl = this.runner.R as ScriptRunnerImpl;
+    runner.registerCustomComponents([
+      {
+        keyword: 'img',
+        cls: MessageImageComponent
+      }
+    ]);
+    runner.debug = true;
+    runner.run(
       'assets/script.json', 0,
       {
         isWorkingTime: (rec) => 'true',
@@ -38,9 +44,7 @@ export class AppComponent implements OnInit {
       },
       (key, value) => { console.log('SETTING', key, '<==', value); },
       {},
-      (meta) => { console.log('GOT META', meta); }
     ).subscribe(() => { console.log('done!'); });
-    // doIt(this.content.M);
   }
 
 }

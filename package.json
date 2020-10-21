@@ -4,14 +4,15 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve hatool-tester",
-    "build_lib": "ng build hatool",
+    "lint": "ng lint",
+    "build_lib": "ng build hatool --prod",
     "watch_lib": "ng build hatool --watch",
     "copy-license": "cp ./LICENSE ./dist/hatool",
     "copy-readme": "cp ./README.md ./dist/hatool",
     "copy-files": "npm run copy-license && npm run copy-readme",
     "npm_pack": "cd dist/hatool && npm pack",
     "package": "npm run build_lib && npm run copy-files",
-    "publish": "npm run lint && npm run package && cd dist/hatool && npm publish"
+    "publish": "npm run package && cd dist/hatool && npm publish"
   },
   "private": true,
   "dependencies": {

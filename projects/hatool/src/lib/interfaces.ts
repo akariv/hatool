@@ -4,3 +4,7 @@ export interface FileUploader {
     success: boolean;
     selectedFile: File;
 }
+
+export interface Waitable {
+    wait(): Promise<void>;
+}

@@ -1,5 +1,6 @@
 import { Subject } from 'rxjs';
 import { first as first_ } from 'rxjs/operators';
+import { Waitable } from './interfaces';
 
 export class ContentManager {
 
@@ -143,6 +144,17 @@ export class ContentManager {
       this.queue('to', {message});
     }
     this.queue('uploader', options);
+  }
+
+  addCustomComponent(step) {
+    return new Promise((componentCreatedCallback) => {
+      this.queue('component', {step, componentCreatedCallback});
+    }).then(() => {
+      return this.queueFunction(() => {
+        console.log('STEPPPP', step);
+        return (step.__instance as Waitable).wait();
+      }); 
+    });
   }
 
   setTextArea() {
