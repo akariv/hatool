@@ -383,6 +383,7 @@ export class ScriptRunnerImpl implements ScriptRunner {
             } else if (step.hasOwnProperty('pop')) {
                 return 'pop:' + step.pop;
             } else if (this.isCustomStep(step)) {
+                step.__runner = this;
                 await this.content.addCustomComponent(step);
             } else {
                 throw new Error(`Bad step ${JSON.stringify(step)}`);
