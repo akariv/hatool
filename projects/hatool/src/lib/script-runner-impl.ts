@@ -84,7 +84,7 @@ export class ScriptRunnerImpl implements ScriptRunner {
 
     fillIn(message: string) {
         return message.replace(
-            RegExp('({{([a-zA-Z_.0-9]+)}})', 'g'),
+            RegExp('(\\{\\{((\\p{L}|\\p{N}|_|\\.)+)\\}\\})', 'gu'),
             (match, p1, p2) => {
                 return this.getDefault(p2);
             }

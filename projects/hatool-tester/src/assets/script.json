@@ -11,20 +11,21 @@
                         },
                         {
                             "wait": {
+                                "variable": "etát",
                                 "options": [
                                     {
                                         "show": "OK",
-                                        "value": true
+                                        "value": "GOODISH"
                                     },
                                     {
                                         "show": "Bad",
-                                        "value": false
+                                        "value": "BADISH"
                                     }
                                 ]
                             }
                         },
                         {
-                            "say": "Which movies do you like?"
+                            "say": "Which movies do you like? ({{etát}})"
                         },
                         {
                             "wait": {
