@@ -1,4 +1,4 @@
-<div class='container' [class.fast-scroll]='content.fastScroll' #container>
+<div class='container' [class.fast-scroll]='content.fastScroll' [class.scroll-lock]='content.scrollLock' #container>
   <ng-container *ngFor='let item of content.messages'>
     <htl-message-from [content]='content' *ngIf='item.kind=="from"' [params]='item.params' [first]='item.first'></htl-message-from>
     <htl-message-to [content]='content' *ngIf='item.kind=="to"' [params]='item.params' [first]='item.first'></htl-message-to>

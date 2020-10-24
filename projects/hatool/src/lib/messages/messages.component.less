@@ -7,7 +7,6 @@
     flex: 1 1 100%;
 
     .container {
-        overflow-y: scroll;
         display: flex;
         flex-flow: column;
         
@@ -21,6 +20,10 @@
 
         overflow-wrap: break-word;
         overflow-y: auto;
+
+        &.scroll-lock {
+            overflow-y: hidden;
+        }
 
         &::-webkit-scrollbar { width: 0 !important }
         overflow: -moz-scrollbars-none;

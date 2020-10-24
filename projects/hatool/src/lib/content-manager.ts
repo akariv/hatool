@@ -18,6 +18,7 @@ export class ContentManager {
   public placeholder = '';
   public validator = null;
   public fastScroll = false;
+  public scrollLock = false;
   public fixme: () => void = null;
   public debug = false;
 
@@ -186,6 +187,10 @@ export class ContentManager {
 
   setFastScroll(value: boolean) {
     this.fastScroll = value;
+  }
+
+  setScrollLock(value: boolean) {
+    this.scrollLock = value;
   }
 
   async waitForInput(enableTextInput?) {
