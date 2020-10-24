@@ -151,7 +151,6 @@ export class ContentManager {
       this.queue('component', {step, componentCreatedCallback});
     }).then(() => {
       return this.queueFunction(() => {
-        console.log('STEPPPP', step);
         return (step.__instance as Waitable).wait();
       }); 
     });
