@@ -90,7 +90,7 @@ export class ContentManager {
         });
       } else {
         this.add('typing', null);
-        window.setTimeout(async () => {
+        function callback() {
           this.toQueue.shift();
           if (this.debug) {
             console.log('handling item=' + JSON.stringify(item));
@@ -99,9 +99,16 @@ export class ContentManager {
           if (item.params && item.params.meta) {
             item.params.meta();
           }
-          this.reportUpdated(item);
           this.typing();
-        }, this.timeout);
+        }
+        if (this.timeout === 0) {
+          callback();
+        } else {
+          window.setTimeout(() => { 
+            callback();
+            this.reportUpdated(item);
+          }, this.timeout);
+        }
       }
     } else {
       window.setTimeout(async () => {
