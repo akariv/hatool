@@ -23,6 +23,9 @@ export class MessagesComponent implements OnInit {
   updateScroll() {
     setTimeout(() => {
       const el: HTMLElement = this.container.nativeElement;
+      if (this.content.debug) {
+        console.log('SCROLLING TO BOTTOM');
+      }
       el.scrollTo({left: 0, top: el.scrollHeight, behavior: this.content.fastScroll ? 'auto' : 'smooth' });
     }, 0);
   }

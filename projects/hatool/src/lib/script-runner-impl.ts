@@ -41,11 +41,11 @@ export class ScriptRunnerImpl implements ScriptRunner {
     set runFast(value) {
         this._runFast = value;
         this.content.setScrollLock(value);
-        if (!value) {
-            this.content.reportUpdated(null);
-        }
         window.setTimeout(() => {
             this.content.setFastScroll(value);
+            if (!value) {
+                this.content.reportUpdated(null);
+            }
         }, 0);
     }
 

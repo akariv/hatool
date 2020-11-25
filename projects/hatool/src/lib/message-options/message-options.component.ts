@@ -11,7 +11,6 @@ export class MessageOptionsComponent implements OnInit, AfterViewInit {
 
   @Input() params: any;
   @Input() content: ContentManager;
-  @Output() appeared = new EventEmitter<void>();
 
   active = false;
   enabled = true;
@@ -40,7 +39,6 @@ export class MessageOptionsComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     setTimeout(() => {
       this.active = true;
-      this.appeared.emit();
     }, 0);
   }
 

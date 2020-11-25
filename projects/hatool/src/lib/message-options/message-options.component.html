@@ -1,7 +1,7 @@
 <span class='options' [class.selected]='isSelected'>
   <ng-container *ngFor='let option of params.options'>
     <button (click)='onSubmit(option.value)' 
-            (animationend)='appeared.emit()'
+            (animationend)='content.reportUpdated(null)'
             [disabled]='!enabled' 
             [class]='option.class || ""'
             [class.active]='active'

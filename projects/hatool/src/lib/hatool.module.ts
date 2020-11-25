@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MessageMultiOptionsComponent } from './message-multi-options/message-multi-options.component';
 import { MessageCustomComponentComponent } from './message-custom-component/message-custom-component.component';
 import { MessageCustomComponentAuxDirective } from './message-custom-component-aux.directive';
+import { MessageSwitchComponent } from './message-switch/message-switch.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { MessageCustomComponentAuxDirective } from './message-custom-component-a
     MessageMultiOptionsComponent,
     MessageCustomComponentComponent,
     MessageCustomComponentAuxDirective,
+    MessageSwitchComponent,
   ],
   imports: [
     BrowserModule,

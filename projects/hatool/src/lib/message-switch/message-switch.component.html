@@ -1,0 +1,9 @@
+<htl-message-from [content]='content' *ngIf='item.kind=="from"' [params]='item.params' [first]='item.first'></htl-message-from>
+<htl-message-to [content]='content' *ngIf='item.kind=="to"' [params]='item.params' [first]='item.first'></htl-message-to>
+<htl-message-typing [content]='content' *ngIf='item.kind=="typing"'></htl-message-typing>
+<htl-message-options [content]='content' *ngIf='item.kind=="options" && !item.params.multi'
+                     [params]='item.params'></htl-message-options>
+<htl-message-multi-options [content]='content' *ngIf='item.kind=="options" && !!item.params.multi'
+                           [params]='item.params'></htl-message-multi-options>
+<htl-message-uploader [content]='content' *ngIf='item.kind=="uploader"' [params]='item.params'></htl-message-uploader>
+<htl-message-custom-component [content]='content' *ngIf='item.kind=="component"' [params]='item.params'></htl-message-custom-component>

@@ -5,8 +5,8 @@ import { Waitable } from './interfaces';
 export class ContentManager {
 
   public messages: any[] = [];
-  private provisionalMessages: any[] = [];
-  private currentMessages = this.messages;
+  public revision = 0;
+  public visibleRevision = 0;
 
   public inputs = new Subject<any>();
   public updated = new Subject<any>();
@@ -39,8 +39,6 @@ export class ContentManager {
 
   clear() {
     this.messages = [];
-    this.provisionalMessages = [];
-    this.currentMessages = this.messages;
     this.toQueue = [];
   }
 
@@ -58,10 +56,11 @@ export class ContentManager {
 
   add(kind, params) {
     const first = (
-      this.currentMessages.length === 0 ||
-      kind !== this.currentMessages[this.currentMessages.length - 1].kind
+      this.messages.length === 0 ||
+      kind !== this.messages[this.messages.length - 1].kind
     );
-    this.currentMessages.push({kind, params, first});
+    const revision = this.revision;
+    this.messages.push({kind, params, first, revision});
   }
 
   queue(kind, params) {
@@ -125,8 +124,8 @@ export class ContentManager {
   }
 
   replace(kind, params) {
-    const first = (this.currentMessages.length < 2 || kind !== this.currentMessages[this.currentMessages.length - 2].kind);
-    this.currentMessages[this.currentMessages.length - 1] = {kind, params, first};
+    const first = (this.messages.length < 2 || kind !== this.messages[this.messages.length - 2].kind);
+    this.messages[this.messages.length - 1] = {kind, params, first};
   }
 
   addFrom(message: string) {
@@ -215,11 +214,15 @@ export class ContentManager {
     if (this.scrollLock !== value) {
       this.scrollLock = value;
       if (value) {
-        this.provisionalMessages = [...this.messages];
-        this.currentMessages = this.provisionalMessages;
+        this.revision += 1;
       } else {
-        this.messages = [...this.provisionalMessages];
-        this.currentMessages = this.messages;
+        this.visibleRevision = this.revision;
+        if (this.debug) {
+          console.log('SETTING VISIBLE REVISION', this.visibleRevision, 'LAST MESSAGE', this.messages[this.messages.length - 1]);
+        }
+        this.queueFunction(async () => {
+          this.reportUpdated(null);
+        });
       }  
     }
   }

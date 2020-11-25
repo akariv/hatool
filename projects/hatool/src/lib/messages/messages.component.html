@@ -1,13 +1,7 @@
 <div class='container' [class.fast-scroll]='content.fastScroll' [class.scroll-lock]='content.scrollLock' #container>
   <ng-container *ngFor='let item of content.messages'>
-    <htl-message-from [content]='content' *ngIf='item.kind=="from"' [params]='item.params' [first]='item.first'></htl-message-from>
-    <htl-message-to [content]='content' *ngIf='item.kind=="to"' [params]='item.params' [first]='item.first'></htl-message-to>
-    <htl-message-typing [content]='content' *ngIf='item.kind=="typing"'></htl-message-typing>
-    <htl-message-options [content]='content' *ngIf='item.kind=="options" && !item.params.multi'
-                         [params]='item.params' (appeared)='updateScroll()'></htl-message-options>
-    <htl-message-multi-options [content]='content' *ngIf='item.kind=="options" && !!item.params.multi'
-                               [params]='item.params' (appeared)='updateScroll()'></htl-message-multi-options>
-    <htl-message-uploader [content]='content' *ngIf='item.kind=="uploader"' [params]='item.params'></htl-message-uploader>
-    <htl-message-custom-component [content]='content' *ngIf='item.kind=="component"' [params]='item.params'></htl-message-custom-component>
+    <htl-message-switch [content]='content' [item]='item'
+                        [style.display]='content.visibleRevision < item.revision ? "none" : "block"'>
+    ></htl-message-switch>
   </ng-container>
 </div>
