@@ -209,9 +209,9 @@ export class ContentManager {
   setScrollLock(value: boolean) {
     this.scrollLock = value;
     if (value) {
-      this.provisionalMessages = this.messages;
+      this.provisionalMessages = [...this.messages];
     } else {
-      this.messages = this.provisionalMessages;
+      this.messages = [...this.provisionalMessages];
     }
   }
 
