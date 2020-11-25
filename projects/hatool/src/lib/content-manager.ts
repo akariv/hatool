@@ -156,7 +156,10 @@ export class ContentManager {
 
   addCustomComponent(step) {
     return new Promise((componentCreatedCallback) => {
-      this.queue('component', {step, componentCreatedCallback});
+      this.queue('component', {
+        step: step,
+        componentCreatedCallback: () => { return componentCreatedCallback(); }
+      });
     }).then(() => {
       return this.queueFunction(() => {
         return (step.__instance as Waitable).wait();
