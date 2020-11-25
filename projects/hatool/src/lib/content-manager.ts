@@ -5,6 +5,7 @@ import { Waitable } from './interfaces';
 export class ContentManager {
 
   public messages: any[] = [];
+  private provisionalMessages = [];
   public inputs = new Subject<any>();
   public updated = new Subject<any>();
   public inputEnabled = false;
@@ -36,6 +37,7 @@ export class ContentManager {
 
   clear() {
     this.messages = [];
+    this.provisionalMessages = [];
     this.toQueue = [];
   }
 
@@ -56,7 +58,12 @@ export class ContentManager {
       this.messages.length === 0 ||
       kind !== this.messages[this.messages.length - 1].kind
     );
-    this.messages.push({kind, params, first});
+    const message = {kind, params, first};
+    if (this.scrollLock) {
+      this.provisionalMessages.push(message);
+    } else {
+      this.messages.push(message);
+    }
   }
 
   queue(kind, params) {
@@ -201,6 +208,11 @@ export class ContentManager {
 
   setScrollLock(value: boolean) {
     this.scrollLock = value;
+    if (value) {
+      this.provisionalMessages = this.messages;
+    } else {
+      this.messages = this.provisionalMessages;
+    }
   }
 
   async waitForInput(enableTextInput?) {
