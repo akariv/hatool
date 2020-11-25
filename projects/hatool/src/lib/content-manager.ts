@@ -5,7 +5,9 @@ import { Waitable } from './interfaces';
 export class ContentManager {
 
   public messages: any[] = [];
-  private provisionalMessages = [];
+  private provisionalMessages: any[] = [];
+  private currentMessages = this.messages;
+
   public inputs = new Subject<any>();
   public updated = new Subject<any>();
   public inputEnabled = false;
@@ -38,6 +40,7 @@ export class ContentManager {
   clear() {
     this.messages = [];
     this.provisionalMessages = [];
+    this.currentMessages = this.messages;
     this.toQueue = [];
   }
 
@@ -55,15 +58,10 @@ export class ContentManager {
 
   add(kind, params) {
     const first = (
-      this.messages.length === 0 ||
-      kind !== this.messages[this.messages.length - 1].kind
+      this.currentMessages.length === 0 ||
+      kind !== this.currentMessages[this.currentMessages.length - 1].kind
     );
-    const message = {kind, params, first};
-    if (this.scrollLock) {
-      this.provisionalMessages.push(message);
-    } else {
-      this.messages.push(message);
-    }
+    this.currentMessages.push({kind, params, first});
   }
 
   queue(kind, params) {
@@ -125,8 +123,8 @@ export class ContentManager {
   }
 
   replace(kind, params) {
-    const first = (this.messages.length < 2 || kind !== this.messages[this.messages.length - 2].kind);
-    this.messages[this.messages.length - 1] = {kind, params, first};
+    const first = (this.currentMessages.length < 2 || kind !== this.currentMessages[this.currentMessages.length - 2].kind);
+    this.currentMessages[this.currentMessages.length - 1] = {kind, params, first};
   }
 
   addFrom(message: string) {
@@ -207,11 +205,15 @@ export class ContentManager {
   }
 
   setScrollLock(value: boolean) {
-    this.scrollLock = value;
-    if (value) {
-      this.provisionalMessages = [...this.messages];
-    } else {
-      this.messages = [...this.provisionalMessages];
+    if (this.scrollLock !== value) {
+      this.scrollLock = value;
+      if (value) {
+        this.provisionalMessages = [...this.messages];
+        this.currentMessages = this.provisionalMessages;
+      } else {
+        this.messages = [...this.provisionalMessages];
+        this.currentMessages = this.messages;
+      }  
     }
   }
 
