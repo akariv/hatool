@@ -90,7 +90,7 @@ export class ContentManager {
         });
       } else {
         this.add('typing', null);
-        function callback() {
+        const callback = () => {
           this.toQueue.shift();
           if (this.debug) {
             console.log('handling item=' + JSON.stringify(item));
