@@ -26,7 +26,6 @@ export class MessageCustomComponentComponent implements OnInit {
     componentRef.instance.content = this.content;
     componentRef.instance.params = this.params.step;
     this.params.step.__instance = componentRef.instance;
-    console.log('CREATED COMPONENT', this.params);
     this.params.componentCreatedCallback();
   }
 

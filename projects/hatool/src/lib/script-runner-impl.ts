@@ -41,6 +41,10 @@ export class ScriptRunnerImpl implements ScriptRunner {
     set runFast(value) {
         this._runFast = value;
         this.content.setFastScroll(value);
+        this.content.setScrollLock(value);
+        if (!value) {
+            this.content.reportUpdated(null);
+        }
     }
 
     get runFast() {
@@ -220,9 +224,9 @@ export class ScriptRunnerImpl implements ScriptRunner {
                             if (this.debug) {
                                 console.log('RUN FAST TURNED OFF');
                             }
-                            this.runFast = false;
                             await this.content.queueFunction(async () => {
                                 this.content.setQueueTimeout(this.TIMEOUT);
+                                this.runFast = false;
                             });
                         }
                         this.content.addOptions(null, options, null, multi);
@@ -275,9 +279,9 @@ export class ScriptRunnerImpl implements ScriptRunner {
                             if (this.debug) {
                                 console.log('RUN FAST TURNED OFF');
                             }
-                            this.runFast = false;
                             await this.content.queueFunction(async () => {
                                 this.content.setQueueTimeout(this.TIMEOUT);
+                                this.runFast = false;
                             });
                         }
                         this.content.queueFunction(async () => {
