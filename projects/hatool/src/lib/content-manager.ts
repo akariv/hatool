@@ -84,12 +84,14 @@ export class ContentManager {
     if (this.toQueue.length > 0) {
       const item = this.toQueue[0];
       if (this.debug) {
-        console.log('item=' + JSON.stringify(item));
+        console.log('item=',item);
       }
       if (item.kind === 'function') {
+        console.log('RUNNING FUNCTION', item);
         this.toQueue.shift();
         const future = item.params.callable();
         future.then((result) => {
+          console.log('FUNCTION RESOLVED to', result, item);
           item.params.resolve(result);
           this.typing();
         });
@@ -98,7 +100,7 @@ export class ContentManager {
         const callback = () => {
           this.toQueue.shift();
           if (this.debug) {
-            console.log('handling item=' + JSON.stringify(item));
+            console.log('handling item=', item);
           }
           this.replace(item.kind, item.params);
           if (item.params && item.params.meta) {
@@ -163,7 +165,12 @@ export class ContentManager {
     return new Promise((componentCreatedCallback) => {
       this.queue('component', {
         step: step,
-        componentCreatedCallback: () => { return componentCreatedCallback(); }
+        componentCreatedCallback: () => { 
+          if (this.debug) {
+            console.log('CUSTOM COMPONENT CREATED', step);
+          }
+          return componentCreatedCallback(); 
+        }
       });
     }).then(() => {
       return this.queueFunction(() => {
