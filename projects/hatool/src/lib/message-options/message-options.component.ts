@@ -16,6 +16,7 @@ export class MessageOptionsComponent implements OnInit, AfterViewInit {
   enabled = true;
   selected = null;
   isSelected = false;
+  echoSelected = false;
   private selectedJson: string;
 
   constructor() { }
@@ -42,11 +43,12 @@ export class MessageOptionsComponent implements OnInit, AfterViewInit {
     }, 0);
   }
 
-  onSubmit(value) {
+  onSubmit(selected) {
     this.enabled = false;
-    this.selected = value;
+    this.selected = selected.value;
     this.isSelected = true;
+    this.echoSelected  = selected.echo;
     this.selectedJson = JSON.stringify(this.selected);
-    this.content.reportValue(value);
+    this.content.reportValue(this.selected);
   }
 }

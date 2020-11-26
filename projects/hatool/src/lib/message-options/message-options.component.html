@@ -1,6 +1,6 @@
 <span class='options' [class.selected]='isSelected'>
   <ng-container *ngFor='let option of params.options'>
-    <button (click)='onSubmit(option.value)' 
+    <button (click)='onSubmit(option)' 
             (animationend)='content.reportUpdated(null)'
             [disabled]='!enabled' 
             [class]='option.class || ""'
@@ -10,5 +10,5 @@
             [class.not-selected]='isSelected && !equalsSelected(option.value)'
     ><span [innerHtml]='option.display'></span></button>
   </ng-container>
-  <a class='fixme' *ngIf='params.fixme' (click)='params.fixme()' [innerHTML]='params.fixmeMessage'></a>
+  <a class='fixme' *ngIf='params.fixme && echoSelected' (click)='params.fixme()' [innerHTML]='params.fixmeMessage'></a>
 </span>
