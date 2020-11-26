@@ -175,9 +175,13 @@ export class ContentManager {
         }
       });
     }).then(() => {
-      return this.queueFunction(() => {
-        return (step.__instance as Waitable).wait();
-      }); 
+      if (wait) {
+        return this.queueFunction(() => {
+          return (step.__instance as Waitable).wait();
+        });   
+      } else {
+        return;
+      }
     });
   }
 

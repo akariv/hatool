@@ -390,6 +390,7 @@ export class ScriptRunnerImpl implements ScriptRunner {
                 return 'pop:' + step.pop;
             } else if (this.isCustomStep(step)) {
                 step.__runner = this;
+                step.__runFast = this.runFast;
                 if (this.isInState(uid) && this.runFast) {
                     this.content.addCustomComponent(step, false);
                     const ret = this.getState(uid);
