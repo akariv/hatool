@@ -47,6 +47,9 @@ export class ContentManager {
   }
 
   reportUpdated(value) {
+    if (this.debug) {
+      console.log('CONTENT UPDATED', this.timeout);
+    }
     if (this.timeout) {
       window.setTimeout(() => {
         this.updated.next(value);
@@ -160,7 +163,7 @@ export class ContentManager {
     this.queue('uploader', options);
   }
 
-  addCustomComponent(step) {
+  addCustomComponent(step, wait) {
     return new Promise((componentCreatedCallback) => {
       this.queue('component', {
         step: step,

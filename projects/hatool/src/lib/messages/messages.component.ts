@@ -1,16 +1,19 @@
 import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input, HostListener } from '@angular/core';
 import { ContentService } from '../content.service';
 import { ContentManager } from '../content-manager';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'htl-messages',
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.less']
 })
-export class MessagesComponent implements OnInit {
+export class MessagesComponent implements OnInit, OnChanges {
 
   @ViewChild('container', { static: true }) container: ElementRef;
   @Input() content: ContentManager;
+
+  updatedSub: Subscription;
 
   constructor() {
   }
@@ -31,9 +34,14 @@ export class MessagesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.content.updated.subscribe(() => {
+  }
+
+  ngOnChanges() {
+    if (this.updatedSub) {
+      this.updatedSub.unsubscribe();
+    }
+    this.updatedSub = this.content.updated.subscribe(() => {
       this.updateScroll();
     });
   }
-
 }
