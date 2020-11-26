@@ -391,15 +391,16 @@ export class ScriptRunnerImpl implements ScriptRunner {
             } else if (this.isCustomStep(step)) {
                 step.__runner = this;
                 step.__runFast = this.runFast;
+                let ret = null;
                 if (this.isInState(uid) && this.runFast) {
                     this.content.addCustomComponent(step, false);
-                    const ret = this.getState(uid);
-                    if (ret) {
-                        this.content.queueFrom(ret);
-                    }
+                    ret = this.getState(uid);
                 } else {
-                    const ret = await this.content.addCustomComponent(step, true);
+                    ret = await this.content.addCustomComponent(step, true);
                     this.setState(uid, ret);
+                }
+                if (ret) {
+                    this.content.queueFrom(ret);
                 }
             } else {
                 throw new Error(`Bad step ${JSON.stringify(step)}`);
