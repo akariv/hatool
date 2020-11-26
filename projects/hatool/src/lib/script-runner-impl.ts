@@ -211,7 +211,7 @@ export class ScriptRunnerImpl implements ScriptRunner {
                             value: option.value,
                             field: option.field,
                             class: option.class,
-                            echo: !!option.echo,
+                            echo: option.echo !== false,
                         };
                         if (option.unless && this.record[option.unless]) {
                             c_option.class = 'unless ' + (c_option.class || '');
