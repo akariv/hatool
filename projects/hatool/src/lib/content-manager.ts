@@ -1,5 +1,5 @@
 import { Subject } from 'rxjs';
-import { first as first_ } from 'rxjs/operators';
+import { first as first_, tap } from 'rxjs/operators';
 import { Waitable } from './interfaces';
 
 export class ContentManager {
@@ -244,18 +244,15 @@ export class ContentManager {
         this.inputEnabled = true;
       });
     }
-    const ret = await new Promise((resolve) => {
-      this.inputs.pipe(
-        first_()
-      ).subscribe((value) => {
-        if (this.debug) {
-          console.log('DISABLING INPUT, value=', value);
-        }
-        this.inputEnabled = false;
-        resolve(value);
-      });
-    });
-    return ret;
+    return this.inputs.pipe(
+        first_(),
+        tap((value) => {
+          if (this.debug) {
+            console.log('DISABLING INPUT, value=', value);
+          }
+          this.inputEnabled = false;  
+        })
+      ).toPromise();
   }
 
   setQueueTimeout(timeout) {
