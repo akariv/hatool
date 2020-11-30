@@ -89,11 +89,15 @@ export class ContentManager {
         console.log('item=',item);
       }
       if (item.kind === 'function') {
-        console.log('RUNNING FUNCTION', item);
+        if (this.debug) {
+          console.log('RUNNING FUNCTION', item);
+        }
         this.toQueue.shift();
         const future = item.params.callable();
         future.then((result) => {
-          console.log('FUNCTION RESOLVED to', result, item);
+          if (this.debug) {
+            console.log('FUNCTION RESOLVED to', result, item);
+          }
           item.params.resolve(result);
           this.typing();
         });
