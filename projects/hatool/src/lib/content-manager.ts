@@ -231,9 +231,6 @@ export class ContentManager {
         if (this.debug) {
           console.log('SETTING VISIBLE REVISION', this.visibleRevision, 'LAST MESSAGE', this.messages[this.messages.length - 1]);
         }
-        this.queueFunction(async () => {
-          this.reportUpdated(null);
-        });
       }  
     }
   }

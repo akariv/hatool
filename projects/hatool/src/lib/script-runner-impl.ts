@@ -44,7 +44,9 @@ export class ScriptRunnerImpl implements ScriptRunner {
         window.setTimeout(() => {
             this.content.setFastScroll(value);
             if (!value) {
-                this.content.reportUpdated(null);
+                this.content.queueFunction(async () => {
+                    this.content.reportUpdated(null);
+                });
             }
         }, 0);
     }
@@ -212,6 +214,7 @@ export class ScriptRunnerImpl implements ScriptRunner {
                             field: option.field,
                             class: option.class,
                             echo: option.echo !== false,
+                            do: option.do,
                         };
                         if (option.unless && this.record[option.unless]) {
                             c_option.class = 'unless ' + (c_option.class || '');
