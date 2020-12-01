@@ -252,7 +252,7 @@ export class ScriptRunnerImpl implements ScriptRunner {
                             field: option.field,
                             class: option.class,
                             echo: option.echo !== false,
-                            func: async () => { return await this.doCommand(option.do); },
+                            func: option.do ? async () => { return await this.doCommand(option.do); } : null,
                         };
                         if (option.unless && this.record[option.unless]) {
                             c_option.class = 'unless ' + (c_option.class || '');
