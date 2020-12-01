@@ -179,6 +179,44 @@ export class ScriptRunnerImpl implements ScriptRunner {
         }
         return false;
     }
+
+    async doCommand(stepDo, uid?) {
+        let callable = this.context[stepDo.cmd];
+        const args = [];
+        if (stepDo.params) {
+            for (const param of stepDo.params) {
+                if (param === 'record') {
+                    args.push(this.record);
+                } else if (param === 'context') {
+                    args.push(this.context);
+                } else if (param === 'uploader') {
+                    this.content.addUploader(null);
+                    if (this.isInState(uid)) {
+                        callable = null;
+                        this.content.queueFrom('...');
+                        break;
+                    } else {
+                        args.push(await this.content.waitForInput(false));
+                        this.setState(uid, true);
+                    }
+                } else {
+                    args.push(this.i18n(param));
+                }
+            }
+        }
+        if (callable) {
+            const ret = await this.content.queueFunction(async () => await callable(...args));
+            if (stepDo.variable) {
+                this.record[stepDo.variable] = ret;
+                await this.setCallback(stepDo.variable, ret, this.record);
+            }
+            return ret;
+        } else {
+            console.log(`ERROR: function ${stepDo.cmd} is not defined`);
+        }
+        return null;
+    }
+
     async runSnippet(snippet) {
         if (this.debug) {
             console.log('RUN SNIPPET', snippet);
@@ -214,7 +252,7 @@ export class ScriptRunnerImpl implements ScriptRunner {
                             field: option.field,
                             class: option.class,
                             echo: option.echo !== false,
-                            do: option.do,
+                            func: async () => { return await this.doCommand(option.do); },
                         };
                         if (option.unless && this.record[option.unless]) {
                             c_option.class = 'unless ' + (c_option.class || '');
@@ -300,38 +338,7 @@ export class ScriptRunnerImpl implements ScriptRunner {
                     await this.setCallback(step.wait.variable, ret, this.record);
                 }
             } else if (step.hasOwnProperty('do')) {
-                let callable = this.context[step.do.cmd];
-                const args = [];
-                if (step.do.params) {
-                    for (const param of step.do.params) {
-                        if (param === 'record') {
-                            args.push(this.record);
-                        } else if (param === 'context') {
-                            args.push(this.context);
-                        } else if (param === 'uploader') {
-                            this.content.addUploader(null);
-                            if (this.isInState(uid)) {
-                                callable = null;
-                                this.content.queueFrom('...');
-                                break;
-                            } else {
-                                args.push(await this.content.waitForInput(false));
-                                this.setState(uid, true);
-                            }
-                        } else {
-                            args.push(this.i18n(param));
-                        }
-                    }
-                }
-                if (callable) {
-                    const ret = await this.content.queueFunction(async () => await callable(...args));
-                    if (step.do.variable) {
-                        this.record[step.do.variable] = ret;
-                        await this.setCallback(step.do.variable, ret, this.record);
-                    }
-                } else {
-                    console.log(`ERROR: function ${step.do.cmd} is not defined`);
-                }
+                await this.doCommand(step.do, uid);
             } else if (step.hasOwnProperty('switch')) {
                 const arg = step.switch.arg;
                 const value = this.record[arg];

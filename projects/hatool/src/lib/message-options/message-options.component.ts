@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { ContentService } from '../content.service';
 import { ContentManager } from '../content-manager';
+import { defer, from, Observable } from 'rxjs';
 
 @Component({
   selector: 'htl-message-options',
@@ -44,11 +45,22 @@ export class MessageOptionsComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit(selected) {
-    this.enabled = false;
-    this.selected = selected.value;
-    this.isSelected = true;
-    this.echoSelected  = selected.echo;
-    this.selectedJson = JSON.stringify(this.selected);
-    this.content.reportValue(this.selected);
+    let value = selected.value;
+    let obs: Observable<any> = null;
+    if (selected.func) {
+      obs = defer(selected.func());
+    } else {
+      obs = from([value]);
+    }
+    obs.subscribe((value) => {
+      if (value !== null) {
+        this.enabled = false;
+        this.selected = value;
+        this.isSelected = true;
+        this.echoSelected  = selected.echo;
+        this.selectedJson = JSON.stringify(this.selected);
+        this.content.reportValue(this.selected);  
+      }
+    })
   }
 }
