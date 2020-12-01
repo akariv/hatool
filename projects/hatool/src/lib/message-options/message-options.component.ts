@@ -48,7 +48,7 @@ export class MessageOptionsComponent implements OnInit, AfterViewInit {
     let value = selected.value;
     let obs: Observable<any> = null;
     if (selected.func) {
-      obs = defer(selected.func());
+      obs = defer(selected.func);
     } else {
       obs = from([value]);
     }
