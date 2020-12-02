@@ -289,8 +289,8 @@ export class ScriptRunnerImpl implements ScriptRunner {
                     }
                     for (const option of step.wait.options) {
                         if (ret === option.value) {
-                            if (this.runFast && option.func) {
-                                await option.func();
+                            if (this.runFast && option.do) {
+                                await this.doCommand(option.do);
                             }
                             if (option.steps) {
                                 let res = await this.runSnippet(option);
