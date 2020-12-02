@@ -205,7 +205,10 @@ export class ScriptRunnerImpl implements ScriptRunner {
             }
         }
         if (callable) {
-            const ret = await this.content.queueFunction(async () => await callable(...args));
+            const ret = await this.content.queueFunction(async () => {
+                const ret = await callable(...args);
+                return ret;
+            });
             if (this.debug) {
                 console.log('CALLABLE', stepDo.cmd, 'RETURNED', ret);
             }
@@ -286,6 +289,9 @@ export class ScriptRunnerImpl implements ScriptRunner {
                     }
                     for (const option of step.wait.options) {
                         if (ret === option.value) {
+                            if (this.runFast && option.func) {
+                                await option.func();
+                            }
                             if (option.steps) {
                                 let res = await this.runSnippet(option);
                                 res = this.check_res(res, snippet);
