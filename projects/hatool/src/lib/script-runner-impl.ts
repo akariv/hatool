@@ -206,6 +206,9 @@ export class ScriptRunnerImpl implements ScriptRunner {
         }
         if (callable) {
             const ret = await this.content.queueFunction(async () => await callable(...args));
+            if (this.debug) {
+                console.log('CALLABLE', stepDo.cmd, 'RETURNED', ret);
+            }
             if (stepDo.variable) {
                 this.record[stepDo.variable] = ret;
                 await this.setCallback(stepDo.variable, ret, this.record);
