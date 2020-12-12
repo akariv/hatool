@@ -24,7 +24,7 @@ export class MessageImageComponent implements OnInit {
     return new Promise((resolve) => {
       this.clicked.pipe(first()).subscribe(() => {
         resolve();
-      })
+      });
     });
   }
 

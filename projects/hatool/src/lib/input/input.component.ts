@@ -19,7 +19,7 @@ export class InputComponent implements OnInit, OnChanges {
   @Input() placeholder: string;
   @Input() inputRequired = true;
   @Input() suggestions: string[] = null;
-  @Input() validator: (any) => boolean;
+  @Input() validator: (arg: any) => boolean;
   @ViewChild('input') input: ElementRef;
 
   visibleSuggestions: string[][] = null;

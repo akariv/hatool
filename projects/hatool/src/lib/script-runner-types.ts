@@ -3,5 +3,5 @@ export type Meta = {
     value: any
   }[];
 export type CBType = (key: string, value: any, record?: any) => void;
-export type MetaCBType = (Meta) => void;
-export type EventCBType = (string) => void;
+export type MetaCBType = (meta: Meta) => void;
+export type EventCBType = (event: string) => void;

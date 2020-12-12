@@ -14,10 +14,10 @@ export class MessageUploaderComponent implements OnInit, FileUploader {
   @Input() content: ContentManager;
   @ViewChild('file', { static: true }) file: ElementRef;
 
-  _progress = 0;
-  _active = false;
-  _success = false;
-  _selected = false;
+  progressInternal = 0;
+  activeInternal = false;
+  successInternal = false;
+  selectedInternal = false;
 
   selectedFile: File = null;
 
@@ -35,7 +35,7 @@ export class MessageUploaderComponent implements OnInit, FileUploader {
     for (const key in files) {
       if (!isNaN(parseInt(key, 10))) {
         this.selectedFile = files[key];
-        this._selected = true;
+        this.selectedInternal = true;
         this.content.reportValue(this);
         break;
       }
@@ -43,22 +43,22 @@ export class MessageUploaderComponent implements OnInit, FileUploader {
   }
 
   set progress(progress) {
-    if (this._selected && this._active) {
-      this._progress = progress;
+    if (this.selectedInternal && this.activeInternal) {
+      this.progressInternal = progress;
     }
   }
 
   set active(active) {
-    if (this._selected) {
-      this._active = active;
+    if (this.selectedInternal) {
+      this.activeInternal = active;
     }
   }
 
   set success(success) {
-    if (this._active) {
-      this._success = success;
-      this._active = false;
-      this._progress = 100;
+    if (this.activeInternal) {
+      this.successInternal = success;
+      this.activeInternal = false;
+      this.progressInternal = 100;
     }
   }
 }

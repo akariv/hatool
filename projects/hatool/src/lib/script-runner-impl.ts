@@ -8,9 +8,9 @@ import { switchMap, map } from 'rxjs/operators';
 export class ScriptRunnerImpl implements ScriptRunner {
     record = {};
     context = {};
-    snippets = {};
+    snippets: any = {};
     setCallback: CBType;
-    _runFast = false;
+    runFastInternal = false;
     lastMessage = '';
     public debug = false;
     public fixme: () => void = null;
@@ -39,7 +39,7 @@ export class ScriptRunnerImpl implements ScriptRunner {
     }
 
     set runFast(value) {
-        this._runFast = value;
+        this.runFastInternal = value;
         this.content.setScrollLock(value);
         window.setTimeout(() => {
             this.content.setFastScroll(value);
@@ -52,7 +52,7 @@ export class ScriptRunnerImpl implements ScriptRunner {
     }
 
     get runFast() {
-        return this._runFast;
+        return this.runFastInternal;
     }
 
     registerCustomComponents(customComponents: any[]) {
@@ -64,7 +64,7 @@ export class ScriptRunnerImpl implements ScriptRunner {
             if (this.locale && obj['.tx'][this.locale]) {
                 return obj['.tx'][this.locale];
             } else {
-                return obj['.tx']['_'];
+                return obj['.tx']._;
             }
         }
         return obj;
@@ -99,7 +99,7 @@ export class ScriptRunnerImpl implements ScriptRunner {
         );
     }
 
-    run(url_or_script: any,
+    run(urlOrScript: any,
         index: any,
         context: any,
         setCallback?: CBType,
@@ -118,10 +118,10 @@ export class ScriptRunnerImpl implements ScriptRunner {
             console.log('RUN FAST enabled:', this.runFast);
         }
         let fetcher = null;
-        if (url_or_script.hasOwnProperty('s')) {
-            fetcher = of(url_or_script);
+        if (urlOrScript.hasOwnProperty('s')) {
+            fetcher = of(urlOrScript);
         } else {
-            fetcher = this.http.get(url_or_script);
+            fetcher = this.http.get(urlOrScript);
         }
         return fetcher.pipe(
                 switchMap((s: any) => {
@@ -129,7 +129,7 @@ export class ScriptRunnerImpl implements ScriptRunner {
                     for (const snippet of s.snippets) {
                         this.snippets[snippet.name] = snippet;
                     }
-                    return this.runSnippet(this.snippets['default']);
+                    return this.runSnippet(this.snippets.default);
                 }),
             );
     }
@@ -206,8 +206,8 @@ export class ScriptRunnerImpl implements ScriptRunner {
         }
         if (callable) {
             const ret = await this.content.queueFunction(async () => {
-                const ret = await callable(...args);
-                return ret;
+                const ret2 = await callable(...args);
+                return ret2;
             });
             if (this.debug) {
                 console.log('CALLABLE', stepDo.cmd, 'RETURNED', ret);
@@ -251,19 +251,19 @@ export class ScriptRunnerImpl implements ScriptRunner {
                     const options = [];
                     for (const option of step.wait.options) {
                         option.value = option.hasOwnProperty('value') ? option.value : option.show;
-                        option.value = option.value.hasOwnProperty('.tx') ? option.value['.tx']['_'] : option.value;
-                        const c_option = {
+                        option.value = option.value.hasOwnProperty('.tx') ? option.value['.tx']._ : option.value;
+                        const cOption = {
                             display: this.i18n(option.show),
                             value: option.value,
                             field: option.field,
                             class: option.class,
                             echo: option.echo !== false,
-                            func: option.do ? async () => { return await this.doCommand(option.do); } : null,
+                            func: option.do ? (async () => await this.doCommand(option.do)) : null,
                         };
                         if (option.unless && this.record[option.unless]) {
-                            c_option.class = 'unless ' + (c_option.class || '');
+                            cOption.class = 'unless ' + (cOption.class || '');
                         }
-                        options.push(c_option);
+                        options.push(cOption);
                     }
                     const multi = !!step.wait.multi;
                     if (this.isInState(uid) && this.runFast) {
@@ -307,7 +307,7 @@ export class ScriptRunnerImpl implements ScriptRunner {
                         this.content.setTextArea();
                     }
                     this.content.setInputKind(step.wait['input-kind'] || 'text',
-                        step.wait['required'] !== false,
+                        step.wait.required !== false,
                         step.wait['input-min'], step.wait['input-max'], step.wait['input-step']);
                     if (step.wait.suggestionsFrom) {
                         step.wait.suggestions = this.record[step.wait.suggestionsFrom];
@@ -355,29 +355,29 @@ export class ScriptRunnerImpl implements ScriptRunner {
                     console.log('SWITCH on value', value, '(', arg, ',', this.record, ')');
                 }
                 let selected = null;
-                let default_ = null;
-                for (const case_ of step.switch.cases) {
+                let defaultCase = null;
+                for (const theCase of step.switch.cases) {
                     if (this.debug) {
-                        console.log('CASE', case_);
+                        console.log('CASE', theCase);
                     }
-                    if (case_.default) {
+                    if (theCase.default) {
                         if (this.debug) {
                             console.log('CASE DEFAULT');
                         }
-                        default_ = case_;
+                        defaultCase = theCase;
                     }
-                    if (case_.hasOwnProperty('match') && case_.match === value) {
-                        selected = case_;
-                    } else if (case_.hasOwnProperty('pattern') && RegExp(case_.pattern).test(value)) {
-                        selected = case_;
-                    } else if (case_.hasOwnProperty('undefined') && case_.undefined && (value === null || !(arg in this.record))) {
-                        selected = case_;
+                    if (theCase.hasOwnProperty('match') && theCase.match === value) {
+                        selected = theCase;
+                    } else if (theCase.hasOwnProperty('pattern') && RegExp(theCase.pattern).test(value)) {
+                        selected = theCase;
+                    } else if (theCase.hasOwnProperty('undefined') && theCase.undefined && (value === null || !(arg in this.record))) {
+                        selected = theCase;
                     }
                 }
                 if (this.debug) {
                     console.log('CASE SELECTED', selected);
                 }
-                selected = selected || default_;
+                selected = selected || defaultCase;
                 if (selected) {
                     if (selected.steps) {
                         let res = await this.runSnippet(selected);
@@ -396,9 +396,9 @@ export class ScriptRunnerImpl implements ScriptRunner {
                 if (step.goto === 'break') {
                     return this.BREAK;
                 }
-                const goto_snippet = this.snippets[step.goto];
-                if (goto_snippet) {
-                    let res = await this.runSnippet(goto_snippet);
+                const gotoSnippet = this.snippets[step.goto];
+                if (gotoSnippet) {
+                    let res = await this.runSnippet(gotoSnippet);
                     res = this.check_res(res, snippet);
                     if (res !== 0) {
                         return res;

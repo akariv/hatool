@@ -86,7 +86,7 @@ export class ContentManager {
     if (this.toQueue.length > 0) {
       const item = this.toQueue[0];
       if (this.debug) {
-        console.log('item=',item);
+        console.log('item=', item);
       }
       if (item.kind === 'function') {
         if (this.debug) {
@@ -113,11 +113,11 @@ export class ContentManager {
             item.params.meta();
           }
           this.typing();
-        }
+        };
         if (this.timeout === 0) {
           callback();
         } else {
-          window.setTimeout(() => { 
+          window.setTimeout(() => {
             callback();
             this.reportUpdated(item);
           }, this.timeout);
@@ -170,19 +170,19 @@ export class ContentManager {
   addCustomComponent(step, wait) {
     return new Promise((componentCreatedCallback) => {
       this.queue('component', {
-        step: step,
-        componentCreatedCallback: () => { 
+        step,
+        componentCreatedCallback: () => {
           if (this.debug) {
             console.log('CUSTOM COMPONENT CREATED', step);
           }
-          return componentCreatedCallback(); 
+          return componentCreatedCallback();
         }
       });
     }).then(() => {
       if (wait) {
         return this.queueFunction(() => {
           return (step.__instance as Waitable).wait();
-        });   
+        });
       } else {
         return;
       }
@@ -231,7 +231,7 @@ export class ContentManager {
         if (this.debug) {
           console.log('SETTING VISIBLE REVISION', this.visibleRevision, 'LAST MESSAGE', this.messages[this.messages.length - 1]);
         }
-      }  
+      }
     }
   }
 
@@ -251,7 +251,7 @@ export class ContentManager {
           if (this.debug) {
             console.log('DISABLING INPUT, value=', value);
           }
-          this.inputEnabled = false;  
+          this.inputEnabled = false;
         })
       ).toPromise();
   }

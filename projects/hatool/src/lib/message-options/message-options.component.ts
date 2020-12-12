@@ -45,22 +45,22 @@ export class MessageOptionsComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit(selected) {
-    let value = selected.value;
+    const value = selected.value;
     let obs: Observable<any> = null;
     if (selected.func) {
       obs = defer(selected.func);
     } else {
       obs = from([value]);
     }
-    obs.subscribe((value) => {
-      if (value !== null) {
+    obs.subscribe((retVal) => {
+      if (retVal !== null) {
         this.enabled = false;
-        this.selected = value;
+        this.selected = retVal;
         this.isSelected = true;
         this.echoSelected  = selected.echo;
         this.selectedJson = JSON.stringify(this.selected);
-        this.content.reportValue(this.selected);  
+        this.content.reportValue(this.selected);
       }
-    })
+    });
   }
 }
