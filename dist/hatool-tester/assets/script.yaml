@@ -1,0 +1,55 @@
+- name: Sample Hatool script
+  description: This is a sample for hatool's scripting engine, used to demonstrate some of its features
+  snippets:
+    - name: default
+      steps:
+        - say: Hey! What's your name?
+        - wait:
+            variable: name
+            placeholder: Your name
+        - say: Nice to meet you, {{name}}
+        - say: How are you feeling?
+        - wait:
+            variable: feeling
+            options:
+              - show: pretty okay
+                value: good
+              - show: not so much
+                value: bad
+                steps:
+                  - say: Oh no, that's too bad!
+        - switch:
+            arg: feeling
+            cases:
+              - match: bad
+                steps:
+                  - say: I understand that you're not feeling great
+                  - goto: symptoms
+              - default: true
+                steps:
+                  - say: Okay, so just tell me about your day then 
+                  - wait:
+                      variable: notes
+                      long: true
+        - say: Thanks, before I go, here's a random Chuck Norris Joke
+        - do:
+            variable: joke
+            cmd: get_chuck
+        - say: '"{{joke}}"'
+        - say: One more thing... here is a custom chat component (click it to proceed)
+        - img: assets/logo.png
+        - say: Goodbye for now!
+
+    - name: symptoms
+      steps:
+        - say: Please check all symptoms that apply
+        - wait:
+            variable: symptoms
+            multi: true
+            options:
+              - show: nausea or stomachache
+                field: nausea_stomachache
+              - show: headache or migrane
+                field: headaches
+              - show: continue
+                

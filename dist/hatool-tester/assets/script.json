@@ -1,0 +1,154 @@
+{
+  "s": [
+    {
+      "description": "This is a sample for hatool's scripting engine, used to demonstrate some of its features",
+      "name": "Sample Hatool script",
+      "snippets": [
+        {
+          "name": "default",
+          "steps": [
+            {
+              "say": "Hey! What's your name?",
+              "uid": "b2adc5ee81"
+            },
+            {
+              "uid": "07edc5bc9a",
+              "wait": {
+                "placeholder": "Your name",
+                "variable": "name"
+              }
+            },
+            {
+              "say": "Nice to meet you, {{name}}",
+              "uid": "0c27f45290"
+            },
+            {
+              "say": "How are you feeling?",
+              "uid": "cea0de5b2d"
+            },
+            {
+              "uid": "a43e36c9fb",
+              "wait": {
+                "options": [
+                  {
+                    "show": "pretty okay",
+                    "value": "good"
+                  },
+                  {
+                    "show": "not so much",
+                    "steps": [
+                      {
+                        "say": "Oh no, that's too bad!",
+                        "uid": "8cf9301dda"
+                      }
+                    ],
+                    "uid": "9e52927ddd",
+                    "value": "bad"
+                  }
+                ],
+                "variable": "feeling"
+              }
+            },
+            {
+              "switch": {
+                "arg": "feeling",
+                "cases": [
+                  {
+                    "match": "bad",
+                    "steps": [
+                      {
+                        "say": "I understand that you're not feeling great",
+                        "uid": "a45667e8bc"
+                      },
+                      {
+                        "goto": "symptoms",
+                        "uid": "df29850086"
+                      }
+                    ],
+                    "uid": "eb19b80c7c"
+                  },
+                  {
+                    "default": true,
+                    "steps": [
+                      {
+                        "say": "Okay, so just tell me about your day then",
+                        "uid": "24f1b100a0"
+                      },
+                      {
+                        "uid": "077e53233d",
+                        "wait": {
+                          "long": true,
+                          "variable": "notes"
+                        }
+                      }
+                    ],
+                    "uid": "5ac55b0b7c"
+                  }
+                ]
+              },
+              "uid": "5196d87f93"
+            },
+            {
+              "say": "Thanks, before I go, here's a random Chuck Norris Joke",
+              "uid": "c182f6d263"
+            },
+            {
+              "do": {
+                "cmd": "get_chuck",
+                "variable": "joke"
+              },
+              "uid": "b685dd4730"
+            },
+            {
+              "say": "\"{{joke}}\"",
+              "uid": "be7f675965"
+            },
+            {
+              "say": "One more thing... here is a custom chat component (click it to proceed)",
+              "uid": "d2aa660ae3"
+            },
+            {
+              "img": "assets/logo.png",
+              "uid": "e658298469"
+            },
+            {
+              "say": "Goodbye for now!",
+              "uid": "7400e7ab41"
+            }
+          ],
+          "uid": "25705bb5c7"
+        },
+        {
+          "name": "symptoms",
+          "steps": [
+            {
+              "say": "Please check all symptoms that apply",
+              "uid": "7c3c01c2c0"
+            },
+            {
+              "uid": "f354cfbfd0",
+              "wait": {
+                "multi": true,
+                "options": [
+                  {
+                    "field": "nausea_stomachache",
+                    "show": "nausea or stomachache"
+                  },
+                  {
+                    "field": "headaches",
+                    "show": "headache or migrane"
+                  },
+                  {
+                    "show": "continue"
+                  }
+                ],
+                "variable": "symptoms"
+              }
+            }
+          ],
+          "uid": "f619591d05"
+        }
+      ]
+    }
+  ]
+}
