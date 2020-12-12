@@ -3,7 +3,7 @@ git checkout master && \
 ng lint && \
 rm .gitignore && \
 npm run package && \
-ng build hatool-tester --prod && \
+ng build hatool-tester --prod --base-href=/hatool && \
 git add dist/hatool-tester && \
 git commit -m dist && \
 (git branch -D gh-pages || true) && \
