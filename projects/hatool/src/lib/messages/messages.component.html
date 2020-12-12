@@ -1,7 +1,0 @@
-<div class='container' [class.fast-scroll]='content.fastScroll' [class.scroll-lock]='content.scrollLock' #container>
-  <ng-container *ngFor='let item of content.messages'>
-    <htl-message-switch [content]='content' [item]='item'
-                        [style.display]='content.visibleRevision < item.revision ? "none" : "block"'>
-    ></htl-message-switch>
-  </ng-container>
-</div>
