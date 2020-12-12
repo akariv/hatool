@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
 
   code = '';
   style = '';
+  script = '';
 
   constructor(private runner: ScriptRunnerService,
               private http: HttpClient) {}
@@ -27,6 +28,11 @@ export class AppComponent implements OnInit {
                   {responseType: 'text'})
         .subscribe((content) => {
           this.style = content;
+        });
+    this.http.get('https://raw.githubusercontent.com/akariv/hatool/master/projects/hatool-tester/src/assets/script.yaml',
+                  {responseType: 'text'})
+        .subscribe((content) => {
+          this.script = content;
         });
     const runner: ScriptRunnerImpl = this.runner.R as ScriptRunnerImpl;
     runner.registerCustomComponents([

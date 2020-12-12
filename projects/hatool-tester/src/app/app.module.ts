@@ -27,6 +27,7 @@ import { MessageImageComponent } from './message-image/message-image.component';
         languages: {
           typescript: () => import('highlight.js/lib/languages/typescript'),
           less: () => import('highlight.js/lib/languages/less'),
+          yaml: () => import('highlight.js/lib/languages/yaml'),
         }
       }
     }
