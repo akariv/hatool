@@ -10,10 +10,26 @@
         display: flex;
         flex-flow: column;
         font-family: 'Courier', monospace;
-        
+
+        .tabs {
+            flex: 0 0 auto;
+            display: flex;
+            flex-flow: row;
+            align-items: center;
+
+            span {
+                display: block;
+                margin: 8px 20px;
+
+                &.active {
+                    text-decoration: underline;
+                }
+            }
+        }
+
         .single {
             margin: 10px;
-            flex: 0 1 66%;
+            flex: 0 1 100%;
             overflow: scroll;
         }
     }

@@ -104,8 +104,16 @@
               "uid": "be7f675965"
             },
             {
+              "say": "One more thing... here is a custom chat component (click it to proceed)",
+              "uid": "d2aa660ae3"
+            },
+            {
+              "img": "assets/logo.png",
+              "uid": "e658298469"
+            },
+            {
               "say": "Goodbye for now!",
-              "uid": "4400c91392"
+              "uid": "7400e7ab41"
             }
           ],
           "uid": "25705bb5c7"

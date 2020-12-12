@@ -10,6 +10,7 @@ export class AppComponent implements OnInit {
   code = '';
   style = '';
   script = '';
+  selected = 'script';
 
   constructor(private http: HttpClient) {}
 

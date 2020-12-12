@@ -36,6 +36,8 @@
             variable: joke
             cmd: get_chuck
         - say: '"{{joke}}"'
+        - say: One more thing... here is a custom chat component (click it to proceed)
+        - img: assets/logo.png
         - say: Goodbye for now!
 
     - name: symptoms
