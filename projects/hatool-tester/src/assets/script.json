@@ -1,63 +1,131 @@
 {
-    "s": [
+  "s": [
+    {
+      "description": "This is a sample for hatool's scripting engine, used to demonstrate some of its features",
+      "name": "Sample Hatool script",
+      "snippets": [
         {
-            "name": "script",
-            "snippets": [
-                {
-                    "name": "default",
+          "name": "default",
+          "steps": [
+            {
+              "say": "Hey's what's you're name?",
+              "uid": "144d223006"
+            },
+            {
+              "uid": "e9b681c9df",
+              "wait": {
+                "placeholder": "Your name",
+                "variable": "name"
+              }
+            },
+            {
+              "say": "Nice to meet you, {{name}}",
+              "uid": "50dd84175a"
+            },
+            {
+              "say": "How are you feeling?",
+              "uid": "c8ae1305a7"
+            },
+            {
+              "uid": "be235a3523",
+              "wait": {
+                "options": [
+                  {
+                    "show": "pretty okay",
+                    "value": "good"
+                  },
+                  {
+                    "show": "not so much",
                     "steps": [
-                        {
-                            "say": "Hey, what's up?"
-                        },
-                        {
-                            "wait": {
-                                "variable": "etát",
-                                "options": [
-                                    {
-                                        "show": "OK",
-                                        "value": "GOODISH"
-                                    },
-                                    {
-                                        "show": "Bad",
-                                        "value": "BADISH"
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "say": "Which movies do you like? ({{etát}})"
-                        },
-                        {
-                            "wait": {
-                                "multi": true,
-                                "options": [
-                                    {
-                                        "show": "Drama",
-                                        "field": "drama"
-                                    },
-                                    {
-                                        "show": "Action",
-                                        "field": "action"
-                                    },
-                                    {
-                                        "show": "Comedy",
-                                        "field": "comedy"
-                                    },
-                                    {
-                                        "show": "Done"
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "img": "https://images.greetingsisland.com/images/cards/thank-you/previews/a-round-of-thanks.png?auto=format,compress&w=440"
-                        },
-                        {
-                            "say": "Done!!"
+                      {
+                        "say": "Oh no, that's too bad!",
+                        "uid": "a33b005b01"
+                      }
+                    ],
+                    "uid": "39849ab925",
+                    "value": "bad"
+                  }
+                ],
+                "variable": "feeling"
+              }
+            },
+            {
+              "switch": {
+                "arg": "feeling",
+                "cases": [
+                  {
+                    "match": "bad",
+                    "steps": [
+                      {
+                        "say": "I understand that you're not feeling great",
+                        "uid": "ba473ca911"
+                      },
+                      {
+                        "goto": "symptoms",
+                        "uid": "d4f24210e9"
+                      }
+                    ],
+                    "uid": "88d6feb76d"
+                  },
+                  {
+                    "default": true,
+                    "steps": [
+                      {
+                        "say": "Okay, so just tell me about your day then",
+                        "uid": "840487a7bb"
+                      },
+                      {
+                        "uid": "012d79baa1",
+                        "wait": {
+                          "long": true,
+                          "variable": "notes"
                         }
-                    ]
-                }
-            ]
+                      }
+                    ],
+                    "uid": "0297de1a0d"
+                  }
+                ]
+              },
+              "uid": "e2ed2bf074"
+            },
+            {
+              "say": "Thanks, goodbye!",
+              "uid": "621b126118"
+            }
+          ],
+          "uid": "397b17614b"
+        },
+        {
+          "name": "symptoms",
+          "steps": [
+            {
+              "say": "Please check all symptoms that apply",
+              "uid": "05ddab26df"
+            },
+            {
+              "uid": "bab096844f",
+              "wait": {
+                "multi": true,
+                "options": [
+                  {
+                    "field": "nausea_stomachache",
+                    "show": "nausea or stomachache"
+                  },
+                  {
+                    "field": "headaches",
+                    "show": "headache or migrane"
+                  },
+                  {
+                    "show": "continue"
+                  }
+                ],
+                "variable": "symptoms"
+              }
+            }
+          ],
+          "uid": "88ddb416f8"
         }
-    ]
+      ]
+    }
+  ]
 }
