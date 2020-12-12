@@ -31,7 +31,12 @@
                   - wait:
                       variable: notes
                       long: true
-        - say: Thanks, goodbye!
+        - say: Thanks, before I go, here's a random Chuck Norris Joke
+        - do:
+            variable: joke
+            cmd: get_chuck
+        - say: '"{{joke}}"'
+        - say: Goodbye for now!
 
     - name: symptoms
       steps:

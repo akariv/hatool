@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ContentManager, ScriptRunnerImpl } from 'hatool';
+import { map } from 'rxjs/operators';
 import { MessageImageComponent } from '../message-image/message-image.component';
 
 @Component({
@@ -27,8 +28,11 @@ export class ChatboxComponent implements OnInit {
     runner.run(
       'assets/script.json', 0,
       {
-        isWorkingTime: (rec) => 'true',
-        FilesUploadedCount: () => '5',
+        get_chuck: async () => {
+          return this.http.get('https://api.chucknorris.io/jokes/random/').pipe(
+            map((joke: any) => joke.value),
+          ).toPromise();
+        }
       },
       (key, value) => { console.log('SETTING', key, '<==', value); },
       {},

@@ -89,8 +89,23 @@
               "uid": "5196d87f93"
             },
             {
-              "say": "Thanks, goodbye!",
-              "uid": "7214aac8e4"
+              "say": "Thanks, before I go, here's a random Chuck Norris Joke",
+              "uid": "c182f6d263"
+            },
+            {
+              "do": {
+                "cmd": "get_chuck",
+                "variable": "joke"
+              },
+              "uid": "b685dd4730"
+            },
+            {
+              "say": "\"{{joke}}\"",
+              "uid": "be7f675965"
+            },
+            {
+              "say": "Goodbye for now!",
+              "uid": "4400c91392"
             }
           ],
           "uid": "25705bb5c7"
