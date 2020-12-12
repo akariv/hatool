@@ -7,11 +7,13 @@ import { HatoolLibModule } from 'hatool';
 
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { MessageImageComponent } from './message-image/message-image.component';
+import { ChatboxComponent } from './chatbox/chatbox.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MessageImageComponent
+    MessageImageComponent,
+    ChatboxComponent
   ],
   imports: [
     BrowserModule,

@@ -1,11 +1,9 @@
 - name: Sample Hatool script
-
-- name: Sample Hatool script
   description: This is a sample for hatool's scripting engine, used to demonstrate some of its features
   snippets:
     - name: default
       steps:
-        - say: Hey's what's you're name?
+        - say: Hey! What's your name?
         - wait:
             variable: name
             placeholder: Your name

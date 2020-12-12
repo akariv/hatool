@@ -8,11 +8,11 @@
           "name": "default",
           "steps": [
             {
-              "say": "Hey's what's you're name?",
-              "uid": "144d223006"
+              "say": "Hey! What's your name?",
+              "uid": "b2adc5ee81"
             },
             {
-              "uid": "e9b681c9df",
+              "uid": "07edc5bc9a",
               "wait": {
                 "placeholder": "Your name",
                 "variable": "name"
@@ -20,14 +20,14 @@
             },
             {
               "say": "Nice to meet you, {{name}}",
-              "uid": "50dd84175a"
+              "uid": "0c27f45290"
             },
             {
               "say": "How are you feeling?",
-              "uid": "c8ae1305a7"
+              "uid": "cea0de5b2d"
             },
             {
-              "uid": "be235a3523",
+              "uid": "a43e36c9fb",
               "wait": {
                 "options": [
                   {
@@ -39,10 +39,10 @@
                     "steps": [
                       {
                         "say": "Oh no, that's too bad!",
-                        "uid": "a33b005b01"
+                        "uid": "8cf9301dda"
                       }
                     ],
-                    "uid": "39849ab925",
+                    "uid": "9e52927ddd",
                     "value": "bad"
                   }
                 ],
@@ -58,52 +58,52 @@
                     "steps": [
                       {
                         "say": "I understand that you're not feeling great",
-                        "uid": "ba473ca911"
+                        "uid": "a45667e8bc"
                       },
                       {
                         "goto": "symptoms",
-                        "uid": "d4f24210e9"
+                        "uid": "df29850086"
                       }
                     ],
-                    "uid": "88d6feb76d"
+                    "uid": "eb19b80c7c"
                   },
                   {
                     "default": true,
                     "steps": [
                       {
                         "say": "Okay, so just tell me about your day then",
-                        "uid": "840487a7bb"
+                        "uid": "24f1b100a0"
                       },
                       {
-                        "uid": "012d79baa1",
+                        "uid": "077e53233d",
                         "wait": {
                           "long": true,
                           "variable": "notes"
                         }
                       }
                     ],
-                    "uid": "0297de1a0d"
+                    "uid": "5ac55b0b7c"
                   }
                 ]
               },
-              "uid": "e2ed2bf074"
+              "uid": "5196d87f93"
             },
             {
               "say": "Thanks, goodbye!",
-              "uid": "621b126118"
+              "uid": "7214aac8e4"
             }
           ],
-          "uid": "397b17614b"
+          "uid": "25705bb5c7"
         },
         {
           "name": "symptoms",
           "steps": [
             {
               "say": "Please check all symptoms that apply",
-              "uid": "05ddab26df"
+              "uid": "7c3c01c2c0"
             },
             {
-              "uid": "bab096844f",
+              "uid": "f354cfbfd0",
               "wait": {
                 "multi": true,
                 "options": [
@@ -123,7 +123,7 @@
               }
             }
           ],
-          "uid": "88ddb416f8"
+          "uid": "f619591d05"
         }
       ]
     }
