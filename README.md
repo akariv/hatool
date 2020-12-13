@@ -189,6 +189,17 @@ And the following optional parameters:
 - `suggestionsFrom` - TBD
 - `validation` - a regular expression which the value needs to match before it's considered valid and accepted.
 
+```yaml
+- say: What is your age?
+- wait:
+    placeholder: Your age...
+    input-kind: number
+    input-min: 1
+    input-max: 120
+    input-step: 1
+    variable: age
+```
+
 
 #### Long Text
 
@@ -222,6 +233,21 @@ And these possible fields:
 
 The `wait` command contains an `optionsFrom` parameter instead of `options`. In that case, the content of the options is fetched from `record[wait.optionsFrom]`.
 
+```yaml
+- say: Please select a flavour
+- wait:
+    variable: selected_flavour
+    options:
+        - show: Dark Chocolate
+          value: chocolate
+        - show: Vanilla
+          value: vanilla
+        - show: I don't want Ice Cream
+          value: doesnt-want
+          class: other
+```
+
+
 #### Multiple-select options
 
 This final variant of `wait` allows selecting multiple boolean possibilities (for a 'check all options that apply' kind of scenario).
@@ -232,10 +258,102 @@ The return value is an object which contains all the `field`s from all the check
 
 Always remember to leave one option without a field to serve as the "done selecting" option.
 
+```yaml
+- say: Please choose toppings
+- wait:
+    variable: selected_toppings
+    multi: true
+    options:
+        - show: Sprinkles
+          field: sprinkles
+        - show: Chocolate Syrup
+          field: chocolate_syrup
+        - show: Done selecting
+```
+
+
 ### `switch`
+
+The `switch` command is used for branching.
+
+It inspects the value of a specific firld of `record`, provided in the `arg` parameter, and based on its value matches a single case in a list of cases.
+
+Each case is then evaluated and selected based on one of these four methods:
+- `match` - this case will be selected if the `record[arg]` is equal to the value of the `match` parameter
+- `pattern` - similar to `match`, except that the value of `pattern` is interpreted as a regular expression that is tested against `record[arg]`
+- `default` - if `true`, will serve as a fallback case in case no other case was selected
+- `undefined` - will only match if `record[arg]` is *undefined*
+
+Each case can specify a list of steps to execute if selected in the `steps` parameter.
+
+```yaml
+- switch:
+    arg: selected_color
+    cases:
+        - match: red
+          steps:
+            - say: That's a very bold color!
+        - pattern: .*blue
+          steps:
+            - say: Any kind of blue is great!
+        - default: true
+          steps:
+            - say: I don't have any specific opinion on {{selected_color}}
+        - undefined: true
+            # Do nothing if not defined!
+```
+
 ### `do`
+
+This command is used to incorporate custom functionality within the script.
+
+It receives the mandatory `cmd` parameter - the name of the function to run - and a few optional parameters:
+- `variable` - is the name of the field in `record` in which the return value of the function is to be stored.
+- `params` - are a list of parameters that are passed to the function.
+
+  A parameter can be any string and it will be processed using the templating and i18n engines prior to being passed to the function. A special value for parameters is `record`, allowing functions to receive the runner's `record`, read from it and manipulate it if necessary.
+
+All functions must be defined in the `customFunctions` parameter for `run()`. Passed functions can be sync or `async` functions.
+
+For example, you might define a function like so:
+```typescript
+runner.run(
+    ...,
+    {
+        updateCreationDate: (record) => {
+            if (record.creation_date) {
+                return record.creation_date;
+            }
+            return (new Date()).toLocaleDateString();
+        }
+    }
+)
+```
+
+And in the script you would call it like so:
+```yaml
+- do:
+    cmd: updateCreationDate
+    variable: creation_date
+    params:
+      - record
+```
+
 ### `goto`
+
+`goto` is used to jump to another snippet in the current script.
+
+Unlike the `C`-style goto's, when the called snippet is finished, the current (calling) snippet will continue execution from the next command after `goto`.
+
+One exception for that is calling `- goto: complete`. The reserved snippet name `complete` can be used to stop the script from running altogether, similarly to using `return` in the middle of a function.
+
+See `pop` for a more fine-grained method for exiting a snippet.
+
 ### `pop`
+
+`pop` can be used to return from a specific snippet. Execution will pop the call stack until it reaches a specific snippet.
+
+For example, `pop: default` will return from all running snippets until control returns to the `default` snippet.
 
 ## Customization
 
