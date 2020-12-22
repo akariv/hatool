@@ -92,7 +92,7 @@ export class ScriptRunnerImpl implements ScriptRunner {
 
     fillIn(message: string) {
         return message.replace(
-            RegExp('(\\{\\{((\\p{L}|\\p{N}|_|\\.)+)\\}\\})', 'gu'),
+            RegExp('(\\{\\{((\\p{L}|\\p{N}|_|\\.)+)\\}\\})', 'gum'),
             (match, p1, p2) => {
                 return this.getDefault(p2);
             }
