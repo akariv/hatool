@@ -1,6 +1,7 @@
 <ng-container *ngIf='textArea && inputEnabled'>
     <div class='textarea'>
       <textarea rows='4' #input autofocus (keyup)='validate()' (change)='validate()'
+                [placeholder]='placeholder || content.inputPlaceholder'
       ></textarea>
       <button (click)='onSubmit()' [innerHTML]='content.sendButtonText' [disabled]='!valid'></button>
     </div>
