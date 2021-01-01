@@ -1,5 +1,5 @@
 import { Subject } from 'rxjs';
-import { first as first_, tap } from 'rxjs/operators';
+import { first as first_, tap, timestamp } from 'rxjs/operators';
 import { Waitable } from './interfaces';
 
 export class ContentManager {
@@ -115,9 +115,11 @@ export class ContentManager {
           this.typing();
         };
         let timeout = this.timeout;
-        if (this.toQueue.length > 0 &&
-            (this.toQueue[0].timeout || this.toQueue[0].timeout === 0)) {
-          timeout = this.toQueue[0].timeout;
+        if (this.toQueue.length > 0) {
+          let stepTimeout = this.toQueue[0].params.timeout;
+          if (stepTimeout || stepTimeout === 0) {
+            timeout = stepTimeout;
+          }
         }
         if (timeout === 0) {
           callback();
