@@ -114,13 +114,18 @@ export class ContentManager {
           }
           this.typing();
         };
-        if (this.timeout === 0) {
+        let timeout = this.timeout;
+        if (this.toQueue.length > 0 &&
+            (this.toQueue[0].timeout || this.toQueue[0].timeout === 0)) {
+          timeout = this.toQueue[0].timeout;
+        }
+        if (timeout === 0) {
           callback();
         } else {
           window.setTimeout(() => {
             callback();
             this.reportUpdated(item);
-          }, this.timeout);
+          }, timeout);
         }
       }
     } else {
@@ -167,10 +172,11 @@ export class ContentManager {
     this.queue('uploader', options);
   }
 
-  addCustomComponent(step, wait) {
-    return new Promise((componentCreatedCallback) => {
+  addCustomComponent(step, wait, timeout?) {
+    return new Promise<void>((componentCreatedCallback) => {
       this.queue('component', {
         step,
+        timeout,
         componentCreatedCallback: () => {
           if (this.debug) {
             console.log('CUSTOM COMPONENT CREATED', step);

@@ -416,7 +416,7 @@ export class ScriptRunnerImpl implements ScriptRunner {
                     this.content.addCustomComponent(step, false);
                     ret = this.getState(uid);
                 } else {
-                    ret = await this.content.addCustomComponent(step, true);
+                    ret = await this.content.addCustomComponent(step, true, step.__component.timeout);
                     this.setState(uid, ret);
                 }
                 if (ret) {
