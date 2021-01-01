@@ -420,7 +420,7 @@ export class ScriptRunnerImpl implements ScriptRunner {
                     this.setState(uid, ret);
                 }
                 if (ret) {
-                    this.content.queueFrom(ret);
+                    this.content.queueFrom(ret, 0);
                 }
             } else {
                 throw new Error(`Bad step ${JSON.stringify(step)}`);

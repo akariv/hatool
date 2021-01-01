@@ -109,9 +109,6 @@ export class ContentManager {
             console.log('handling item=', item);
           }
           this.replace(item.kind, item.params);
-          if (item.params && item.params.meta) {
-            item.params.meta();
-          }
           this.typing();
         };
         let timeout = this.timeout;
@@ -152,12 +149,12 @@ export class ContentManager {
     this.fixme = null;
   }
 
-  queueFrom(message: string) {
-    this.queue('from', {message, fixme: this.fixme, fixmeMessage: this.fixmeMessage});
+  queueFrom(message: string, timeout?) {
+    this.queue('from', {message, fixme: this.fixme, fixmeMessage: this.fixmeMessage, timeout});
   }
 
-  addTo(message: string, meta?: () => void) {
-    this.queue('to', {message, meta});
+  addTo(message: string, timeout?) {
+    this.queue('to', {message, timeout});
   }
 
   addOptions(message, options: any[], selected?: any, multi?: boolean) {

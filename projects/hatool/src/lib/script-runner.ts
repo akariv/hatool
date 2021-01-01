@@ -1,4 +1,4 @@
-import { CBType, MetaCBType, EventCBType } from './script-runner-types';
+import { CBType, EventCBType } from './script-runner-types';
 import { Observable } from 'rxjs';
 
 export interface ScriptRunner {
@@ -7,7 +7,6 @@ export interface ScriptRunner {
         context,
         setCallback?: CBType,
         record?: any,
-        metaCallback?: MetaCBType,
         eventCallback?: EventCBType,
       ): Observable<any>;
 }

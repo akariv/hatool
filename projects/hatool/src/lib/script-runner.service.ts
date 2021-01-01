@@ -2,7 +2,7 @@ import { Injectable, LOCALE_ID, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ContentService } from './content.service';
 import { Observable } from 'rxjs';
-import { CBType, MetaCBType, EventCBType } from './script-runner-types';
+import { CBType, EventCBType } from './script-runner-types';
 import { ScriptRunnerImpl } from './script-runner-impl';
 import { ScriptRunner } from './script-runner';
 
@@ -20,10 +20,10 @@ export class ScriptRunnerService implements ScriptRunner {
   }
 
   public run(url, index, context, setCallback?: CBType, record?: any,
-             metaCallback?: MetaCBType, eventCallback?: EventCBType): Observable<void> {
+             eventCallback?: EventCBType): Observable<void> {
     return this.R.run(
       url, index, context, setCallback, record,
-      metaCallback, eventCallback
+      eventCallback
     );
   }
 }
