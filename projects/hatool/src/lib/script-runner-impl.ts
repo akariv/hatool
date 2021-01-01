@@ -370,7 +370,7 @@ export class ScriptRunnerImpl implements ScriptRunner {
                         selected = theCase;
                     } else if (theCase.hasOwnProperty('pattern') && RegExp(theCase.pattern).test(value)) {
                         selected = theCase;
-                    } else if (theCase.hasOwnProperty('undefined') && theCase.undefined && (value === null || !(arg in this.record))) {
+                    } else if (theCase.hasOwnProperty('undefined') && theCase.undefined && (value === null || value === undefined)) {
                         selected = theCase;
                     }
                 }
