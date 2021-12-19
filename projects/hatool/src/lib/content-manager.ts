@@ -141,8 +141,11 @@ export class ContentManager {
 
   addFrom(message: string) {
     this.add('from', {message, fixme: this.fixme, fixmeMessage: this.fixmeMessage});
-    this.reportValue(message);
-    this.reportUpdated(message);
+  }
+
+  reportInput(value: string) {
+    this.reportValue(value);
+    this.reportUpdated(value);
     this.textArea = false;
     this.placeholder = '';
     this.validator = null;

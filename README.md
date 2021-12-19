@@ -180,6 +180,7 @@ This command has the following mandatory parameter:
 - `variable` - field in `record` in which the response will be stored
 
 And the following optional parameters:
+- `response` - Template for formatting the response, default is the raw user's response
 - `required` - Should we require a value in this field or allow empty responses? (true by default)
 - `placeholder` - text to show in the input box when it's empty (i.e. before the user started typing)
 - `input-kind` - used for native field validation and customization. Some possible values are `text`, `number`, `date` - see [here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#%3Cinput%3E_types) for more examples. By default all inputs are `text`.

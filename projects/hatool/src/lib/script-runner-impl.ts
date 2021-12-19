@@ -326,7 +326,6 @@ export class ScriptRunnerImpl implements ScriptRunner {
                     }
                     if (this.isInState(uid) && this.runFast) {
                         ret = this.getState(uid);
-                        this.content.queueFrom(ret);
                     } else {
                         if (this.runFast) {
                             if (this.debug) {
@@ -344,6 +343,13 @@ export class ScriptRunnerImpl implements ScriptRunner {
                         this.setState(uid, ret);
                     }
                     this.record[step.wait.variable] = ret;
+                    if (ret && ret.length > 0) {
+                        let response = ret;
+                        if (step.response) {
+                            response = this.fillIn(step.response);
+                        }
+                        this.content.queueFrom(response);
+                    }
                     await this.setCallback(step.wait.variable, ret, this.record);
                 }
             } else if (step.hasOwnProperty('do')) {

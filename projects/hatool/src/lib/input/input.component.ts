@@ -59,9 +59,7 @@ export class InputComponent implements OnInit, OnChanges {
     this.value = el.value;
     this.visibleSuggestions = null;
     el.value = '';
-    if (!this.inputRequired || this.value.length > 0) {
-      this.content.addFrom(this.value);
-    }
+    this.content.reportInput(this.value);
   }
 
   updateSuggestions(value) {
