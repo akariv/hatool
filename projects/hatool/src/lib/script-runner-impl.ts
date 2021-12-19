@@ -345,8 +345,8 @@ export class ScriptRunnerImpl implements ScriptRunner {
                     this.record[step.wait.variable] = ret;
                     if (ret && ret.length > 0) {
                         let response = ret;
-                        if (step.response) {
-                            response = this.fillIn(step.response);
+                        if (step.wait.response) {
+                            response = this.fillIn(step.wait.response);
                         }
                         this.content.queueFrom(response);
                     }
