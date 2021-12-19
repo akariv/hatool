@@ -343,11 +343,14 @@ export class ScriptRunnerImpl implements ScriptRunner {
                         this.setState(uid, ret);
                     }
                     this.record[step.wait.variable] = ret;
-                    if (ret && ret.length > 0) {
-                        let response = ret;
-                        if (step.wait.response) {
-                            response = this.fillIn(step.wait.response);
-                        }
+                    let response = ret + '';
+                    if (step.wait.response && step.wait.response.length) {
+                        response = this.fillIn(step.wait.response);
+                    }
+                    if (this.debug) {
+                        console.log(`FORMATTED ${JSON.stringify(ret)} to "${response}" (using ${step.wait.response})`);
+                    }
+                    if (response.length) {
                         this.content.queueFrom(response);
                     }
                     await this.setCallback(step.wait.variable, ret, this.record);
