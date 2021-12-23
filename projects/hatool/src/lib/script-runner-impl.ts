@@ -359,7 +359,7 @@ export class ScriptRunnerImpl implements ScriptRunner {
                 await this.doCommand(step.do, uid);
             } else if (step.hasOwnProperty('switch')) {
                 const arg = step.switch.arg;
-                const value = this.record[arg];
+                const value = this.get(this.record, arg);
                 if (this.debug) {
                     console.log('SWITCH on value', value, '(', arg, ',', this.record, ')');
                 }
