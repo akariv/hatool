@@ -422,7 +422,7 @@ export class ScriptRunnerImpl implements ScriptRunner {
                 step.__runFast = this.runFast;
                 let ret = null;
                 if (this.isInState(uid) && this.runFast) {
-                    this.content.addCustomComponent(step, false);
+                    await this.content.addCustomComponent(step, false);
                     ret = this.getState(uid);
                 } else {
                     ret = await this.content.addCustomComponent(step, true, step.__component.timeout);
