@@ -412,7 +412,7 @@ export class ScriptRunnerImpl implements ScriptRunner {
                     return this.BREAK;
                 }
                 if (step.goto === 'return') {
-                    return this.RETURN + 1;
+                    return this.RETURN + 2;
                 }
                 const gotoSnippet = this.snippets[step.goto];
                 if (gotoSnippet) {
