@@ -141,6 +141,8 @@ export class ScriptRunnerImpl implements ScriptRunner {
             }
         } else if (res < 0) {
             return res;
+        } else if (res > 0) {
+            return res - 1;
         }
         return 0;
     }
@@ -406,7 +408,7 @@ export class ScriptRunnerImpl implements ScriptRunner {
                     return this.BREAK;
                 }
                 if (step.goto === 'return') {
-                    return this.RETURN;
+                    return this.RETURN + 1;
                 }
                 const gotoSnippet = this.snippets[step.goto];
                 if (gotoSnippet) {
