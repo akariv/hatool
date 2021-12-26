@@ -405,6 +405,9 @@ export class ScriptRunnerImpl implements ScriptRunner {
                 if (step.goto === 'break') {
                     return this.BREAK;
                 }
+                if (step.goto === 'return') {
+                    return this.RETURN;
+                }
                 const gotoSnippet = this.snippets[step.goto];
                 if (gotoSnippet) {
                     let res = await this.runSnippet(gotoSnippet);
