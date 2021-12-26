@@ -142,7 +142,11 @@ export class ScriptRunnerImpl implements ScriptRunner {
         } else if (res < 0) {
             return res;
         } else if (res > 0) {
-            return res - 1;
+            if (snippet.name) {
+                return res - 1;
+            } else {
+                return res;
+            }
         }
         return 0;
     }
