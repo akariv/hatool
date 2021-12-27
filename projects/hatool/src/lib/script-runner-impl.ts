@@ -135,6 +135,10 @@ export class ScriptRunnerImpl implements ScriptRunner {
     }
 
     check_res(res, snippet) {
+        if (this.debug) {
+            console.log('RETURN VALUE:', res);
+            console.log('CURRENT SNIPPET:', snippet);
+        }
         if (('' + res).indexOf('pop:') === 0) {
             if (!snippet.hasOwnProperty('name') || res.slice(4) !== snippet.name) {
                 return res;
