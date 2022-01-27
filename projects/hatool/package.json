@@ -1,7 +1,7 @@
 {
   "name": "hatool",
   "description": "Powerful Scripted ChatBot framework",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "keywords": [
     "chat",
     "bot",
@@ -34,8 +34,8 @@
   ],
   "homepage": "https://github.com/akariv/hatool",
   "peerDependencies": {
-    "@angular/common": "^10.0.14",
-    "@angular/core": "^10.0.14"
+    "@angular/common": "^12",
+    "@angular/core": "^12"
   },
   "dependencies": {
     "tslib": "^2.0.0"
