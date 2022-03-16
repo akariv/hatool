@@ -1,15 +1,15 @@
 <input type="file" #file (change)="onFilesAdded()" />
 <div class='button' (click)='addFiles()' 
-     [class.selected]='_selected'
-     [class.active]='_active'
-     [class.success]='_success'
+     [class.selected]='selectedInternal'
+     [class.active]='activeInternal'
+     [class.success]='successInternal'
      >
-    <div *ngIf='!_active && !_selected' class='message'>{{ content.uploadFileText }}</div>
-    <div *ngIf='_active' class='message'>{{ selectedFile.name }}</div>
-    <div *ngIf='!_active && _selected && _success' class='message'>{{ content.uploadedFileText }}</div>
-    <div *ngIf='!_active && _selected && !_success' class='message'>{{ content.notUploadedFileText }}</div>
-    <div *ngIf='_active' class='progress'>
-        <div class='bar' [style.left]='(_progress-100) + "%"'>
+    <div *ngIf='!activeInternal && !selectedInternal' class='message'>{{ content.uploadFileText }}</div>
+    <div *ngIf='activeInternal' class='message'>{{ selectedFile.name }}</div>
+    <div *ngIf='!activeInternal && selectedInternal && successInternal' class='message'>{{ content.uploadedFileText }}</div>
+    <div *ngIf='!activeInternal && selectedInternal && !successInternal' class='message'>{{ content.notUploadedFileText }}</div>
+    <div *ngIf='activeInternal' class='progress'>
+        <div class='bar' [style.left]='(progressInternal-100) + "%"'>
         </div>
     </div>
 </div>
