@@ -365,6 +365,7 @@ export class ScriptRunnerImpl implements ScriptRunner {
                     }
                     await this.setCallback(step.wait.variable, ret, this.record);
                 }
+                this.content.setFixme(null);
             } else if (step.hasOwnProperty('do')) {
                 await this.doCommand(step.do, uid);
             } else if (step.hasOwnProperty('switch')) {

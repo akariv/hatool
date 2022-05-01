@@ -149,7 +149,6 @@ export class ContentManager {
     this.textArea = false;
     this.placeholder = '';
     this.validator = null;
-    this.fixme = null;
   }
 
   queueFrom(message: string, timeout?) {
