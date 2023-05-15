@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, Output, EventEmitter, ElementRef } from '@angular/core';
 import { ContentService } from '../content.service';
 import { ContentManager } from '../content-manager';
 import { defer, from, Observable } from 'rxjs';
@@ -20,7 +20,7 @@ export class MessageOptionsComponent implements OnInit, AfterViewInit {
   echoSelected = false;
   private selectedJson: string;
 
-  constructor() { }
+  constructor(private el: ElementRef) { }
 
   ngOnInit() {
     if (this.params.selected !== null && this.params.selected !== undefined) {
@@ -41,6 +41,10 @@ export class MessageOptionsComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     setTimeout(() => {
       this.active = true;
+      if (!this.isSelected) {
+        // console.log('FOCUSING OPTIONS', this.el.nativeElement.querySelector('button'));
+        // this.el.nativeElement.querySelector('button').focus();
+      }
     }, 0);
   }
 

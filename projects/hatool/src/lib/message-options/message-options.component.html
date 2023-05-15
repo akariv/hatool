@@ -1,4 +1,4 @@
-<span class='options' [class.selected]='isSelected'>
+<span class='options' [class.selected]='isSelected' role='group'>
   <ng-container *ngFor='let option of params.options'>
     <button (click)='onSubmit(option)' 
             (animationend)='content.reportUpdated(null)'

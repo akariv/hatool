@@ -244,11 +244,13 @@ export class ContentManager {
 
   async waitForInput(enableTextInput?) {
     enableTextInput = (enableTextInput !== false);
+    let activeElement: HTMLElement | null = null;
     if (enableTextInput) {
       await this.queueFunction(async () => {
         if (this.debug) {
           console.log('ENABLING INPUT');
         }
+        activeElement = document.activeElement as HTMLElement;
         this.inputEnabled = true;
       });
     }
@@ -259,6 +261,8 @@ export class ContentManager {
             console.log('DISABLING INPUT, value=', value);
           }
           this.inputEnabled = false;
+          console.log('FOCUSING', activeElement);
+          activeElement?.focus();
         })
       ).toPromise();
   }
